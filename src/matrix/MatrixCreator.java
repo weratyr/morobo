@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class MatrixCreator implements IMatrixCreator {
 
-	private int height = 70;
+	private int height = 60;
 	private int width =  80;
 	private ArrayList<ArrayList<Color>> matrix;
 	
@@ -22,9 +22,17 @@ public class MatrixCreator implements IMatrixCreator {
 				matrix.get(i).add(new Color(155,155,155));
 			}
 		}
-		matrix.get(20).set(20, new Color(255,0,0));
-		matrix.get(20).set(21, new Color(255,0,0));
-		matrix.get(20).set(22, new Color(255,0,0));
+		for(int i=20; i<30; i++) {
+			for(int j=20; j< 30; j++){
+				matrix.get(i).set(j, new Color(255,0,0));
+			}
+		}
+		
+		for(int x=5; x<10; x++) {
+			for(int y=1; y< 10; y++){
+				matrix.get(x).set(y, new Color(255,0,0));
+			}
+		}
 
 	}
 

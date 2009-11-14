@@ -17,7 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.JScrollPane;
 
 import map.Map;
 
@@ -43,7 +43,8 @@ public class GuiFrame  extends JFrame {
 		menu.add(status);
 		
 		setJMenuBar(menu);
-		setSize(400, 400);
+		setSize(400, 430);
+		
 
 		
 		mapPanel = new JPanel(){
@@ -67,7 +68,6 @@ public class GuiFrame  extends JFrame {
 	
 		
 		mapPanel.setBorder(BorderFactory.createLineBorder( Color.blue ));
-		mapPanel.setPreferredSize(new Dimension(200,200));
 	
 		JPanel buttonContainer = new JPanel();
 		buttonContainer.setLayout(new GridLayout(1,1));
@@ -75,11 +75,13 @@ public class GuiFrame  extends JFrame {
 		JButton stopTcp = new JButton("stop tcp");
 		buttonContainer.add(startTcp);
 		buttonContainer.add(stopTcp);
+	
 		
 		Container cp = getContentPane();
 		cp.add(new Label("Map"), BorderLayout.NORTH);
-		cp.add(mapPanel, BorderLayout.CENTER);
 		cp.add(buttonContainer, BorderLayout.SOUTH);
+		cp.add(mapPanel, BorderLayout.CENTER);
+		
 		
 		
 	}
