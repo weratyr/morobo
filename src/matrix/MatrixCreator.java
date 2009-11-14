@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class MatrixCreator implements IMatrixCreator {
 
-	private int height = 90;
-	private int width =  70;
+	private int height = 70;
+	private int width =  80;
 	private ArrayList<ArrayList<Color>> matrix;
 	
 	public MatrixCreator() {
@@ -23,6 +23,8 @@ public class MatrixCreator implements IMatrixCreator {
 			}
 		}
 		matrix.get(20).set(20, new Color(255,0,0));
+		matrix.get(20).set(21, new Color(255,0,0));
+		matrix.get(20).set(22, new Color(255,0,0));
 
 	}
 
