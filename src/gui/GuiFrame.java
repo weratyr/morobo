@@ -42,7 +42,7 @@ public class GuiFrame  extends JFrame {
 		menu.add(status);
 		
 		setJMenuBar(menu);
-		setSize(500, 350);
+		setSize(400, 350);
 
 		
 		mapPanel = new JPanel(){
@@ -66,7 +66,6 @@ public class GuiFrame  extends JFrame {
 	
 		
 		mapPanel.setBorder(BorderFactory.createLineBorder( Color.blue ));
-		mapPanel.add(new Label("test"));
 		mapPanel.setPreferredSize(new Dimension(200,200));
 	
 		JPanel buttonContainer = new JPanel();
