@@ -6,6 +6,4 @@ public class LunchApp {
 		new GuiFrame();
 		
 	}
-	
-	
 }

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class MatrixCreator implements IMatrixCreator {
 
-	private int height = 120;
-	private int width =  120;
+	private int height = 230;
+	private int width =  10;
 	private ArrayList<ArrayList<Color>> matrix;
 	
 	public MatrixCreator() {
@@ -19,11 +19,11 @@ public class MatrixCreator implements IMatrixCreator {
 		for(int i=0; i<width; i++) {
 			matrix.add(new ArrayList<Color>());
 			for(int j=0; j<height; j++) {
-				matrix.get(i).add(new Color(100,100,100));
+				matrix.get(i).add(new Color(155,155,155));
 			}
 		}
-		matrix.get(100).add(new Color(0,255,0));
-		matrix.get(101).add(new Color(0,255,0));
+		matrix.get(20).set(20, new Color(255,0,0));
+
 	}
 
 	public ArrayList<ArrayList<Color>> getCreatedMatrix() {
