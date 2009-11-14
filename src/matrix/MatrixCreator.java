@@ -22,13 +22,17 @@ public class MatrixCreator implements IMatrixCreator {
 				matrix.get(i).add(new Color(155,155,155));
 			}
 		}
-		for(int i=20; i<30; i++) {
+		for(int i=20; i<25; i++) {
 			for(int j=20; j< 30; j++){
-				matrix.get(i).set(j, new Color(255,0,0));
+				if(i==22 && j>22 && j<29) {
+					matrix.get(i).set(j, new Color(0,0,255));
+				}else {
+					matrix.get(i).set(j, new Color(255,0,0));
+				}
 			}
 		}
 		
-		for(int x=5; x<10; x++) {
+		for(int x=2; x<5; x++) {
 			for(int y=1; y< 10; y++){
 				matrix.get(x).set(y, new Color(255,0,0));
 			}
@@ -36,6 +40,9 @@ public class MatrixCreator implements IMatrixCreator {
 
 	}
 
+	
+	
+	
 	public ArrayList<ArrayList<Color>> getCreatedMatrix() {
 		return matrix;
 	}
