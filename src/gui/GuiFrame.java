@@ -25,7 +25,7 @@ public class GuiFrame  extends JFrame {
 	
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
-	private int scale = 4;
+	private int scale = 6;
 	
 	public GuiFrame() {
 		super();
@@ -43,7 +43,7 @@ public class GuiFrame  extends JFrame {
 		menu.add(status);
 		
 		setJMenuBar(menu);
-		setSize(400, 430);
+		setSize(450, 480);
 		
 
 		
