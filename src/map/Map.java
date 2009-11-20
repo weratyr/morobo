@@ -24,4 +24,7 @@ public class Map implements IMap {
 		this.matrix = matrix;
 	}
 
+	public Map getMapObject() {
+		return this;
+	}
 }
