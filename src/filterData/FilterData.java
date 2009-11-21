@@ -6,11 +6,11 @@ import java.util.Hashtable;
 public class FilterData {
 	private ParserXml parserXml;
 	private int id;
-	private String input = "";
+	private String input="";
 	
 	public FilterData() {
 	  parserXml = new ParserXml();
-	  parserXml.xmlstinsubstr(input);
+	  
 	}
 	
 	public void setInput(String input) {
@@ -19,6 +19,10 @@ public class FilterData {
 	
 	public ArrayList<Hashtable<String, int[]>> getParsedInfos() {
 		return parserXml.getArrayListHashTable();
+	}
+	
+	public void filterData() {
+		parserXml.xmlstinsubstr(input);
 	}
 	
 	

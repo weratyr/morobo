@@ -17,6 +17,7 @@ public class ParserXml {
 	
 
 	public void xmlstinsubstr(String xmlstring) {
+		System.out.println("xmlstring "+xmlstring);
 		int endtag_anfang = 0;
 		int endtag_ende = 0;
 		int starttag_anfang = 0;
@@ -40,7 +41,7 @@ public class ParserXml {
 				infoArrayList.add(hashTable);
 			}
 			
-//			System.out.println(tagcontent + ": " + newstring);
+			System.out.println(tagcontent + ": " + newstring);
 			array[counter] = newstring;
 			counter++;
 			xmlstinsubstr(xmlstring3);

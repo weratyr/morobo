@@ -152,27 +152,25 @@ public class GuiFrame  extends JFrame {
 		GuiFrame gui =  new GuiFrame();
 		gui.setMatrix(mc.getCreatedMatrix());
 		
-		
-		
 		ConnectionServer cs = null;
 		try {
 			cs = new ConnectionServer(); 
-			Thread t = new Thread();
-		
-			cs.startServer();
-			
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Thread t = new Thread(cs);
+			t.start();	
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("haha");
 		FilterData filterData = new FilterData();
 		ArrayList<Hashtable<String, int[]>> infos;
 		while(true) {
 			
 			filterData.setInput(cs.getMessage());
+			if(cs.getMessage() != null) {
+				filterData.filterData();
+			}
 		    infos = filterData.getParsedInfos();
+		    System.out.println("info "+ infos.size());
 		    System.out.println("yeah"+ infos.size()+" message "+cs.getMessage());
 			 if(infos.size() > 0) {
 				 mc.setPixelinMatrix(infos.get(0).get("data")[0], infos.get(0).get("data")[1], 0, 255, 0);

@@ -10,8 +10,9 @@ import java.net.Socket;
 
 import filterData.FilterData;
 
-public class ConnectionServer {
+public class ConnectionServer implements Runnable{
 	private String message;
+	private Socket socket;
 
 	public ConnectionServer() {
 
@@ -20,20 +21,8 @@ public class ConnectionServer {
 	public void startServer() throws IOException {
 		int port = 1111;
 		ServerSocket serverSocket = new ServerSocket(port);
-		Socket socket = serverSocket.accept();
-
-		while (true) {
-			readMessage(socket);
-			//System.out.println("while schleife " + message);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
+		socket = serverSocket.accept();	
 	}
-
 
 	public void readMessage(Socket socket) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -52,6 +41,25 @@ public class ConnectionServer {
 	
 	public String getMessage() {
 		return message;
+	}
+
+	public void run() {
+		try {
+			startServer();
+			while (true) {
+				readMessage(socket);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
