@@ -12,12 +12,11 @@ public class ConnectionClient {
 		String ip = "127.0.0.1"; // localhost
 		int port = 1111;
 		Socket socket = new Socket(ip, port); // verbindet sich mit Server
-		String zuSendendeNachricht = "<map><info><pos>55,56</pos><direction>35,65</direction><data>45,65</data><data>34,45</data><data>23,45</data><data>45,43</data></info></map>";
+		String zuSendendeNachricht = "<map><info><pos>5,15</pos><direction>3,6</direction><data>45,65</data><data>34,45</data><data>23,45</data><data>45,43</data></info></map>";
 		int i=0;
-		while ( i < 20) {
+		while ( i < 10) {
 			schreibeNachricht(socket, zuSendendeNachricht);
-			String empfangeneNachricht = leseNachricht(socket);
-			//System.out.println(empfangeneNachricht);
+			System.out.println("print i "+i);
 			i++;
 		}
 	}

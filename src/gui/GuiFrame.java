@@ -9,7 +9,9 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.LayoutManager;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -128,6 +130,10 @@ public class GuiFrame  extends JFrame {
 	public void setMatrix(ArrayList<ArrayList<Color>> matrix) {
 		this.matrix = matrix;
 	}
+
+	public void repaintMatrixJPanel() {
+		mapPanel.repaint();
+	}
 	
 	
 	
@@ -137,8 +143,7 @@ public class GuiFrame  extends JFrame {
 	
 	
 	
-	
-	public static void main(String[] arg) {
+	public static void main(String[] arg) throws InterruptedException {
 		
 		
 		MatrixCreator mc = new MatrixCreator();
@@ -152,34 +157,34 @@ public class GuiFrame  extends JFrame {
 		ConnectionServer cs = null;
 		try {
 			cs = new ConnectionServer(); 
+			Thread t = new Thread();
+		
 			cs.startServer();
+			
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		FilterData filterData = new FilterData();
-		
-		
-		
+		ArrayList<Hashtable<String, int[]>> infos;
 		while(true) {
 			
-			String nachricht = "";
-			try {
-				nachricht = cs.leseNachricht(cs.getClient());
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-				filterData.setInput(nachricht);
-//				schreibeNachricht(client, nachricht);
-			
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			filterData.setInput(cs.getMessage());
+		    infos = filterData.getParsedInfos();
+		    System.out.println("yeah"+ infos.size()+" message "+cs.getMessage());
+			 if(infos.size() > 0) {
+				 mc.setPixelinMatrix(infos.get(0).get("data")[0], infos.get(0).get("data")[1], 0, 255, 0);
+				 gui.repaintMatrixJPanel();
+				 
+			 }
+			Thread.sleep(1000);
 		}
+		
+		
+		
+		
 		
 				
 	}
