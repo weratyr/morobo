@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.LayoutManager;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -18,6 +19,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import socket.ConnectionServer;
 
 import map.Map;
 
@@ -31,6 +34,7 @@ public class GuiFrame  extends JFrame {
 	
 	public GuiFrame() {
 		super();
+		
 		setVisible(true);
 		setTitle("Spawn a map");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +58,6 @@ public class GuiFrame  extends JFrame {
 			public void paintComponent(Graphics g) {
 				super.paintComponents(g);
 				
-					
 				int height = matrix.size();
 				int width = matrix.get(0).size();
 				
@@ -87,7 +90,6 @@ public class GuiFrame  extends JFrame {
 		JButton stopTcp = new JButton("stop tcp");
 		buttonContainer.add(startTcp);
 		buttonContainer.add(stopTcp);
-		
 		southContainer.add(buttonContainer);
 	
 		
@@ -121,6 +123,27 @@ public class GuiFrame  extends JFrame {
 	}
 	
 	public static void main(String[] arg) {
+		
+		try {
+			ConnectionServer cs = new ConnectionServer(); 
+			cs.startServer();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		while(true) {
+			
+			
+			
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 		new GuiFrame();		
 	}
 	

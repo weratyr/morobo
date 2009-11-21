@@ -2,16 +2,38 @@ package matrix;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import filterData.FilterData;
 
 public class MatrixCreator implements IMatrixCreator {
 
 	private int height = 130;
 	private int width =  130;
+	private int red;
+	private int green;
+	private int blue;
 	private ArrayList<ArrayList<Color>> matrix;
+	private FilterData filterData;
+	private ArrayList<Hashtable<String, int[]>> inputInfos;
 	
 	public MatrixCreator() {
+		
+		
+//		inputInfos =  filterData.getParsedInfos();
+//		if(inputInfos.size() > 0){
+//			System.out.println(inputInfos.get(0) + "length "+inputInfos.size()+ " key data "+ inputInfos.get(0).entrySet());
+//		}
+		
 		matrix = new ArrayList<ArrayList<Color>>();
 		matrix.add(new ArrayList<Color>());
+		
+		
+	}
+	public void updateMatrix() {
 		
 	}
 		
@@ -22,24 +44,12 @@ public class MatrixCreator implements IMatrixCreator {
 				matrix.get(i).add(new Color(125,125,125));
 			}
 		}
-		for(int i=20; i<25; i++) {
-			for(int j=20; j< 30; j++){
-				if(i==22 && j>22 && j<29) {
-					matrix.get(i).set(j, new Color(0,0,255));
-				}else {
-					matrix.get(i).set(j, new Color(255,0,0));
-				}
-			}
-		}
-		
-		for(int x=2; x<5; x++) {
-			for(int y=1; y< 10; y++){
-				matrix.get(x).set(y, new Color(255,0,0));
-			}
-		}
-
+		setPixelinMatrix(10,10,0,0,255);
 	}
 
+	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
+		matrix.get(y).set(x,new Color(r,g,b));
+	}
 	
 	
 	

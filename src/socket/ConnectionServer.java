@@ -8,24 +8,28 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import filterData.FilterData;
+
 public class ConnectionServer {
+	private FilterData filterData; 
+	
+	public ConnectionServer() {
+		
+	}
+	
 
 	public void startServer() throws IOException {
 		int port = 1111;
 		ServerSocket serverSocket = new ServerSocket(port);
 		Socket client = warteAufAnmeldung(serverSocket);
-		while(true) {
+		
 		String nachricht = leseNachricht(client);
-			System.out.println(nachricht);
+		//	System.out.println(nachricht);
 			System.out.println(client.getRemoteSocketAddress());
+			filterData.setInput(nachricht);
 			schreibeNachricht(client, nachricht);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			
+		
 	}
 
 	public Socket warteAufAnmeldung(ServerSocket serverSocket) throws IOException {
@@ -48,12 +52,15 @@ public class ConnectionServer {
 	}
 
 	
-	public static void main(String[] args) {
-		ConnectionServer server = new ConnectionServer();
-		try {
-			server.startServer();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
+	
+	
+//	public static void main(String[] args) {
+//		ConnectionServer server = new ConnectionServer();
+//		try {
+//			server.startServer();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

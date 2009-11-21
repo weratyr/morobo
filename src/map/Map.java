@@ -9,9 +9,10 @@ import matrix.MatrixCreator;
 public class Map implements IMap {
 
 	private ArrayList<ArrayList<Color>> matrix;
+	private MatrixCreator mc;
 	
 	public Map() {
-		MatrixCreator mc =	new MatrixCreator();
+		mc = new MatrixCreator();
 		mc.createMatrix();
 		matrix = mc.getCreatedMatrix();
 	}
@@ -26,5 +27,9 @@ public class Map implements IMap {
 
 	public Map getMapObject() {
 		return this;
+	}
+	
+	public MatrixCreator getMatrixCreatorObject() {
+		return mc;
 	}
 }
