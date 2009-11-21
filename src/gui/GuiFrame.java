@@ -20,17 +20,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import filterData.FilterData;
+
 import socket.ConnectionServer;
 
 import map.Map;
+import matrix.MatrixCreator;
 
 public class GuiFrame  extends JFrame {
 	
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
-	private int scaleZoom = 6;
-	private int matrixLeftSize;
-	private int matrixRightSize;
+	private int scaleZoom = 4;
+	private int matrixLeftSize = 20;
+	private int matrixRightSize = 20;
 	
 	public GuiFrame() {
 		super();
@@ -51,8 +54,7 @@ public class GuiFrame  extends JFrame {
 		setJMenuBar(menu);
 		setSize(450, 480);
 		
-		Map map = new Map();
-		matrix = map.getMap();	
+			
 		
 		mapPanel = new JPanel(){
 			public void paintComponent(Graphics g) {
@@ -122,18 +124,54 @@ public class GuiFrame  extends JFrame {
 		
 	}
 	
+	
+	public void setMatrix(ArrayList<ArrayList<Color>> matrix) {
+		this.matrix = matrix;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] arg) {
 		
+		
+		MatrixCreator mc = new MatrixCreator();
+		mc.createMatrix();
+		
+		GuiFrame gui =  new GuiFrame();
+		gui.setMatrix(mc.getCreatedMatrix());
+		
+		
+		
+		ConnectionServer cs = null;
 		try {
-			ConnectionServer cs = new ConnectionServer(); 
+			cs = new ConnectionServer(); 
 			cs.startServer();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		FilterData filterData = new FilterData();
+		
+		
+		
 		while(true) {
 			
-			
+			String nachricht = "";
+			try {
+				nachricht = cs.leseNachricht(cs.getClient());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+				filterData.setInput(nachricht);
+//				schreibeNachricht(client, nachricht);
 			
 			try {
 				Thread.sleep(1000);
@@ -143,8 +181,7 @@ public class GuiFrame  extends JFrame {
 			}
 		}
 		
-		
-		new GuiFrame();		
+				
 	}
 	
 }

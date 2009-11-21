@@ -12,24 +12,15 @@ import filterData.FilterData;
 
 public class ConnectionServer {
 	private FilterData filterData; 
-	
+	private Socket client;
 	public ConnectionServer() {
 		
 	}
 	
-
 	public void startServer() throws IOException {
 		int port = 1111;
 		ServerSocket serverSocket = new ServerSocket(port);
-		Socket client = warteAufAnmeldung(serverSocket);
-		
-		String nachricht = leseNachricht(client);
-		//	System.out.println(nachricht);
-			System.out.println(client.getRemoteSocketAddress());
-			filterData.setInput(nachricht);
-			schreibeNachricht(client, nachricht);
-			
-		
+		client = warteAufAnmeldung(serverSocket);
 	}
 
 	public Socket warteAufAnmeldung(ServerSocket serverSocket) throws IOException {
@@ -50,6 +41,16 @@ public class ConnectionServer {
 		printWriter.print(nachricht);
 		printWriter.flush();
 	}
+	
+	public Socket getClient() {
+		return client;
+	}
+
+
+	public void setClient(Socket client) {
+		this.client = client;
+	}
+
 
 	
 	

@@ -22,7 +22,6 @@ public class MatrixCreator implements IMatrixCreator {
 	
 	public MatrixCreator() {
 		
-		
 //		inputInfos =  filterData.getParsedInfos();
 //		if(inputInfos.size() > 0){
 //			System.out.println(inputInfos.get(0) + "length "+inputInfos.size()+ " key data "+ inputInfos.get(0).entrySet());
