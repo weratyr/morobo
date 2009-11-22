@@ -30,7 +30,8 @@ public class ConnectionServer implements Runnable{
 		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
 		if(numberOfChar != -1) {
 			message = new String(buffer, 0, numberOfChar);
-		}
+		}else
+			message = null;
 	}
 
 	public void writeMessage(Socket socket, String message) throws IOException {

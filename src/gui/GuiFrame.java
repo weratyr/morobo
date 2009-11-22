@@ -36,6 +36,7 @@ public class GuiFrame  extends JFrame {
 	private int scaleZoom = 4;
 	private int matrixLeftSize = 20;
 	private int matrixRightSize = 20;
+	private MatrixCreator mc;
 	
 	public GuiFrame() {
 		super();
@@ -68,6 +69,7 @@ public class GuiFrame  extends JFrame {
 				for(int i=0; i<matrixRightSize; i++) {
 					for(int j=0; j<matrixLeftSize; j++) {
 //						System.out.println(matrix.size() + "i ist " + i + " innere size "+ matrix.get(i).size()+" j ist "+j);
+//						System.out.println("matrix farbe "+ matrix.get(i).get(j).getGreen());
 						 g.setColor(matrix.get(i).get(j));
 						 g.fillRect(i*scaleZoom, j*scaleZoom, width, height);
 					}
@@ -126,15 +128,19 @@ public class GuiFrame  extends JFrame {
 		
 	}
 	
-	
-	public void setMatrix(ArrayList<ArrayList<Color>> matrix) {
-		this.matrix = matrix;
-	}
 
-	public void repaintMatrixJPanel() {
+	public void repaintMatrixJPanel() {;
 		mapPanel.repaint();
 	}
 	
+	
+	public void setUpdatedMatrix(ArrayList<ArrayList<Color>> matrix) {
+		this.matrix = matrix;
+	}
+	
+	public void setEmptyMatrix(ArrayList<ArrayList<Color>> matrix) {
+		this.matrix = matrix;
+	}
 	
 	
 	
@@ -150,7 +156,7 @@ public class GuiFrame  extends JFrame {
 		mc.createMatrix();
 		
 		GuiFrame gui =  new GuiFrame();
-		gui.setMatrix(mc.getCreatedMatrix());
+		gui.setEmptyMatrix(mc.getCreatedMatrix());
 		
 		ConnectionServer cs = null;
 		try {
@@ -160,7 +166,6 @@ public class GuiFrame  extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("haha");
 		FilterData filterData = new FilterData();
 		ArrayList<Hashtable<String, int[]>> infos;
 		while(true) {
@@ -168,15 +173,21 @@ public class GuiFrame  extends JFrame {
 			filterData.setInput(cs.getMessage());
 			if(cs.getMessage() != null) {
 				filterData.filterData();
+				filterData.setInput(null);
 			}
+			
 		    infos = filterData.getParsedInfos();
-		    System.out.println("info "+ infos.size());
-		    System.out.println("yeah"+ infos.size()+" message "+cs.getMessage());
-			 if(infos.size() > 0) {
+			if(infos.size() > 0) {
+//				 System.out.println("info "+ infos.size());
+//				 System.out.println("yeah"+ infos.size()+" message "+cs.getMessage());
 				 mc.setPixelinMatrix(infos.get(0).get("data")[0], infos.get(0).get("data")[1], 0, 255, 0);
+				 gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				 gui.repaintMatrixJPanel();
-				 
-			 }
+				 synchronized (infos) { 
+						 infos.clear();
+				 }
+			}
+			System.out.println("running");
 			Thread.sleep(1000);
 		}
 		

@@ -6,11 +6,10 @@ import java.util.Hashtable;
 public class FilterData {
 	private ParserXml parserXml;
 	private int id;
-	private String input="";
+	private String input=null;
 	
 	public FilterData() {
 	  parserXml = new ParserXml();
-	  
 	}
 	
 	public void setInput(String input) {

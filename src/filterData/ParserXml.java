@@ -11,7 +11,6 @@ public class ParserXml {
 	private String tagcontent;//
 	private int counter = 0;
 	private String array[] = new String[25];
-//	private Hashtable<String,Integer[]> hashSet = new Hashtable<String,Integer[]>();
 	private Hashtable<String,int[]> hashTable = new Hashtable<String,int[]>();
 	private ArrayList<Hashtable<String,int[]>> infoArrayList = new ArrayList<Hashtable<String,int[]>>();
 	

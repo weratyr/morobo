@@ -48,6 +48,7 @@ public class MatrixCreator implements IMatrixCreator {
 
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
 		matrix.get(y).set(x,new Color(r,g,b));
+		System.out.println("x,y setPixel "+x +" "+y);
 	}
 	
 	
