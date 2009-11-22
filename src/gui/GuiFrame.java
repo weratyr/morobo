@@ -57,8 +57,6 @@ public class GuiFrame  extends JFrame {
 		setJMenuBar(menu);
 		setSize(450, 480);
 		
-			
-		
 		mapPanel = new JPanel(){
 			public void paintComponent(Graphics g) {
 				super.paintComponents(g);
@@ -78,11 +76,7 @@ public class GuiFrame  extends JFrame {
 		};
 		
 		
-	
-		
 		mapPanel.setBorder(BorderFactory.createLineBorder( Color.blue ));
-	
-		
 		JPanel activObjectsContainer = new JPanel();
 		activObjectsContainer.setBorder(BorderFactory.createLineBorder(Color.yellow));
 		activObjectsContainer.add(new Label("aktives Objekt in der Karte"));
@@ -101,7 +95,6 @@ public class GuiFrame  extends JFrame {
 		
 		JPanel westContainer = new JPanel();
 		
-		
 		JPanel buttonContainer1 = new JPanel();
 		buttonContainer1.setLayout(new GridLayout(2,1));
 		JButton scrollLeft = new JButton("<");
@@ -115,16 +108,11 @@ public class GuiFrame  extends JFrame {
 		westContainer.add(buttonContainer1);
 		
 		
-		
-		
-		
 		Container cp = getContentPane();
 		cp.add(new Label("Map"), BorderLayout.NORTH);
 		cp.add(southContainer, BorderLayout.SOUTH);
 		cp.add(mapPanel, BorderLayout.CENTER);
 		cp.add(westContainer, BorderLayout.WEST);
-		
-		
 		
 	}
 	
@@ -170,15 +158,15 @@ public class GuiFrame  extends JFrame {
 		ArrayList<Hashtable<String, int[]>> infos;
 		while(true) {
 			
-//			filterData.setInput(cs.getMessage());
-//			if(cs.getMessage() != null) {
-//			;//	filterData.filterData();
-//			}
+			filterData.setInput(cs.getMessage());
+			if(cs.getMessage() != null) {
+				filterData.filterData();
+			}
 			
 		    infos = filterData.getParsedInfos();
 			if(infos.size() > 0) {
 //				 System.out.println("info "+ infos.size());
-//				 System.out.println("yeah"+ infos.size()+" message "+cs.getMessage());
+				 System.out.println("yeah"+ infos.size()+" message "+cs.getMessage());
 				 mc.setPixelinMatrix(infos.get(0).get("data")[0], infos.get(0).get("data")[1], 0, 255, 0);
 				 gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				 gui.repaintMatrixJPanel();

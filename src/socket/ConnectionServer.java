@@ -7,27 +7,34 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Hashtable;
 
 import filterData.FilterData;
 
-public class ConnectionServer implements Runnable{
-	
-	public ConnectionServer() {
+public class ConnectionServer implements Runnable {
+	private Hashtable<Integer, Socket> ht;
+	private Socket client;
+	private String message;
 
+	public ConnectionServer() {
+		ht = new Hashtable<Integer, Socket>();
 	}
 
-//	public void startServer() throws IOException {
-//		int port = 1111;
-//		serverSocket = new ServerSocket(port);	
-//	}
+	// public void startServer() throws IOException {
+	// int port = 1111;
+	// serverSocket = new ServerSocket(port);
+	// }
 
-	public String readMessage(Socket socket) throws IOException {
+	public void readMessage(Socket socket) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		char[] buffer = new char[200];
-		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
-		String	message = new String(buffer, 0, numberOfChar);
-		System.out.println("readMessage "+message);
-		return message;
+		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert bis
+																// Nachricht
+																// empfangen
+		message = new String(buffer, 0, numberOfChar);
+		System.out.println("readMessage " + message);
+		socket.close();
+		
 	}
 
 	public void writeMessage(Socket socket, String message) throws IOException {
@@ -35,25 +42,25 @@ public class ConnectionServer implements Runnable{
 		printWriter.print(message);
 		printWriter.flush();
 	}
-	
-	public Socket waitForConnection(ServerSocket serverSocket) throws IOException {
+
+	public void waitForConnection(ServerSocket serverSocket) throws IOException {
 		Socket socket = serverSocket.accept();
-		return socket;
+		client = socket;
 	}
-	
-	public String getMessage() {
+
+	 public String getMessage() {
 		return message;
 	}
 
 	public void run() {
 		try {
 			int port = 1111;
-			ServerSocket serverSocket = new ServerSocket(port);	
-			Socket client = waitForConnection(serverSocket);
-			
+			ServerSocket serverSocket = new ServerSocket(port);
+
 			while (true) {
-				String message = readMessage(client);
-				System.out.println(client.getRemoteSocketAddress());
+				
+				waitForConnection(serverSocket);
+				readMessage(client);
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -64,10 +71,8 @@ public class ConnectionServer implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
 
 	// public static void main(String[] args) {
 	// ConnectionServer server = new ConnectionServer();
