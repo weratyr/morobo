@@ -16,7 +16,6 @@ public class ConnectionClient {
 		while ( i < 9) {
 			Socket socket = new Socket(ip, port); // verbindet sich mit Server
 			String zuSendendeNachricht = "<map><info><pos>5,"+i+"</pos><direction>3,6</direction><data>8,7</data><data>10,5</data><data>23,4</data><data>"+i+",3</data></info></map>";
-			
 			schreibeNachricht(socket, zuSendendeNachricht);
 			System.out.println("print i "+i);
 			i++;

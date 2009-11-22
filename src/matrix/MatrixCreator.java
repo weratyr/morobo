@@ -11,27 +11,18 @@ import filterData.FilterData;
 
 public class MatrixCreator implements IMatrixCreator {
 
-	private int height = 130;
-	private int width =  130;
+	private int height = 150;
+	private int width =  150;
 	private int red;
 	private int green;
 	private int blue;
 	private ArrayList<ArrayList<Color>> matrix;
-	private FilterData filterData;
-	private ArrayList<Hashtable<String, int[]>> inputInfos;
 	
 	public MatrixCreator() {
-		
-//		inputInfos =  filterData.getParsedInfos();
-//		if(inputInfos.size() > 0){
-//			System.out.println(inputInfos.get(0) + "length "+inputInfos.size()+ " key data "+ inputInfos.get(0).entrySet());
-//		}
-		
 		matrix = new ArrayList<ArrayList<Color>>();
-		matrix.add(new ArrayList<Color>());
-		
-		
+		matrix.add(new ArrayList<Color>());	
 	}
+	
 	public void updateMatrix() {
 		
 	}
@@ -43,7 +34,6 @@ public class MatrixCreator implements IMatrixCreator {
 				matrix.get(i).add(new Color(125,125,125));
 			}
 		}
-		setPixelinMatrix(10,10,0,0,255);
 	}
 
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
