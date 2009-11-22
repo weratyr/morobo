@@ -20,11 +20,6 @@ public class ConnectionServer implements Runnable {
 		ht = new Hashtable<Integer, Socket>();
 	}
 
-	// public void startServer() throws IOException {
-	// int port = 1111;
-	// serverSocket = new ServerSocket(port);
-	// }
-
 	public void readMessage(Socket socket) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		char[] buffer = new char[200];
@@ -32,7 +27,7 @@ public class ConnectionServer implements Runnable {
 																// Nachricht
 																// empfangen
 		message = new String(buffer, 0, numberOfChar);
-		System.out.println("readMessage " + message);
+		//System.out.println("readMessage " + message);
 		socket.close();
 		
 	}
@@ -56,9 +51,7 @@ public class ConnectionServer implements Runnable {
 		try {
 			int port = 1111;
 			ServerSocket serverSocket = new ServerSocket(port);
-
 			while (true) {
-				
 				waitForConnection(serverSocket);
 				readMessage(client);
 				try {

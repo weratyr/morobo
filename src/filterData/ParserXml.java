@@ -1,7 +1,6 @@
 package filterData;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
 
 public class ParserXml {
@@ -10,13 +9,10 @@ public class ParserXml {
 	private String xmlstring3;
 	private String tagcontent;//
 	private int counter = 0;
-	private String array[] = new String[25];
-	private Hashtable<String,int[]> hashTable = new Hashtable<String,int[]>();
 	private ArrayList<Hashtable<String,int[]>> infoArrayList = new ArrayList<Hashtable<String,int[]>>();
 	
-
 	public void xmlstinsubstr(String xmlstring) {
-		System.out.println("xmlstring "+xmlstring);
+		//System.out.println("xmlstring "+xmlstring);
 		int endtag_anfang = 0;
 		int endtag_ende = 0;
 		int starttag_anfang = 0;
@@ -34,31 +30,23 @@ public class ParserXml {
 			xmlstring2 = xmlstring.substring(endtag_ende + 1, xmlstring.length());
 			xmlstring3 = xmlstring1 + xmlstring2;
 			String[] xy = newstring.split(",");
+			int[] xyInt;
 			if(xy.length > 1){
-				int[] xyInt = new int[] { Integer.parseInt(xy[0]), Integer.parseInt(xy[1])};
-				hashTable.put(tagcontent,  xyInt );
-				infoArrayList.add(hashTable);
+				 xyInt = new int[] { Integer.parseInt(xy[0]), Integer.parseInt(xy[1])};
+			}else {
+				 xyInt = new int[] { 0, 0 };
 			}
-			
-			System.out.println(tagcontent + ": " + newstring);
-			array[counter] = newstring;
+			Hashtable<String,int[]> hashTable = new Hashtable<String,int[]>();
+			hashTable.put(tagcontent,  xyInt );
+			infoArrayList.add(hashTable);
+//			System.out.println(tagcontent + ": " + newstring);
 			counter++;
 			xmlstinsubstr(xmlstring3);
 		}
 	}
 	
-	
 	public ArrayList<Hashtable<String,int[]>> getArrayListHashTable() {
 		return infoArrayList;
-	}
-	
-	
-
-//	public static void main(String[] args) {
-//		ParserXml communicator = new ParserXml();
-//		communicator.xmlstinsubstr("<map><info><pos>a,b </pos>     <direction>c,d</direction><data>e,f</data><data>e,f</data><data>e,f</data><data>g,h</data></info></map>");
-//	}
-	
-	
+	}	
 	
 }
