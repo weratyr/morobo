@@ -6,7 +6,7 @@ import java.util.Hashtable;
 public class FilterData {
 	private ParserXml parserXml;
 	private int id;
-	private String input=null;
+	private String input="";
 	
 	public FilterData() {
 	  parserXml = new ParserXml();

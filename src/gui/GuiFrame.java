@@ -170,11 +170,10 @@ public class GuiFrame  extends JFrame {
 		ArrayList<Hashtable<String, int[]>> infos;
 		while(true) {
 			
-			filterData.setInput(cs.getMessage());
-			if(cs.getMessage() != null) {
-				filterData.filterData();
-				filterData.setInput(null);
-			}
+//			filterData.setInput(cs.getMessage());
+//			if(cs.getMessage() != null) {
+//			;//	filterData.filterData();
+//			}
 			
 		    infos = filterData.getParsedInfos();
 			if(infos.size() > 0) {
@@ -187,7 +186,7 @@ public class GuiFrame  extends JFrame {
 						 infos.clear();
 				 }
 			}
-			System.out.println("running");
+			
 			Thread.sleep(1000);
 		}
 		

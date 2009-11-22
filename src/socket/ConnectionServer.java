@@ -11,27 +11,23 @@ import java.net.Socket;
 import filterData.FilterData;
 
 public class ConnectionServer implements Runnable{
-	private String message;
-	private Socket socket;
-
+	
 	public ConnectionServer() {
 
 	}
 
-	public void startServer() throws IOException {
-		int port = 1111;
-		ServerSocket serverSocket = new ServerSocket(port);
-		socket = serverSocket.accept();	
-	}
+//	public void startServer() throws IOException {
+//		int port = 1111;
+//		serverSocket = new ServerSocket(port);	
+//	}
 
-	public void readMessage(Socket socket) throws IOException {
+	public String readMessage(Socket socket) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		char[] buffer = new char[200];
 		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
-		if(numberOfChar != -1) {
-			message = new String(buffer, 0, numberOfChar);
-		}else
-			message = null;
+		String	message = new String(buffer, 0, numberOfChar);
+		System.out.println("readMessage "+message);
+		return message;
 	}
 
 	public void writeMessage(Socket socket, String message) throws IOException {
@@ -40,15 +36,24 @@ public class ConnectionServer implements Runnable{
 		printWriter.flush();
 	}
 	
+	public Socket waitForConnection(ServerSocket serverSocket) throws IOException {
+		Socket socket = serverSocket.accept();
+		return socket;
+	}
+	
 	public String getMessage() {
 		return message;
 	}
 
 	public void run() {
 		try {
-			startServer();
+			int port = 1111;
+			ServerSocket serverSocket = new ServerSocket(port);	
+			Socket client = waitForConnection(serverSocket);
+			
 			while (true) {
-				readMessage(socket);
+				String message = readMessage(client);
+				System.out.println(client.getRemoteSocketAddress());
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -57,7 +62,6 @@ public class ConnectionServer implements Runnable{
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
