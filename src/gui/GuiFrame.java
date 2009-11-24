@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import filterData.DataContainer;
 import filterData.FilterData;
 
 import socket.ConnectionServer;
@@ -42,8 +43,8 @@ public class GuiFrame  extends JFrame {
 	private final JButton startTcp;
 	
 	private final int scaleZoom = 6;
-	private final int shownMatrixWidth = 60;
-	private final int shownMatrixHeight = 50;
+	private final int shownMatrixWidth = 60;  //60
+	private final int shownMatrixHeight = 50; //50
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
 	private MatrixCreator mc;
@@ -227,7 +228,6 @@ public class GuiFrame  extends JFrame {
 
 	public static void main(String[] arg) throws InterruptedException {
 		
-		
 		MatrixCreator mc = new MatrixCreator();
 		mc.createMatrix();
 		
@@ -240,32 +240,27 @@ public class GuiFrame  extends JFrame {
 		gui.setTCPServerThread(tcpServerThread);
 		
 		FilterData filterData = new FilterData();
-		ArrayList<Hashtable<String, int[]>> infos;
+	 	DataContainer infos;
 		while(true) {
 			
 			filterData.setInput(cs.getMessage());
 			if(cs.getMessage() != null) {
 				System.out.println("getMessage "+cs.getMessage());
 				filterData.filterData();
+				infos = filterData.getParsedInfos();
+				System.out.println("yeah size "+ infos.getName()+" message "+cs.getMessage());
+				mc.setPixelinMatrix(infos.getPos()[0], infos.getPos()[1], 0, 255, 0);
+				gui.setUpdatedMatrix(mc.getCreatedMatrix());
+				gui.repaintMatrixJPanel();
 			}
-		    infos = filterData.getParsedInfos();
 		    
-			if(infos.size() > 0) {
-				 System.out.println("yeah size "+ infos.size()+" message "+cs.getMessage());
-				 mc.setPixelinMatrix(infos.get(0).get("pos")[0], infos.get(0).get("pos")[1], 0, 255, 0);
-				 gui.setUpdatedMatrix(mc.getCreatedMatrix());
-				 gui.repaintMatrixJPanel();
-				 synchronized (infos) { 
-						 infos.clear();
-				 }
-			}
+		    
+			
+				 
+			
 			
 			Thread.sleep(1000);
 		}
-		
-		
-		
-		
 		
 				
 	}
