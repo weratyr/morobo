@@ -7,6 +7,8 @@ import java.util.Hashtable;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import objectPos.Position;
+
 import filterData.FilterData;
 
 public class MatrixCreator implements IMatrixCreator {
@@ -17,6 +19,9 @@ public class MatrixCreator implements IMatrixCreator {
 	private int green;
 	private int blue;
 	private ArrayList<ArrayList<Color>> matrix;
+	private Color oldColor;
+	private Color newColor;
+	
 	
 	public MatrixCreator() {
 		matrix = new ArrayList<ArrayList<Color>>();
@@ -31,15 +36,30 @@ public class MatrixCreator implements IMatrixCreator {
 		for(int i=0; i<width; i++) {
 			matrix.add(new ArrayList<Color>());
 			for(int j=0; j<height; j++) {
-				matrix.get(i).add(new Color(125,125,125));
+				matrix.get(i).add(new Color(200,200,200));
 			}
 		}
 	}
 
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
 		matrix.get(y).set(x,new Color(r,g,b));
-		System.out.println("x,y setPixel "+x +" "+y);
 	}
+	
+	public void setScanPixelinMatrix(int x, int y) {
+		blue = matrix.get(y).get(x).getBlue();
+		green = matrix.get(y).get(x).getGreen();
+		red = matrix.get(y).get(x).getRed();
+		
+	}
+	
+	public void setNewPosition(Position pos) {
+		
+	}
+	
+	public void resetMatrix() {
+		createMatrix();
+	}
+	
 	
 	
 	

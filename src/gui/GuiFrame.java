@@ -28,6 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import objectPos.Position;
+
 import filterData.DataContainer;
 import filterData.FilterData;
 
@@ -227,6 +229,7 @@ public class GuiFrame  extends JFrame {
 	
 
 	public static void main(String[] arg) throws InterruptedException {
+		Hashtable<String,Position> posList = new Hashtable<String,Position>();
 		
 		MatrixCreator mc = new MatrixCreator();
 		mc.createMatrix();
@@ -234,34 +237,41 @@ public class GuiFrame  extends JFrame {
 		GuiFrame gui =  new GuiFrame();
 		gui.setEmptyMatrix(mc.getCreatedMatrix());
 		
-		ConnectionServer cs = null;
+		ConnectionServer cs = null;	
 		cs = new ConnectionServer(); 
 		Thread tcpServerThread = new Thread(cs);
 		gui.setTCPServerThread(tcpServerThread);
 		
 		FilterData filterData = new FilterData();
+		Position pos;
 	 	DataContainer infos;
+	 	
 		while(true) {
-			
-			filterData.setInput(cs.getMessage());
 			if(cs.getMessage() != null) {
 				System.out.println("getMessage "+cs.getMessage());
-				filterData.filterData();
 				infos = filterData.getParsedInfos();
-				System.out.println("yeah size "+ infos.getName()+" message "+cs.getMessage());
+				filterData.filterInputData(cs.getMessage());
+				
+				if(!posList.isEmpty() && posList.containsKey(infos.getName())) {
+					pos = posList.get(infos.getName());
+					System.out.println("name "+posList.get(infos.getName()).getName());
+				}else {
+					pos = new Position();
+					pos.setName(infos.getName());
+					pos.setX(infos.getPos()[0]);
+					pos.setY(infos.getPos()[1]);
+					posList.put(infos.getName(), pos);
+				}
+				
+				mc.setNewPosition(pos);
+				
+//				System.out.println("yeah size "+ infos.getName()+" message "+cs.getMessage());
 				mc.setPixelinMatrix(infos.getPos()[0], infos.getPos()[1], 0, 255, 0);
 				gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				gui.repaintMatrixJPanel();
 			}
-		    
-		    
-			
-				 
-			
-			
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 		}
-		
 				
 	}
 	

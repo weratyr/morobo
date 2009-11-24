@@ -16,7 +16,7 @@ public class FilterData {
 		return parserXml.getDatenContainer();
 	}
 	
-	public void filterData() {
+	public void filterInputData(String input) {
 		parserXml.xmlstinsubstr(input);
 	}
 	
