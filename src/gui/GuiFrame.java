@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -25,6 +27,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
@@ -53,6 +56,9 @@ public class GuiFrame  extends JFrame {
 	private int matrixScrollX;
 	private int matrixScrollY;
 	private Thread tcpServerThread;
+	private Hashtable<String,Position> posObjectListe;
+	private JPanel activeObjectTable;
+	private JPanel activObjectsContainer;
 	
 	public GuiFrame() {
 		super();
@@ -75,7 +81,6 @@ public class GuiFrame  extends JFrame {
 		setJMenuBar(menu);
 		setSize(550, 400);
 		
-		
 		mapPanel = new JPanel(){
 			public void paintComponent(Graphics g) {
 				super.paintComponents(g);
@@ -96,13 +101,14 @@ public class GuiFrame  extends JFrame {
 	    Border raisedbevel = BorderFactory.createRaisedBevelBorder();
 	    mapPanel.setPreferredSize(new Dimension(450,300));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
-		JPanel activObjectsContainer = new JPanel();
-
+		activObjectsContainer = new JPanel();
 		activObjectsContainer.setBorder(BorderFactory.createTitledBorder(loweredbevel,"Aktive Objekte"));
-		activObjectsContainer.add(new Label("aktives Objekt in der Karte"));
+		activeObjectTable = new JPanel();
+		activeObjectTable.setPreferredSize(new Dimension(480,40));
+		activObjectsContainer.add(activeObjectTable);
+		
 		
 		JPanel southContainer = new JPanel();
-		southContainer.setLayout(new GridLayout(2,2));
 		southContainer.add(activObjectsContainer);
 		
 		JPanel westContainer = new JPanel();
@@ -197,6 +203,22 @@ public class GuiFrame  extends JFrame {
 		//pack();
 		
 	}
+	public void setAktiveObject(String key) {
+		
+		activeObjectTable.removeAll();
+		for(Entry<String, Position> entry : posObjectListe.entrySet()) {
+			Label object = new Label( entry.getKey() );
+			if(key.equals(entry.getKey())) {
+				object.setForeground(Color.green);
+			}
+			activeObjectTable.add(object);
+			activeObjectTable.doLayout();
+		}
+	}
+	
+	public void setCurrentObjectHashtable(Hashtable<String,Position> posList) {
+		this.posObjectListe = posList;
+	}
 	
 	public void repaintMatrixJPanel() {;
 		mapPanel.repaint();
@@ -254,17 +276,20 @@ public class GuiFrame  extends JFrame {
 				
 				if(!posList.isEmpty() && posList.containsKey(infos.getName())) {
 					pos = posList.get(infos.getName());
-					System.out.println("name "+posList.get(infos.getName()).getName());
+					
+				//	System.out.println("name "+posList.get(infos.getName()).getName());
 				}else {
 					pos = new Position();
 					pos.setName(infos.getName());
 					pos.setX(infos.getPos()[0]);
 					pos.setY(infos.getPos()[1]);
+					posList.put("test", new Position());
 					posList.put(infos.getName(), pos);
 				}
+				gui.setCurrentObjectHashtable(posList);
+				gui.setAktiveObject(pos.getName());
 				
 				mc.setNewPosition(pos);
-				
 //				System.out.println("yeah size "+ infos.getName()+" message "+cs.getMessage());
 				mc.setPixelinMatrix(infos.getPos()[0], infos.getPos()[1], 0, 255, 0);
 				gui.setUpdatedMatrix(mc.getCreatedMatrix());

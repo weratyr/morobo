@@ -27,6 +27,10 @@ public class ConnectionServer implements Runnable {
 																// Nachricht
 																// empfangen
 		message = new String(buffer, 0, numberOfChar);
+		System.out.println(numberOfChar);
+		if(numberOfChar==0) {
+			message = null;
+		}
 		//System.out.println("readMessage " + message);
 		socket.close();
 		
