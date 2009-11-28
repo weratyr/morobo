@@ -90,7 +90,7 @@ public class GuiFrame  extends JFrame {
 //						System.out.println(matrix.size() + "i ist " + i + " innere size "+ matrix.get(i).size()+" j ist "+j);
 //						System.out.println("matrix farbe "+ matrix.get(i).get(j).getGreen());
 						 g.setColor(matrix.get(i+matrixScrollX).get(j+matrixScrollY));
-						 g.fillRect(i*scaleZoom, j*scaleZoom, 4, 4);
+						 g.fillRect(i*scaleZoom, j*scaleZoom, 6, 6);
 					}
 				}
 			}
@@ -210,10 +210,13 @@ public class GuiFrame  extends JFrame {
 			Label object = new Label( entry.getKey() );
 			if(key.equals(entry.getKey())) {
 				object.setForeground(Color.green);
+			} else {
+				object.setForeground(Color.black);
 			}
+			
 			activeObjectTable.add(object);
-			activeObjectTable.doLayout();
 		}
+		activeObjectTable.doLayout();
 	}
 	
 	public void setCurrentObjectHashtable(Hashtable<String,Position> posList) {
@@ -275,8 +278,7 @@ public class GuiFrame  extends JFrame {
 				filterData.filterInputData(cs.getMessage());
 				
 				if(!posList.isEmpty() && posList.containsKey(infos.getName())) {
-					pos = posList.get(infos.getName());
-					
+					pos = posList.get(infos.getName());		
 				//	System.out.println("name "+posList.get(infos.getName()).getName());
 				}else {
 					pos = new Position();
@@ -294,6 +296,9 @@ public class GuiFrame  extends JFrame {
 				mc.setPixelinMatrix(infos.getPos()[0], infos.getPos()[1], 0, 255, 0);
 				gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				gui.repaintMatrixJPanel();
+			}else {
+				gui.setCurrentObjectHashtable(posList);
+				gui.setAktiveObject(new String("keins"));
 			}
 			Thread.sleep(2000);
 		}

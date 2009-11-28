@@ -27,11 +27,6 @@ public class ConnectionServer implements Runnable {
 																// Nachricht
 																// empfangen
 		message = new String(buffer, 0, numberOfChar);
-		System.out.println(numberOfChar);
-		if(numberOfChar==0) {
-			message = null;
-		}
-		//System.out.println("readMessage " + message);
 		socket.close();
 		
 	}
@@ -58,11 +53,13 @@ public class ConnectionServer implements Runnable {
 			while (true) {
 				waitForConnection(serverSocket);
 				readMessage(client);
+				System.out.println("run tcp server");
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				message = null;
 			}
 
 		} catch (IOException e) {
