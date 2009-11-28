@@ -18,7 +18,7 @@ public class MatrixCreator implements IMatrixCreator {
 
 	public MatrixCreator() {
 		matrix = new ArrayList<ArrayList<Color>>();
-		matrix.add(new ArrayList<Color>());
+		// matrix.add(new ArrayList<Color>());
 	}
 
 	public void updateMatrix() {
@@ -32,8 +32,9 @@ public class MatrixCreator implements IMatrixCreator {
 				matrix.get(i).add(new Color(defaultColor, defaultColor, defaultColor));
 			}
 		}
+		setPixelinMatrix(0, 1, 255, 0, 0);
 	}
-	
+
 	public void resetMatrix() {
 		matrix.clear();
 		for (int i = 0; i < width; i++) {
@@ -43,34 +44,50 @@ public class MatrixCreator implements IMatrixCreator {
 			}
 		}
 	}
-	
+
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
-		matrix.get(y).set(x, new Color(r, g, b));
-	}
-
-	public void setScanPixelinMatrix(int x, int y) {
-		blue = matrix.get(y).get(x).getBlue();
-		green = matrix.get(y).get(x).getGreen();
-		red = matrix.get(y).get(x).getRed();
-
+		matrix.get(x).set(y, new Color(r, g, b));
 	}
 
 	public void setNewPosition(Object obj) {
-
 		if (obj.getOldPosition() == null) {
-			setPixelinMatrix(obj.getPosition().getX(), obj.getPosition().getY(), 0,0,obj.getColor());
+			setPixelinMatrix(obj.getPosition().getX(), obj.getPosition().getY(), 0, 0, obj.getColor());
 			obj.setOldPosition(obj.getPosition());
-			System.out.println("old pos is null");
+			// System.out.println("old pos is null");
 		} else {
 			// with delete old pos
-			System.out.println("old pos " + obj.getOldPosition().getX()+ " new pos"+ obj.getPosition().getX()+ " color "+ obj.getColor());
+			// System.out.println("old pos " + obj.getOldPosition().getX()+
+			// " new pos"+ obj.getPosition().getX()+ " color "+ obj.getColor());
 			setPixelinMatrix(obj.getPosition().getX(), obj.getPosition().getY(), 0, 0, obj.getColor());
 			setPixelinMatrix(obj.getOldPosition().getX(), obj.getOldPosition().getY(), defaultColor, defaultColor, defaultColor);
 			obj.setOldPosition(obj.getPosition());
 		}
-		
 	}
 
+	public void setColorFromScannedPixel(int x, int y) {
+		blue = matrix.get(x).get(y).getBlue();
+		green = matrix.get(x).get(y).getGreen();
+		red = matrix.get(x).get(y).getRed();
+	}
+
+	public void setScanData(ArrayList<int[]> data) {
+
+		System.out.println("data gro");
+		for (int i = 0; i < data.size(); i++) {
+			int x = data.get(i)[0];
+			int y = data.get(i)[1];
+			setColorFromScannedPixel(x, y);
+
+			if (blue < 250) {
+				blue += 10;
+				green += 10;
+				red += 10;
+			}
+			setPixelinMatrix(x, y, red, green, blue);
+			System.out.println("pixel scanned" + x + "," + y + "color" + blue + " size data" + data.size());
+		}
+		data.clear();
+	}
 
 	public ArrayList<ArrayList<Color>> getCreatedMatrix() {
 		return matrix;

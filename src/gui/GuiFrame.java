@@ -106,12 +106,12 @@ public class GuiFrame  extends JFrame {
 		
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 	    Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-	    mapPanel.setPreferredSize(new Dimension(450,300));
+	    mapPanel.setPreferredSize(new Dimension(450,310));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
 		activObjectsContainer = new JPanel();
 		activObjectsContainer.setBorder(BorderFactory.createTitledBorder(loweredbevel,"Aktive Objekte"));
 		activeObjectTable = new JPanel();
-		activeObjectTable.setPreferredSize(new Dimension(480,40));
+		activeObjectTable.setPreferredSize(new Dimension(400,40));
 		activObjectsContainer.add(activeObjectTable);
 		
 		
@@ -222,7 +222,6 @@ public class GuiFrame  extends JFrame {
 			} else {
 				object.setForeground(Color.black);
 			}
-			
 			activeObjectTable.add(object);
 		}
 		activeObjectTable.doLayout();
@@ -286,8 +285,6 @@ public class GuiFrame  extends JFrame {
 		Object object;
 	 	DataContainer infos;
 	 	
-	 	int counter = 0;
-	 	
 		while(true) {
 			if(cs.getMessage() != null) {
 				//System.out.println("getMessage "+cs.getMessage());
@@ -309,26 +306,20 @@ public class GuiFrame  extends JFrame {
 					object.setPosition(pos);
 					int color = 255;
 					for(Entry entry : objectList.entrySet()) {
-						color-=40;
+						color-=50;
 					}
 					object.setColor(color);
 					object.setName(infos.getName());
 					objectList.put(infos.getName(), object);
 				}
 				
-				if(counter==0) {
-					mc.setPixelinMatrix(10, 10, 0, 255, 0);
-				}
+				
 				gui.setCurrentObjectHashtable(objectList);
 				gui.setAktiveObject(object.getName());
 				mc.setNewPosition(object);
-				System.out.println("main pos change" +objectList.get("ketten").getPosition().getX());
-				System.out.println();
-//				System.out.println("yeah size "+ infos.getName()+" message "+cs.getMessage());
-				//mc.setPixelinMatrix(infos.getPos()[0], infos.getPos()[1], 0, 255, 0);
+				mc.setScanData(infos.getData());
 				gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				gui.repaintMatrixJPanel();
-				counter++;
 			}else { // in case nothing is recieving from clients
 				gui.setCurrentObjectHashtable(objectList);
 				gui.setAktiveObject(new String("nothing"));
