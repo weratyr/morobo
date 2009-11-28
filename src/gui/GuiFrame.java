@@ -1,18 +1,17 @@
 package gui;
 
+import filterData.DataContainer;
+import filterData.FilterData;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Label;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map.Entry;
@@ -26,21 +25,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 
-import objectPos.Position;
-
-import filterData.DataContainer;
-import filterData.FilterData;
-
-import socket.ConnectionServer;
-import sun.tools.jstat.Alignment;
-
-import map.Map;
 import matrix.MatrixCreator;
+import objectPos.Object;
+import objectPos.Position;
+import socket.ConnectionServer;
 
 public class GuiFrame  extends JFrame {
 	
@@ -56,7 +46,7 @@ public class GuiFrame  extends JFrame {
 	private int matrixScrollX;
 	private int matrixScrollY;
 	private Thread tcpServerThread;
-	private Hashtable<String,Position> posObjectListe;
+	private Hashtable<String,Object> posObjectListe;
 	private JPanel activeObjectTable;
 	private JPanel activObjectsContainer;
 	
@@ -75,8 +65,25 @@ public class GuiFrame  extends JFrame {
 		file.add(open);
 		menu.add(file);
 		
-		JMenu status = new JMenu("status");
-		menu.add(status);
+		JMenu functions = new JMenu("functions");
+		JMenuItem repaintMatrix = new JMenuItem("repaint map");
+		repaintMatrix.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				repaintMatrixJPanel();
+			}
+		});
+		functions.add(repaintMatrix);
+		JMenuItem resetMatrix = new JMenuItem("reset Matrix");
+		resetMatrix.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mc.resetMatrix();
+				matrix = mc.getCreatedMatrix();
+				repaintMatrixJPanel();
+			}
+			
+		});
+		functions.add(resetMatrix);
+		menu.add(functions);
 		
 		setJMenuBar(menu);
 		setSize(550, 400);
@@ -90,7 +97,7 @@ public class GuiFrame  extends JFrame {
 //						System.out.println(matrix.size() + "i ist " + i + " innere size "+ matrix.get(i).size()+" j ist "+j);
 //						System.out.println("matrix farbe "+ matrix.get(i).get(j).getGreen());
 						 g.setColor(matrix.get(i+matrixScrollX).get(j+matrixScrollY));
-						 g.fillRect(i*scaleZoom, j*scaleZoom, 6, 6);
+						 g.fillRect(i*scaleZoom, j*scaleZoom, scaleZoom, scaleZoom);
 					}
 				}
 			}
@@ -203,10 +210,12 @@ public class GuiFrame  extends JFrame {
 		//pack();
 		
 	}
+	
+	
 	public void setAktiveObject(String key) {
 		
 		activeObjectTable.removeAll();
-		for(Entry<String, Position> entry : posObjectListe.entrySet()) {
+		for(Entry<String, Object> entry : posObjectListe.entrySet()) {
 			Label object = new Label( entry.getKey() );
 			if(key.equals(entry.getKey())) {
 				object.setForeground(Color.green);
@@ -219,7 +228,7 @@ public class GuiFrame  extends JFrame {
 		activeObjectTable.doLayout();
 	}
 	
-	public void setCurrentObjectHashtable(Hashtable<String,Position> posList) {
+	public void setCurrentObjectHashtable(Hashtable<String,Object> posList) {
 		this.posObjectListe = posList;
 	}
 	
@@ -234,6 +243,9 @@ public class GuiFrame  extends JFrame {
 	
 	public void setEmptyMatrix(ArrayList<ArrayList<Color>> matrix) {
 		this.matrix = matrix;
+	}
+	public void setMatrixObject(MatrixCreator mc) {
+		this.mc = mc;
 	}
 	
 	public void startTCPServer() {
@@ -253,54 +265,75 @@ public class GuiFrame  extends JFrame {
 	}
 	
 
+	
 	public static void main(String[] arg) throws InterruptedException {
-		Hashtable<String,Position> posList = new Hashtable<String,Position>();
+		int sleepThread = 1000;
+		Hashtable<String,Object> objectList = new Hashtable<String,Object>();
 		
 		MatrixCreator mc = new MatrixCreator();
 		mc.createMatrix();
 		
 		GuiFrame gui =  new GuiFrame();
 		gui.setEmptyMatrix(mc.getCreatedMatrix());
+		gui.setMatrixObject(mc);
 		
 		ConnectionServer cs = null;	
-		cs = new ConnectionServer(); 
+		cs = new ConnectionServer(sleepThread); 
 		Thread tcpServerThread = new Thread(cs);
 		gui.setTCPServerThread(tcpServerThread);
 		
 		FilterData filterData = new FilterData();
-		Position pos;
+		Object object;
 	 	DataContainer infos;
+	 	
+	 	int counter = 0;
 	 	
 		while(true) {
 			if(cs.getMessage() != null) {
-				System.out.println("getMessage "+cs.getMessage());
+				//System.out.println("getMessage "+cs.getMessage());
 				infos = filterData.getParsedInfos();
 				filterData.filterInputData(cs.getMessage());
 				
-				if(!posList.isEmpty() && posList.containsKey(infos.getName())) {
-					pos = posList.get(infos.getName());		
-				//	System.out.println("name "+posList.get(infos.getName()).getName());
-				}else {
-					pos = new Position();
-					pos.setName(infos.getName());
+				if(!objectList.isEmpty() && objectList.containsKey(infos.getName())) {
+					object = objectList.get(infos.getName());		
+					Position pos = new Position();
 					pos.setX(infos.getPos()[0]);
 					pos.setY(infos.getPos()[1]);
-					posList.put("test", new Position());
-					posList.put(infos.getName(), pos);
+					object.setPosition(pos);
+					System.out.println("if conatins main pos "+ pos.getX());
+				}else {
+					object = new Object();
+					Position pos = new Position();
+					pos.setX(infos.getPos()[0]);
+					pos.setY(infos.getPos()[1]);
+					object.setPosition(pos);
+					int color = 255;
+					for(Entry entry : objectList.entrySet()) {
+						color-=40;
+					}
+					object.setColor(color);
+					object.setName(infos.getName());
+					objectList.put(infos.getName(), object);
 				}
-				gui.setCurrentObjectHashtable(posList);
-				gui.setAktiveObject(pos.getName());
 				
-				mc.setNewPosition(pos);
+				if(counter==0) {
+					mc.setPixelinMatrix(10, 10, 0, 255, 0);
+				}
+				gui.setCurrentObjectHashtable(objectList);
+				gui.setAktiveObject(object.getName());
+				mc.setNewPosition(object);
+				System.out.println("main pos change" +objectList.get("ketten").getPosition().getX());
+				System.out.println();
 //				System.out.println("yeah size "+ infos.getName()+" message "+cs.getMessage());
-				mc.setPixelinMatrix(infos.getPos()[0], infos.getPos()[1], 0, 255, 0);
+				//mc.setPixelinMatrix(infos.getPos()[0], infos.getPos()[1], 0, 255, 0);
 				gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				gui.repaintMatrixJPanel();
-			}else {
-				gui.setCurrentObjectHashtable(posList);
-				gui.setAktiveObject(new String("keins"));
+				counter++;
+			}else { // in case nothing is recieving from clients
+				gui.setCurrentObjectHashtable(objectList);
+				gui.setAktiveObject(new String("nothing"));
 			}
-			Thread.sleep(2000);
+			Thread.sleep(sleepThread);
 		}
 				
 	}

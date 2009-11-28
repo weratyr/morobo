@@ -15,8 +15,10 @@ public class ConnectionServer implements Runnable {
 	private Hashtable<Integer, Socket> ht;
 	private Socket client;
 	private String message;
+	private int sleepThread;
 
-	public ConnectionServer() {
+	public ConnectionServer(int sleepThread) {
+		this.sleepThread = sleepThread;
 		ht = new Hashtable<Integer, Socket>();
 	}
 
@@ -55,7 +57,7 @@ public class ConnectionServer implements Runnable {
 				readMessage(client);
 				System.out.println("run tcp server");
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(sleepThread);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
