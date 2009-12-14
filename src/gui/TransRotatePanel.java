@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-
 import javax.swing.*;
 
 public class TransRotatePanel extends JPanel {
@@ -21,6 +20,11 @@ public class TransRotatePanel extends JPanel {
 			currentAngle = 0;
 		}
 		repaint();
+	}
+	
+	public void rotate(int x, int y) {
+		//funktion für den Winkel. 
+		// der Winkel müsste via x, y (z.B. 1cm, 3cm) ermittelt werden
 	}
 
 	public void reset() {
@@ -46,7 +50,6 @@ public class TransRotatePanel extends JPanel {
 		int y = (getHeight() - image.getHeight(this)) / 2;
 		g2d.setComposite(alphaComp);
 		g2d.drawImage(image, x, y, image.getWidth(this), image.getHeight(this), this);
-//		g2d.drawImage(image, this.getWidth(), this.getHeight(), this);
 		g2d.setTransform(origXform);
 		g2d.setComposite(oldComp);
 		

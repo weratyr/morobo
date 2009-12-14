@@ -55,7 +55,8 @@ public class GuiFrame extends JFrame {
 	private Hashtable<String, Object> posObjectListe;
 	private JPanel activeObjectTable;
 	private JPanel activObjectsContainer;
-	private final TransRotatePanel tp;
+	private final TransRotatePanel transparentRotateJP;
+	private JMenuBar menu;
 
 	public GuiFrame() {
 		super();
@@ -65,46 +66,7 @@ public class GuiFrame extends JFrame {
 		setVisible(true);
 		setTitle("Spawn a map");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JMenuBar menu = new JMenuBar();
-
-		JMenu file = new JMenu("file");
-		JMenuItem open = new JMenuItem("open");
-		file.add(open);
-		menu.add(file);
-
-		JMenu functions = new JMenu("functions");
-		JMenuItem repaintMatrix = new JMenuItem("repaint map");
-		repaintMatrix.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				repaintMatrixJPanel();
-			}
-		});
-		functions.add(repaintMatrix);
-		JMenuItem resetMatrix = new JMenuItem("reset Matrix");
-		resetMatrix.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mc.resetMatrix();
-				matrix = mc.getCreatedMatrix();
-				posObjectListe.clear();
-				repaintMatrixJPanel();
-				activeObjectTable.repaint();
-			}
-
-		});
-		functions.add(resetMatrix);
-		JMenuItem resetRotatedImage = new JMenuItem("reset direction cross");
-		resetRotatedImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tp.reset();
-			}
-
-		});
-		functions.add(resetRotatedImage);
-		
-		menu.add(functions);
-
-		setJMenuBar(menu);
-		setSize(500, 480);
+		setJMenuBar(generateMenu());
 
 		mapPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -117,23 +79,19 @@ public class GuiFrame extends JFrame {
 					}
 				}
 			}
-//			public void setPreferredSize(Dimension d) {
-//				new Dimension(d);
-//			}
 		};
 
-		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraints mapCenterConstraint = new GridBagConstraints();
 
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		mapPanel.setSize(new Dimension(300,300));
 		mapPanel.setPreferredSize(new Dimension(200,200));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
-		c.fill = GridBagConstraints.CENTER;
-		
-		tp = new TransRotatePanel();
-		tp.setLayout(new GridBagLayout());
-		tp.add(mapPanel,c);
+		mapCenterConstraint.fill = GridBagConstraints.CENTER;
+		transparentRotateJP = new TransRotatePanel();
+		transparentRotateJP.setPreferredSize(new Dimension(300,300));
+		transparentRotateJP.setLayout(new GridBagLayout());
+		transparentRotateJP.add(mapPanel,mapCenterConstraint);
 		
 		activObjectsContainer = new JPanel();
 		activObjectsContainer.setBorder(BorderFactory.createTitledBorder(loweredbevel, "Aktive Objekte"));
@@ -229,25 +187,66 @@ public class GuiFrame extends JFrame {
 		JButton rotate = new JButton("rotate 10 degree");
 		rotate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tp.rotate();
+				transparentRotateJP.rotate();
 			}
 
 		});
 		buttonContainer.add(rotate);
 		
 		westContainer.add(buttonContainer);
-		westContainer.doLayout();
 		
-	
+		setLayout(new BorderLayout());
 		Container cp = getContentPane();
-		cp.add(new JLabel(), BorderLayout.NORTH);
 		cp.add(southContainer, BorderLayout.SOUTH);
-		cp.add(tp, BorderLayout.CENTER);
+		cp.add(transparentRotateJP, BorderLayout.CENTER);
 		cp.add(westContainer, BorderLayout.WEST);
-		cp.doLayout();
-		// pack();
+		pack();
 
 	}
+	
+	
+	public JMenuBar generateMenu() {
+		menu = new JMenuBar();
+
+		JMenu file = new JMenu("file");
+		JMenuItem open = new JMenuItem("open");
+		file.add(open);
+		menu.add(file);
+
+		JMenu functions = new JMenu("functions");
+		JMenuItem repaintMatrix = new JMenuItem("repaint map");
+		repaintMatrix.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				repaintMatrixJPanel();
+			}
+		});
+		functions.add(repaintMatrix);
+		JMenuItem resetMatrix = new JMenuItem("reset Matrix");
+		resetMatrix.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mc.resetMatrix();
+				matrix = mc.getCreatedMatrix();
+				posObjectListe.clear();
+				repaintMatrixJPanel();
+				activeObjectTable.repaint();
+			}
+
+		});
+		functions.add(resetMatrix);
+		JMenuItem resetRotatedImage = new JMenuItem("reset direction cross");
+		resetRotatedImage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				transparentRotateJP.reset();
+			}
+
+		});
+		functions.add(resetRotatedImage);
+		menu.add(functions);
+		
+		return menu;
+	}
+	
+	
 
 	public void setAktiveObject(String key) {
 
