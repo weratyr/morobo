@@ -11,8 +11,8 @@ import objectPos.Position;
 public class MatrixCreator implements IMatrixCreator
 	{
 		private FilterData fd;
-		private static final int MAX_BLUE = 250;
-		private static final int MIN_BLUE = 0;
+		private static final int MAX_BLUE = 240;
+		private static final int MIN_BLUE = 10;
 
 		private int height = 150;
 		private int width = 150;
@@ -27,12 +27,12 @@ public class MatrixCreator implements IMatrixCreator
 				matrix = new ArrayList<ArrayList<Color>>();
 				// matrix.add(new ArrayList<Color>());
 			}
+
 		public void setfilterData(FilterData fd)
 			{
-				this.fd=fd;
+				this.fd = fd;
 			}
 
-	
 		public void createMatrix()
 			{
 				for (int i = 0; i < width; i++)
@@ -93,7 +93,7 @@ public class MatrixCreator implements IMatrixCreator
 						int y = data.get(i)[1];
 						setColorFromScannedPixel(x, y);
 
-						if (blue <  MAX_BLUE)
+						if (blue < MAX_BLUE)
 							{
 								blue += 10;
 								green += 10;
@@ -112,93 +112,112 @@ public class MatrixCreator implements IMatrixCreator
 				return matrix;
 			}
 
-		public void drawLine(Position position, Position mypos)// in verŠnderter Form von http://www-lehre.informatik.uni-osnabrueck.de
-		 {														// Jacks Algorithmus ist schneller als Geradengleichung
+		public void drawLine(Position position, Position mypos)// in verŠnderter
+																// Form von
+																// http://www-lehre.informatik.uni-osnabrueck.de
+			{ // Jacks Algorithmus ist schneller als Geradengleichung
 				int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
 
 				x = 0; // 
 				y = 0; // As i am center
 
 				dx = position.getX() - x;
-				dy = position.getY() - y; 									// Hoehenzuwachs
-																			// Schrittweite
+				dy = position.getY() - y; // Hoehenzuwachs
+				// Schrittweite
 
-				if (dx > 0) 												// Linie nach rechts?
-					inc_x = 1;												// x inkrementieren
+				if (dx > 0) // Linie nach rechts?
+					inc_x = 1; // x inkrementieren
 				else
-																			// Linie nach links
-					inc_x = -1; 											// x dekrementieren
+					// Linie nach links
+					inc_x = -1; // x dekrementieren
 
-				if (dy > 0) 												// Linie nach unten?
-					inc_y = 1; 												// y inkrementieren
+				if (dy > 0) // Linie nach unten?
+					inc_y = 1; // y inkrementieren
 				else
-																			// Linie nach oben
-					inc_y = -1; 											// y dekrementieren
+					// Linie nach oben
+					inc_y = -1; // y dekrementieren
 
 				if (Math.abs(dy) < Math.abs(dx))
-					{ 														// flach nach oben oder unten
-						error = -Math.abs(dx); 								// Fehler bestimmen
-						delta = 2 * Math.abs(dy); 							// Delta bestimmen
-						schritt = 2 * error; 								// Schwelle bestimmen
+					{ // flach nach oben oder unten
+						error = -Math.abs(dx); // Fehler bestimmen
+						delta = 2 * Math.abs(dy); // Delta bestimmen
+						schritt = 2 * error; // Schwelle bestimmen
 						while (x != position.getX())
-							{ 												// Fuer jede x-Koordinate
-								decPix(x + mypos.getX(), y + mypos.getY()); // setze
-																			// Pixel
-								x += inc_x; 								// naechste x-Koordinate
-								error = error + delta; 						// Fehler aktualisieren
+							{
+								if ((mypos.getX() != x && mypos.getY() != y))
+									{
+										incPix(x + mypos.getX(), y + mypos.getY()); // Fuer
+																					// jede
+																					// x-Koordinate
+									}
+								// Pixel
+								x += inc_x; // naechste x-Koordinate
+								error = error + delta; // Fehler aktualisieren
 								if (error > 0)
-									{ 										// neue Spalte erreicht?
-										y += inc_y; 						// y-Koord. aktualisieren
-										error += schritt; 					// Fehler
-																			// aktualisieren
+									{ // neue Spalte erreicht?
+										y += inc_y; // y-Koord. aktualisieren
+										error += schritt; // Fehler
+										// aktualisieren
 									}
 							}
 					} else
-					{ 														// steil nach oben oder unten
-						error = -Math.abs(dy); 								// Fehler bestimmen
-						delta = 2 * Math.abs(dx); 							// Delta bestimmen
-						schritt = 2 * error; 								// Schwelle bestimmen
+					{ // steil nach oben oder unten
+						error = -Math.abs(dy); // Fehler bestimmen
+						delta = 2 * Math.abs(dx); // Delta bestimmen
+						schritt = 2 * error; // Schwelle bestimmen
 						while (y != position.getY())
-							{ 												// fuer jede y-Koordinate
-								decPix(x + mypos.getX(), y + mypos.getY()); // setze
-																			// Pixel
-								y += inc_y; 								// naechste y-Koordinate
-								error = error + delta; 						// Fehler aktualisieren
+							{
+								if ((mypos.getX() != x && mypos.getY() != y))
+									{// fuer jede y-Koordinate
+										incPix(x + mypos.getX(), y + mypos.getY());
+									}// setze
+								// Pixel
+								y += inc_y; // naechste y-Koordinate
+								error = error + delta; // Fehler aktualisieren
 								if (error > 0)
-									{ 										// neue Zeile erreicht?
-										x += inc_x; 						// x-Koord. aktualisieren
-										error += schritt; 					// Fehler
-																			// aktualisieren
+									{ // neue Zeile erreicht?
+										x += inc_x; // x-Koord. aktualisieren
+										error += schritt; // Fehler
+										// aktualisieren
 									}
 							}
 					}
-				incPix(position.getX() + mypos.getX(), position.getY() + mypos.getY()); 
-			} 																
+				if ((position.getX() != mypos.getX() && position.getY() != position.getY()))
+					{
+						decPix(position.getX() + mypos.getX(), position.getY() + mypos.getY());
+					}
+			}
 
 		public void decPix(int x, int y)
 			{
-				if (matrix.get(x).get(y).getBlue() < MAX_BLUE)
-					setPixelinMatrix(x, y, matrix.get(x).get(y).getBlue() - 10, matrix.get(x).get(y).getGreen() - 10, matrix.get(x).get(y).getBlue() - 10);
+				if (matrix.get(x).get(y).getBlue() > MIN_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
+					System.out.println("dec"+matrix.get(x).get(y).getGreen());
+					setPixelinMatrix(x, y, (matrix.get(x).get(y).getBlue() - 10), (matrix.get(x).get(y).getGreen() - 10), (matrix.get(x).get(y).getBlue() - 10));
+					
+				}
 			}
 
 		public void incPix(int x, int y)
 			{
-				if (matrix.get(x).get(y).getBlue() > MIN_BLUE)
+				if (matrix.get(x).get(y).getBlue() < MAX_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
+					System.out.println("inc"+matrix.get(x).get(y).getGreen());
 					setPixelinMatrix(x, y, matrix.get(x).get(y).getBlue() + 10, matrix.get(x).get(y).getGreen() + 10, matrix.get(x).get(y).getBlue() + 10);
+				}
 			}
 
 		public void updateMatrix()
 			{
-				int i = 0;
+
 				int[] actPos;
 				ArrayList<int[]> vectorHead;
-				Position myPos = null;
-				Position zielPos = null;
+				Position myPos = new Position();
+				Position zielPos = new Position();
 				actPos = fd.getParsedInfos().getPos();
+				System.out.println("Name:" + fd.getParsedInfos().getName());
 				vectorHead = fd.getParsedInfos().getData();
 				if (actPos.length > 0 && !vectorHead.isEmpty())
 					{
-						while (fd.getParsedInfos().getData() != null)
+						for (int i = 0; i < vectorHead.size(); i++)
 							{
 								actPos = fd.getParsedInfos().getPos();
 								vectorHead = fd.getParsedInfos().getData();

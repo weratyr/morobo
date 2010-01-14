@@ -327,7 +327,7 @@ public class GuiFrame extends JFrame {
 		DataContainer infos;
 
 		while (true) {
-			if (cs.getMessage() != null) {
+			if (cs.getMessage() != null) {      // <==== hier kommt noch was an,
 				// System.out.println("getMessage "+cs.getMessage());
 				infos = filterData.getParsedInfos();
 				filterData.filterInputData(cs.getMessage());

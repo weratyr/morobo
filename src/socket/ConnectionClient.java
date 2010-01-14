@@ -13,7 +13,7 @@ public class ConnectionClient {
 		int port = 1111;
 		//String zuSendendeNachricht = "<map><info><pos>5,15</pos><direction>3,6</direction><data>8,7</data><data>10,5</data><data>23,4</data><data>4,3</data></info></map>";
 		int i=0;
-		while ( i < 5) {
+		while ( i < 25) {
 			Socket socket = new Socket(ip, port); // verbindet sich mit Server
 			String zuSendendeNachricht = "<map><name>ich</name><pos>"+(8+i)+","+((i*2)+2)+"</pos><direction>3,6</direction><data>1,"+i+"</data>" +
 
