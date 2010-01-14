@@ -1,5 +1,9 @@
 package matrix;
 
+
+/**
+ * Interface der Klasse MatrixCreator
+ */
 import java.awt.Color;
 import java.util.ArrayList;
 

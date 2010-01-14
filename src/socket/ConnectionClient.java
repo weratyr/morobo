@@ -16,6 +16,7 @@ public class ConnectionClient {
 		while ( i < 5) {
 			Socket socket = new Socket(ip, port); // verbindet sich mit Server
 			String zuSendendeNachricht = "<map><name>ich</name><pos>"+(8+i)+","+((i*2)+2)+"</pos><direction>3,6</direction><data>1,"+i+"</data>" +
+
 					"<data>10,5</data><data>23,4</data><data>"+i+",3</data></map>"; // direction sind cm daraus ergibt sich der alpha
 			schreibeNachricht(socket, zuSendendeNachricht);
 			System.out.println("print i "+i);

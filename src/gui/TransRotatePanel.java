@@ -7,7 +7,7 @@ import javax.swing.*;
 public class TransRotatePanel extends JPanel {
 
 	private Image image;
-	private int currentAngle = 0;
+	private double currentAngle = 0;
 	
 	public TransRotatePanel() {
 		this.image = new ImageIcon("src/gui/fadenkreuz1.gif").getImage();
@@ -22,9 +22,16 @@ public class TransRotatePanel extends JPanel {
 		repaint();
 	}
 	
-	public void rotate(int x, int y) {
-		//funktion für den Winkel. 
-		// der Winkel müsste via x, y (z.B. 1cm, 3cm) ermittelt werden
+	public void rotate(int l, int r) {
+		double deltaAlphaRad;
+		double wheelWidth = 18;
+		deltaAlphaRad = (l - r) / wheelWidth;
+		System.out.println("neuer Winkel: "+(deltaAlphaRad*180)/Math.PI);
+		if(deltaAlphaRad < 0) {
+			deltaAlphaRad *= -1;
+		}
+		currentAngle += (deltaAlphaRad*180)/Math.PI;
+		repaint();
 	}
 
 	public void reset() {

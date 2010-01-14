@@ -204,6 +204,12 @@ public class GuiFrame extends JFrame {
 
 	}
 	
+	public void updateTransparentRotateJP(DataContainer infos) {
+		int[] leftRightWheel = infos.getDirection();
+		transparentRotateJP.rotate(leftRightWheel[0], leftRightWheel[1]);
+		System.out.println("rotate"+leftRightWheel[0]);
+	}
+	
 	
 	public JMenuBar generateMenu() {
 		menu = new JMenuBar();
@@ -346,6 +352,7 @@ public class GuiFrame extends JFrame {
 					object.setColor(color);
 					object.setName(infos.getName());
 					objectList.put(infos.getName(), object);
+					gui.updateTransparentRotateJP(infos);
 				}
 
 				gui.setCurrentObjectHashtable(objectList);
