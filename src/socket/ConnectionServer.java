@@ -28,6 +28,7 @@ public class ConnectionServer implements Runnable {
 		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert bis
 																// Nachricht
 																// empfangen
+		// if( numberOfChar== der Ÿbergebenen LŠnge)
 		message = new String(buffer, 0, numberOfChar);
 		socket.close();
 		

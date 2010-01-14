@@ -316,6 +316,7 @@ public class GuiFrame extends JFrame {
 		gui.setTCPServerThread(tcpServerThread);
 
 		FilterData filterData = new FilterData();
+		mc.setfilterData(filterData);
 		Object object;
 		DataContainer infos;
 
