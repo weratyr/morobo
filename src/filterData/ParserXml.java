@@ -21,6 +21,7 @@ public class ParserXml {
 		xmlData.put("name", 4);
 		xmlData.put("info", 5);
 		xmlData.put("map", 6);
+		xmlData.put("length", 7);
 	}
 	
 	public void xmlstinsubstr(String xmlstring) {
