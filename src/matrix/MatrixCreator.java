@@ -69,7 +69,9 @@ public class MatrixCreator implements IMatrixCreator
 					{
 						setPixelinMatrix(obj.getPosition().getX(), obj.getPosition().getY(), 0, 0, obj.getColor());
 						obj.setOldPosition(obj.getPosition());
-					} else
+					} else if (obj.getOldPosition().getX() == obj.getPosition().getX() && obj.getOldPosition().getY() == obj.getPosition().getY() ) {
+						
+					}else
 					{
 						// with delete old pos
 						setPixelinMatrix(obj.getPosition().getX(), obj.getPosition().getY(), 0, 0, obj.getColor());
@@ -102,8 +104,9 @@ public class MatrixCreator implements IMatrixCreator
 						setPixelinMatrix(x, y, red, green, blue);
 						// System.out.println("pixel scanned" + x + "," + y +
 						// "color" + blue + " size data" + data.size());
+						updateMatrix();
+						System.out.println("x,y "+ x+","+y);
 					}
-				//updateMatrix();
 				data.clear();
 			}
 
@@ -112,17 +115,20 @@ public class MatrixCreator implements IMatrixCreator
 				return matrix;
 			}
 
-		public void drawLine(Position position, Position mypos)// in verŠnderter
+		public void drawLine(Position scanPos, Position mypos)// in verŠnderter
 																// Form von
 																// http://www-lehre.informatik.uni-osnabrueck.de
-			{ // Jacks Algorithmus ist schneller als Geradengleichung
+			{
+				System.out.println("Scan pos: " + scanPos.getX()+","+scanPos.getY() + " MyPos: " + mypos.getX() + "," + mypos.getY());
+				//directionvector(scanPos);
+				// Jacks Algorithmus ist schneller als Geradengleichung
 				int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
 
-				x = 0; // 
-				y = 0; // As i am center
+				x = mypos.getX(); // 
+				y = mypos.getY(); // As i am center
 
-				dx = position.getX() - x;
-				dy = position.getY() - y; // Hoehenzuwachs
+				dx = scanPos.getX() - x;
+				dy = scanPos.getY() - y; // Hoehenzuwachs
 				// Schrittweite
 
 				if (dx > 0) // Linie nach rechts?
@@ -131,10 +137,10 @@ public class MatrixCreator implements IMatrixCreator
 					// Linie nach links
 					inc_x = -1; // x dekrementieren
 
-				if (dy > 0) // Linie nach unten?
+				if (dy > 0) // Linie nach oben ?
 					inc_y = 1; // y inkrementieren
 				else
-					// Linie nach oben
+					// Linie nach unten
 					inc_y = -1; // y dekrementieren
 
 				if (Math.abs(dy) < Math.abs(dx))
@@ -142,13 +148,14 @@ public class MatrixCreator implements IMatrixCreator
 						error = -Math.abs(dx); // Fehler bestimmen
 						delta = 2 * Math.abs(dy); // Delta bestimmen
 						schritt = 2 * error; // Schwelle bestimmen
-						while (x != position.getX())
+						while (x != scanPos.getX())
 							{
-								if ((mypos.getX() != x && mypos.getY() != y))
+								if (x != mypos.getX())
 									{
 										incPix(x + mypos.getX(), y + mypos.getY()); // Fuer
 																					// jede
 																					// x-Koordinate
+										System.out.println("inc pos "+ (x + mypos.getX()));
 									}
 								// Pixel
 								x += inc_x; // naechste x-Koordinate
@@ -165,9 +172,9 @@ public class MatrixCreator implements IMatrixCreator
 						error = -Math.abs(dy); // Fehler bestimmen
 						delta = 2 * Math.abs(dx); // Delta bestimmen
 						schritt = 2 * error; // Schwelle bestimmen
-						while (y != position.getY())
+						while (y != scanPos.getY())
 							{
-								if ((mypos.getX() != x && mypos.getY() != y))
+								if (y != mypos.getY())
 									{// fuer jede y-Koordinate
 										incPix(x + mypos.getX(), y + mypos.getY());
 									}// setze
@@ -182,16 +189,33 @@ public class MatrixCreator implements IMatrixCreator
 									}
 							}
 					}
-				if ((position.getX() != mypos.getX() && position.getY() != position.getY()))
+				if ((x != scanPos.getX() && y != scanPos.getY()))
 					{
-						decPix(position.getX() + mypos.getX(), position.getY() + mypos.getY());
+						decPix(scanPos.getX() + x, scanPos.getY() + y);
 					}
 			}
+	/*	public void drawLine(Position position, Position mypos)
+			{
+				int dx,dy;
+				double m,t ;
+				dx= position.getX()-mypos.getX();
+				dy= position.getY()-mypos.getY();
+				m=dy/dx;
+				t=(m*mypos.getX())+mypos.getY();
+				System.out.println("P1:"+position.getX()+","+position.getY());
+				System.out.println("P2:"+mypos.getX()+","+mypos.getY());
+				System.out.println("m:"+m+ " t:"+t );
+			}*/
 
 		public void decPix(int x, int y)
 			{
+				if(x > width || y > height) {
+					x = 149;
+					y = 149;
+				}
+
 				if (matrix.get(x).get(y).getBlue() > MIN_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
-					System.out.println("dec"+matrix.get(x).get(y).getGreen());
+					//System.out.println("dec"+matrix.get(x).get(y).getGreen());
 					setPixelinMatrix(x, y, (matrix.get(x).get(y).getBlue() - 10), (matrix.get(x).get(y).getGreen() - 10), (matrix.get(x).get(y).getBlue() - 10));
 					
 				}
@@ -199,8 +223,12 @@ public class MatrixCreator implements IMatrixCreator
 
 		public void incPix(int x, int y)
 			{
+				if(x > width || y > height) {
+				x = 149;
+				y = 149;
+			}
 				if (matrix.get(x).get(y).getBlue() < MAX_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
-					System.out.println("inc"+matrix.get(x).get(y).getGreen());
+					//System.out.println("inc"+matrix.get(x).get(y).getGreen());
 					setPixelinMatrix(x, y, matrix.get(x).get(y).getBlue() + 10, matrix.get(x).get(y).getGreen() + 10, matrix.get(x).get(y).getBlue() + 10);
 				}
 			}
@@ -213,23 +241,45 @@ public class MatrixCreator implements IMatrixCreator
 				Position myPos = new Position();
 				Position zielPos = new Position();
 				actPos = fd.getParsedInfos().getPos();
-				System.out.println("Name:" + fd.getParsedInfos().getName());
+				
+				myPos.setX(actPos[0]);
+				myPos.setY(actPos[1]);
 				vectorHead = fd.getParsedInfos().getData();
+				
 				if (actPos.length > 0 && !vectorHead.isEmpty())
 					{
 						for (int i = 0; i < vectorHead.size(); i++)
 							{
-								actPos = fd.getParsedInfos().getPos();
-								vectorHead = fd.getParsedInfos().getData();
-								myPos.setX(actPos[0]);
-								myPos.setY(actPos[1]);
-								actPos = vectorHead.get(i);
-								zielPos.setX(actPos[0]);
-								zielPos.setX(actPos[1]);
-								drawLine(myPos, zielPos);
+								int[] scanPos  = vectorHead.get(i);
+								zielPos.setX(scanPos[0]);
+								zielPos.setY(scanPos[1]);
+								
+								//System.out.println("i "+ i + " Name:" + fd.getParsedInfos().getName() + "scan pix " + fd.getParsedInfos().getData().get(0)[0]+","+ fd.getParsedInfos().getData().get(0)[1]);
+								drawLine( zielPos, myPos);
 								i++;
 							}
 					}
+			}
+		//public Position directionvector (Position position)
+		public void directionvector (Position position)
+			{	
+				int x,y,x2,y2,wheelwidth;
+				wheelwidth=18;
+				float alpha;
+				int lchain=fd.getParsedInfos().getDirection()[0];
+				int rchain=fd.getParsedInfos().getDirection()[1];
+				alpha=(float)Math.round((lchain-rchain)/wheelwidth*180/Math.PI);
+				alpha=(int)alpha;
+				x=position.getX();
+				y=position.getY();
+				
+				x2=(int) Math.round(Math.sqrt(Math.pow(x, 2)+Math.pow(y,2))*Math.cos(alpha)*x);
+				y2=(int) Math.round(Math.sqrt(Math.pow(x, 2)+Math.pow(y,2))*Math.cos(alpha)*y);
+				position.setX(x2);
+				position.setY(y2);
+				System.out.println("Ypos"+position.getX()+"Xpos"+position.getY());
+			//	return position;
+				 
 			}
 		/*
 		 * public void drawLine(Position position) { int xpos=0, ypos=0; //As
