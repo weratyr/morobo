@@ -2,15 +2,23 @@ package gui;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.File;
+
 import javax.swing.*;
 
 public class TransRotatePanel extends JPanel {
 
 	private Image image;
 	private double currentAngle = 0;
+	private String imagePath = "gui/fadenkreuz1.gif";
 	
 	public TransRotatePanel() {
-		this.image = new ImageIcon("src/gui/fadenkreuz1.gif").getImage();
+		File f = new File(imagePath);
+		if(!f.exists()) {
+			System.out.println("fadenkreuz nicht gefunden oder existiert nicht !!! ");
+		}
+		
+		this.image = new ImageIcon(imagePath).getImage();
 	}
 	
 	public void rotate() {

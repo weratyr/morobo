@@ -17,7 +17,13 @@ public class FilterData {
 	}
 	
 	public void filterInputData(String input) {
-		parserXml.xmlstinsubstr(input);
+//		if(parserXml.checkValidString(input)) {
+			parserXml.xmlstinsubstr(input);			
+//		} else {
+//			System.out.println("input stream not valid!!");
+//			System.exit(-1);
+//		}
+		
 	}
 	
 //	public static void main(String[] args) {

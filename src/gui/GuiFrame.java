@@ -322,11 +322,12 @@ public class GuiFrame extends JFrame {
 		gui.setTCPServerThread(tcpServerThread);
 
 		FilterData filterData = new FilterData();
+		mc.setfilterData(filterData);
 		Object object;
 		DataContainer infos;
 
 		while (true) {
-			if (cs.getMessage() != null) {
+			if (cs.getMessage() != null) {      // <==== hier kommt noch was an,
 				// System.out.println("getMessage "+cs.getMessage());
 				infos = filterData.getParsedInfos();
 				filterData.filterInputData(cs.getMessage());

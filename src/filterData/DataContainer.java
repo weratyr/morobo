@@ -3,8 +3,8 @@ package filterData;
 import java.util.ArrayList;
 
 public class DataContainer {
+	private int length;
 	private String name;
-
 	private int[] pos;
 	private int[] direction;
 	private ArrayList<int[]> data;
@@ -13,6 +13,13 @@ public class DataContainer {
 		data = new ArrayList<int[]>();
 	}
 	
+	public int getLength(){
+		return length;
+	}
+	
+	public void setLength(int length){
+		this.length=length;
+	}
 	
 	public String getName() {
 		return name;
