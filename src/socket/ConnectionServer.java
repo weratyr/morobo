@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import filterData.FilterData;
 
@@ -24,13 +26,21 @@ public class ConnectionServer implements Runnable {
 
 	public void readMessage(Socket socket) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		char[] buffer = new char[200];
-		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert bis
-																// Nachricht
-																// empfangen
-		message = new String(buffer, 0, numberOfChar);
-		socket.close();
-		
+		char[] buffer = new char[1200];
+		int numberOfChar = bufferedReader.read(buffer, 0, 1200); // blockiert
+																	// bis
+		// Nachricht
+		// empfangen
+		Pattern p = Pattern.compile("(//d+)");
+		Matcher m = p.matcher(buffer.toString());
+		m.find();
+		if (m.groupCount() > 0) {
+			while (numberOfChar == 1) {
+			}
+			System.out.println("laenge der nachricht " + numberOfChar);
+			message = new String(buffer, 0, numberOfChar);
+			socket.close();
+		}
 	}
 
 	public void writeMessage(Socket socket, String message) throws IOException {
@@ -44,7 +54,7 @@ public class ConnectionServer implements Runnable {
 		client = socket;
 	}
 
-	 public String getMessage() {
+	public String getMessage() {
 		return message;
 	}
 
