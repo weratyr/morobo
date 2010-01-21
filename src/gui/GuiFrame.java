@@ -62,7 +62,7 @@ public class GuiFrame extends JFrame {
 		super();
 		matrixScrollX = 0;
 		matrixScrollY = 0;
-
+		
 		setVisible(true);
 		setTitle("Spawn a map");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -201,6 +201,8 @@ public class GuiFrame extends JFrame {
 		cp.add(transparentRotateJP, BorderLayout.CENTER);
 		cp.add(westContainer, BorderLayout.WEST);
 		pack();
+		
+		
 
 	}
 	
@@ -320,7 +322,7 @@ public class GuiFrame extends JFrame {
 		cs = new ConnectionServer(sleepThread);
 		Thread tcpServerThread = new Thread(cs);
 		gui.setTCPServerThread(tcpServerThread);
-
+		
 		FilterData filterData = new FilterData();
 		mc.setfilterData(filterData);
 		Object object;

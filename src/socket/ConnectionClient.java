@@ -15,13 +15,53 @@ public class ConnectionClient {
 
 		//"<data>10,5</data><data>23,4</data><data>"+i+",3</data></map>";
 		int i=0;
-		while ( i < 6) {
+		while ( i < 2) {
 			Socket socket = new Socket(ip, port); // verbindet sich mit Server
-			String zuSendendeNachricht = "<map><name>ichj</name><pos>"+i+1+",1</pos><direction>0,0</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
+			String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+1)+",1</pos><direction>0,0</direction>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+	      	"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+					"<data>10,10</data><data>10,10</data><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
+			int len = zuSendendeNachricht.length();
+			zuSendendeNachricht = len + zuSendendeNachricht;
 			schreibeNachricht(socket, zuSendendeNachricht);
-			System.out.println("print i "+i);
+			System.out.println("print i "+i + "length "+ len);
 			i++;
-			Thread.sleep(1000);
+			//Thread.sleep(1000);
 		}
 	}
 

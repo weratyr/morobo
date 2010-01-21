@@ -105,7 +105,7 @@ public class MatrixCreator implements IMatrixCreator
 						// System.out.println("pixel scanned" + x + "," + y +
 						// "color" + blue + " size data" + data.size());
 						updateMatrix();
-						System.out.println("x,y "+ x+","+y);
+						//System.out.println("x,y "+ x+","+y);
 					}
 				data.clear();
 			}
@@ -115,11 +115,11 @@ public class MatrixCreator implements IMatrixCreator
 				return matrix;
 			}
 
-		public void drawLine(Position scanPos, Position mypos)// in verŠnderter
+		public void drawLine(Position scanPos, Position mypos)// in verï¿½nderter
 																// Form von
 																// http://www-lehre.informatik.uni-osnabrueck.de
 			{
-				System.out.println("Scan pos: " + scanPos.getX()+","+scanPos.getY() + " MyPos: " + mypos.getX() + "," + mypos.getY());
+				//System.out.println("Scan pos: " + scanPos.getX()+","+scanPos.getY() + " MyPos: " + mypos.getX() + "," + mypos.getY());
 				//directionvector(scanPos);
 				// Jacks Algorithmus ist schneller als Geradengleichung
 				int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
@@ -311,7 +311,7 @@ public class MatrixCreator implements IMatrixCreator
 		 * 
 		 * }
 		 * 
-		 * incPix(position); //den tatsŠchlichen Punkt inkrementieren }
+		 * incPix(position); //den tatsï¿½chlichen Punkt inkrementieren }
 		 */
 		/*
 		 * public static void main(String[] args) {

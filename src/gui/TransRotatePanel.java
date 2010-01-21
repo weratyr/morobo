@@ -10,7 +10,7 @@ public class TransRotatePanel extends JPanel {
 
 	private Image image;
 	private double currentAngle = 0;
-	private String imagePath = "gui/fadenkreuz1.gif";
+	private String imagePath = "src/gui/fadenkreuz1.gif";
 	
 	public TransRotatePanel() {
 		File f = new File(imagePath);
