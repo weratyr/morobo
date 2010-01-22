@@ -34,7 +34,7 @@ public class ConnectionClient {
 		int i=0;
 		while ( i < 6) {
 			Socket socket = new Socket(ip, port); // verbindet sich mit Server
-			String zuSendendeNachricht = "<map><name>ichj</name><pos>"+i+1+",1</pos><direction>-15,15</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
+			String zuSendendeNachricht = "<map><name>ichj</name><pos>0,0</pos><direction>14,-14</direction><data>50,50</data></map>"; // direction sind cm daraus ergibt sich der alpha
 			schreibeNachricht(socket, zuSendendeNachricht);
 			System.out.println("print i "+i);
 			i++;

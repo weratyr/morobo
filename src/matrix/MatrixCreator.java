@@ -20,27 +20,15 @@ public class MatrixCreator implements IMatrixCreator
 		private int red;
 		private int green;
 		private int blue;
-		private int wheelwidth = 18;
+		private int wheelwidth=18;
 		private ArrayList<ArrayList<Color>> matrix;
-
-		/*
-		 * public MatrixCreator() { matrix = new ArrayList<ArrayList<Color>>();
-		 * // matrix.add(new ArrayList<Color>()); }
-		 */
-
-		public MatrixCreator()
-			{
-				matrix = new ArrayList<ArrayList<Color>>();
-				// matrix.add(new ArrayList<Color>());
-				Position myPos = new Position();
-				Position scanPos = new Position();
-
-				myPos.setX(0);
-				myPos.setY(0);
-				scanPos.setX(100);
-				scanPos.setY(100);
-				absolutePosofobstacle(myPos, scanPos);
-			}
+	
+	 public MatrixCreator() 
+			  { 
+			  matrix = new ArrayList<ArrayList<Color>>();
+			  // matrix.add(new ArrayList<Color>());
+			  }
+		
 
 		public void setfilterData(FilterData fd)
 			{
@@ -131,12 +119,13 @@ public class MatrixCreator implements IMatrixCreator
 			}
 
 		public void drawLine(Position scanPos, Position mypos)// in veränderter
+	
 		// Form von
 		// http://www-lehre.informatik.uni-osnabrueck.de
-			{
-				Position absPos = absolutePosofobstacle(mypos, scanPos);
-				System.out.println("absoluteXofScanpos" + absPos.getX() + "absoluteYofScanpos" + absPos.getY());
-				System.out.println("Scan pos: " + scanPos.getX() + "," + scanPos.getY() + " MyPos: " + mypos.getX() + "," + mypos.getY());
+			{  System.out.println("relativePos" + scanPos.getX()+" "+scanPos.getY() );
+				System.out.println("absolutePos" + absolutePosofobstacle(mypos, scanPos).getX()+" "+absolutePosofobstacle(mypos, scanPos).getX() ); 
+				
+				
 
 				// Jacks Algorithmus ist schneller als Geradengleichung
 				int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
@@ -146,7 +135,8 @@ public class MatrixCreator implements IMatrixCreator
 
 				dx = scanPos.getX() - x;
 				dy = scanPos.getY() - y; // Hoehenzuwachs
-				// Schrittweite
+				
+			// Schrittweite
 
 				if (dx > 0) // Linie nach rechts?
 					inc_x = 1; // x inkrementieren
@@ -168,7 +158,7 @@ public class MatrixCreator implements IMatrixCreator
 						while (x != scanPos.getX())
 							{
 
-								// directionvector(scanPos);
+								
 								if (x != mypos.getX())
 									{
 										incPix(x + mypos.getX(), y + mypos.getY()); // Fuer
@@ -194,7 +184,6 @@ public class MatrixCreator implements IMatrixCreator
 						schritt = 2 * error; // Schwelle bestimmen
 						while (y != scanPos.getY())
 							{
-								// directionvector(scanPos);
 								if (y != mypos.getY())
 									{// fuer jede y-Koordinate
 										incPix(x + mypos.getX(), y + mypos.getY());
@@ -215,16 +204,9 @@ public class MatrixCreator implements IMatrixCreator
 						decPix(scanPos.getX() + x, scanPos.getY() + y);
 					}
 			}
+		
+		
 
-		/*
-		 * public void drawLine(Position position, Position mypos) { int dx,dy;
-		 * double m,t ; dx= position.getX()-mypos.getX(); dy=
-		 * position.getY()-mypos.getY(); m=dy/dx;
-		 * t=(mmypos.getX())+mypos.getY();
-		 * System.out.println("P1:"+position.getX()+","+position.getY());
-		 * System.out.println("P2:"+mypos.getX()+","+mypos.getY());
-		 * System.out.println("m:"+m+ " t:"+t ); }
-		 */
 
 		public void decPix(int x, int y)
 			{
@@ -277,64 +259,56 @@ public class MatrixCreator implements IMatrixCreator
 								zielPos.setX(scanPos[0]);
 								zielPos.setY(scanPos[1]);
 
-								// System.out.println("i "+ i + " Name:" +
-								// fd.getParsedInfos().getName() + "scan pix " +
-								// fd.getParsedInfos().getData().get(0)[0]+","+
-								// fd.getParsedInfos().getData().get(0)[1]);
+								
 								drawLine(zielPos, myPos);
 								i++;
 							}
 					}
 			}
 
-		public double getAngleToObstacle(Position position)
-			{
-				System.out.println("relPos" + position.getX() + "," + position.getY());
-				double ax = 0, ay = 10; // vektor in längsachse des fahrzeugs
+		public double getAngleToObstacle(Position scanpos)
+			{	
 				double beta;
+				double ax = 0, ay = 10; // vektor in längsachse des fahrzeugs
 				double lengthveca = Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2));
-				double lengthvecb = Math.sqrt(Math.pow(position.getX(), 2) + Math.pow(position.getY(), 2));
-				System.out.println("veca " + lengthveca);
-				System.out.println("vecb " + lengthvecb);
-				double z = (ax * position.getX()) + (ay * position.getY());
+				double lengthvecb = Math.sqrt(Math.pow(scanpos.getX(), 2) + Math.pow(scanpos.getY(), 2));
+				double z = (ax * scanpos.getX()) + (ay * scanpos.getY());
 				double n = (lengthveca * lengthvecb);
 				beta = z / n;
 				beta = Math.acos(beta) * 180 / Math.PI;
-				System.out.println("beta:" + beta);
 				return beta;
 			}
 
-		// public double getangletox()
-		public double getAngleToX() {
-				double alpha;
-				// int lchain=fd.getParsedInfos().getDirection()[0];
-				// int rchain=fd.getParsedInfos().getDirection()[1];
+		
+		
+				public double getAngleToX() {
+					double alpha;
+					//int lchain=fd.getParsedInfos().getDirection()[0];
+					//int rchain=fd.getParsedInfos().getDirection()[1];
+					double lchain = 14;
+					double rchain = -14 ;
+					alpha = ((lchain - rchain) / wheelwidth)*180/Math.PI ;
+					System.out.println("alpha"+alpha);
+					return alpha;
+				}
 
-				double lchain = 14;
-				double rchain = 14;
+				public Position absolutePosofobstacle(Position myPos, Position scanPos)
+					{
+						Position absPos = new Position();
+						
+						double gamma = getAngleToX() + getAngleToObstacle(scanPos);
+						System.out.println("Alpha: "+getAngleToX()+" Beta: "+getAngleToObstacle(scanPos)+ " Gamma: "+ gamma);
+						double length = Math.sqrt(Math.pow(scanPos.getX(), 2) + Math.pow(scanPos.getY(), 2));
+						System.out.println(Math.round((length*Math.cos(Math.toRadians(gamma)))));
+						absPos.setX((int) Math.round((length * Math.cos(Math.toRadians(gamma)))));
+						absPos.setY((int) Math.round((length * Math.sin(Math.toRadians(gamma)))));
+						System.out.println("relativePos:"+scanPos.getX()+","+scanPos.getY());
+						System.out.println("absolutePos:"+absPos.getX()+","+absPos.getY());
+						return scanPos;
 
-				alpha = ((lchain + rchain) / wheelwidth)*180/Math.PI ;
-				System.out.println("alpha winkel " + alpha);
-				return alpha;
-			}
+					}
 
-		public Position absolutePosofobstacle(Position myPos, Position scanPos)
-			{
-				Position absPos = new Position();
-				
-				double gamma = getAngleToX() + getAngleToObstacle(scanPos);
-				double length = Math.sqrt(Math.pow(scanPos.getX(), 2) + Math.pow(scanPos.getY(), 2));
-				//System.out.println("Length from scanned Point "+ length + " gamma winkel " + gamma + " out x "+ length * Math.cos(gamma) + " out y " + length * Math.sin(gamma)  );
-				scanPos.setX((int) Math.round((length * Math.cos(Math.toRadians(gamma)))));
-				scanPos.setY((int) Math.round((length * Math.sin(Math.toRadians(gamma)))));
-				absPos.setX(myPos.getX() + scanPos.getX());
-				absPos.setY(myPos.getY() + scanPos.getY());
-				System.out.println("absX " + absPos.getX() + "absY " + absPos.getY());
-				return scanPos;
-
-			}
-
-		public static void main(String[] args)
+	/*public static void main(String[] args)
 			{
 
 				MatrixCreator mc = new MatrixCreator();
@@ -343,6 +317,6 @@ public class MatrixCreator implements IMatrixCreator
 
 				// System.out.println(matrix.get(1).get(1).getRGB());
 
-			}
+			}*/
 
 	}
