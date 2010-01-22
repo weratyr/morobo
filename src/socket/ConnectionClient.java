@@ -6,24 +6,7 @@ import java.net.Socket;
 import java.io.*;
 
 public class ConnectionClient {
-	// Client.java
-	/*public void start() throws IOException, InterruptedException {
-		String ip = "127.0.0.1"; //localhost
-		//String ip = "172.17.5.241";
-		int port = 1111;
-		//String zuSendendeNachricht = "<map><info><pos>5,15</pos><direction>3,6</direction><data>8,7</data><data>10,5</data><data>23,4</data><data>4,3</data></info></map>";
-		int i=0;
-		while ( i < 25) {
-			Socket socket = new Socket(ip, port); // verbindet sich mit Server
-			String zuSendendeNachricht = "<map><name>ich</name><pos>"+(8+i)+","+((i*2)+2)+"</pos><direction>3,6</direction><data>1,"+i+"</data>" +
 
-					"<data>10,5</data><data>23,4</data><data>"+i+",3</data></map>"; // direction sind cm daraus ergibt sich der alpha
-			schreibeNachricht(socket, zuSendendeNachricht);
-			System.out.println("print i "+i);
-			i++;
-			Thread.sleep(1000);
-		}
-	}*/
 	public void start() throws IOException, InterruptedException {
 		String ip = "127.0.0.1"; //localhost
 		//String ip = "172.17.5.241";
@@ -32,13 +15,54 @@ public class ConnectionClient {
 
 		//"<data>10,5</data><data>23,4</data><data>"+i+",3</data></map>";
 		int i=0;
-		while ( i < 6) {
+		while ( i < 2) {
 			Socket socket = new Socket(ip, port); // verbindet sich mit Server
-			String zuSendendeNachricht = "<map><name>ichj</name><pos>0,0</pos><direction>14,-14</direction><data>50,50</data></map>"; // direction sind cm daraus ergibt sich der alpha
+
+			String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+1)+",1</pos><direction>0,0</direction>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+	      	"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>"+(2*i)+",10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+			"<data>10,10</data><data>10,15</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data><data>10,10</data>" +
+					"<data>10,10</data><data>10,10</data><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
+			int len = zuSendendeNachricht.length();
+			zuSendendeNachricht = len + zuSendendeNachricht;
 			schreibeNachricht(socket, zuSendendeNachricht);
-			System.out.println("print i "+i);
+			System.out.println("print i "+i + "length "+ len);
 			i++;
-			Thread.sleep(1000);
+			//Thread.sleep(1000);
 		}
 	}
 
@@ -58,4 +82,4 @@ public class ConnectionClient {
 	}
 }
 
-//direction in float, data, Map gršsser buttons ausrichten
+//direction in float, data, Map grï¿½sser buttons ausrichten

@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import filterData.FilterData;
 
@@ -25,13 +27,31 @@ public class ConnectionServer implements Runnable {
 	public void readMessage(Socket socket) throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		char[] buffer = new char[200];
-		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert bis
-																// Nachricht
-																// empfangen
-		// if( numberOfChar== der Ÿbergebenen LŠnge)
-		message = new String(buffer, 0, numberOfChar);
-		socket.close();
-		
+		message = null;
+		int numberOfChar = bufferedReader.read(buffer, 0, 200); // blockiert
+		// bis Nachricht empfangen
+		String receive = new String(buffer, 0, numberOfChar);
+		Pattern p = Pattern.compile("(\\d+)<");
+		Matcher m = p.matcher(receive);
+
+		if (m.find() && m.groupCount() > 0) {
+			receive = receive.replace(m.group(1), "");
+			int toReceiveLength = Integer.parseInt(m.group(1));
+			int receiveNumberLength = m.group(1).length();
+			buffer = new char[toReceiveLength + receiveNumberLength];
+			int readBlock = 200; 
+			// liest so lange bis alle bytes empfangen sind
+			while (readBlock < toReceiveLength) 
+			{
+				numberOfChar = bufferedReader.read( buffer, 0, toReceiveLength - numberOfChar - receiveNumberLength);
+				receive += new String(buffer, 0, numberOfChar );
+				readBlock+=numberOfChar;
+			}
+			message = receive; 
+			socket.close();
+		} else {
+			System.out.println("not match");
+		}
 	}
 
 	public void writeMessage(Socket socket, String message) throws IOException {
@@ -45,7 +65,7 @@ public class ConnectionServer implements Runnable {
 		client = socket;
 	}
 
-	 public String getMessage() {
+	public String getMessage() {
 		return message;
 	}
 
@@ -72,11 +92,6 @@ public class ConnectionServer implements Runnable {
 	}
 
 	// public static void main(String[] args) {
-	// ConnectionServer server = new ConnectionServer();
-	// try {
-	// server.startServer();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
+	
 	// }
 }
