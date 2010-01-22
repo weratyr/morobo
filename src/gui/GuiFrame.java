@@ -209,7 +209,7 @@ public class GuiFrame extends JFrame {
 	public void updateTransparentRotateJP(int[] direction) {
 		
 		transparentRotateJP.rotate(direction[0], direction[1]);
-		System.out.println("rotate"+direction[0]);
+		//System.out.println("rotate"+direction[0]);
 	}
 	
 	
