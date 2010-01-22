@@ -45,7 +45,7 @@ public class GuiFrame extends JFrame {
 
 	private final int scaleZoom = 6;
 	private final int shownMatrixWidth = 60; // 60
-	private final int shownMatrixHeight = 50; // 50
+	private final int shownMatrixHeight = 60; // 50
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
 	private MatrixCreator mc;
@@ -119,7 +119,6 @@ public class GuiFrame extends JFrame {
 					mapPanel.repaint();
 				}
 			}
-
 		});
 		JButton scrollLeft = new JButton("<");
 		scrollLeft.setPreferredSize(new Dimension(23, 40));
@@ -136,7 +135,7 @@ public class GuiFrame extends JFrame {
 		scrollRight.setPreferredSize(new Dimension(23, 40));
 		scrollRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (matrixScrollX < matrix.size()) {
+				if (matrixScrollX  < (matrix.size() - matrixScrollX)) {
 					matrixScrollX += 10;
 					mapPanel.repaint();
 				}
@@ -146,7 +145,7 @@ public class GuiFrame extends JFrame {
 		JButton scrollSouth = new JButton("v");
 		scrollSouth.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (matrixScrollX < matrix.size()) {
+				if (matrixScrollY < (matrix.size() - matrixScrollY)) {
 					matrixScrollY += 10;
 					mapPanel.repaint();
 				}

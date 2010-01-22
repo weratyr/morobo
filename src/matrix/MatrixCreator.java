@@ -258,7 +258,7 @@ public class MatrixCreator implements IMatrixCreator
 		public double getAngleToObstacle(Position scanpos)
 			{
 				double beta;
-				double ax = 0, ay = 10; // vektor in lŠngsachse des fahrzeugs
+				double ax = 0, ay = 10; // vektor in lï¿½ngsachse des fahrzeugs
 				double lengthveca = Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2));
 				double lengthvecb = Math.sqrt(Math.pow(scanpos.getX(), 2) + Math.pow(scanpos.getY(), 2));
 				double z = (ax * scanpos.getX()) + (ay * scanpos.getY());
