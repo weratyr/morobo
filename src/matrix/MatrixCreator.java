@@ -104,10 +104,8 @@ public class MatrixCreator implements IMatrixCreator
 								red += 10;
 							}
 						setPixelinMatrix(x, y, red, green, blue);
-						// System.out.println("pixel scanned" + x + "," + y +
-						// "color" + blue + " size data" + data.size());
 						updateMatrix();
-						// System.out.println("x,y "+ x+","+y);
+
 					}
 				data.clear();
 			}
@@ -255,6 +253,7 @@ public class MatrixCreator implements IMatrixCreator
 							}
 					}
 			}
+		
 
 		public double getAngleToObstacle(Position scanpos)
 			{
