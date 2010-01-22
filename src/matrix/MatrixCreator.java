@@ -118,7 +118,7 @@ public class MatrixCreator implements IMatrixCreator
 			}
 
 		public void drawLine(Position scanPos, Position mypos)// in
-																// ver�nderter
+		// ver�nderter
 		// Form von
 		// http://www-lehre.informatik.uni-osnabrueck.de
 			{
@@ -272,10 +272,10 @@ public class MatrixCreator implements IMatrixCreator
 		public double getAngleToX()
 			{
 				double alpha;
-				// int lchain=fd.getParsedInfos().getDirection()[0];
-				// int rchain=fd.getParsedInfos().getDirection()[1];
-				double lchain = 14;
-				double rchain = -14;
+				//double lchain = 14;
+				//double rchain = -14;
+				double lchain =	fd.getParsedInfos().getDirection()[0];
+				double rchain =	fd.getParsedInfos().getDirection()[1];
 				alpha = ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
 				System.out.println("alpha" + alpha);
 				return alpha;
