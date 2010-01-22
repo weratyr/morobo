@@ -105,10 +105,7 @@ public class MatrixCreator implements IMatrixCreator
 								red += 10;
 							}
 						setPixelinMatrix(x, y, red, green, blue);
-						// System.out.println("pixel scanned" + x + "," + y +
-						// "color" + blue + " size data" + data.size());
-						updateMatrix();
-						//System.out.println("x,y "+ x+","+y);
+						//updateMatrix();
 					}
 				data.clear();
 			}
@@ -268,9 +265,8 @@ public class MatrixCreator implements IMatrixCreator
 		public Position directionvector (Position scanpos)
 		//public void directionvector(Position scanpos)
 		 //berechnet die Position der (Hindernis)punkte
-												 	 	//in abhŠngigkeit des winkels zwischen fahrzeug und
+												 	 	//in abhï¿½ngigkeit des winkels zwischen fahrzeug und
 														//xAchse
-			
 			{	
 				double x,y,x2,y2,wheelwidth;
 				
@@ -282,12 +278,12 @@ public class MatrixCreator implements IMatrixCreator
 				System.out.println("angle:"+ alpha);
 				x=scanpos.getX();
 				y=scanpos.getY();
-				System.out.println("x"+x+"y"+y);
+				//System.out.println("x"+x+"y"+y);
 				
 				scanpos.setX((int)Math.round(Math.cos(alpha)*x));
 				scanpos.setY((int)Math.round(Math.sin(alpha)*y));
 			
-				System.out.println("xpos"+scanpos.getX()+"ypos"+scanpos.getY());
+				//System.out.println("xpos"+scanpos.getX()+"ypos"+scanpos.getY());
 				return scanpos;
 	
 			 
