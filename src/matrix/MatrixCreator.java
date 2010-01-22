@@ -120,11 +120,13 @@ public class MatrixCreator implements IMatrixCreator
 		// Form von
 		// http://www-lehre.informatik.uni-osnabrueck.de
 			{
+				scanPos=absolutePosofobstacle(mypos ,scanPos);
+				System.out.println("scanPosabsX"+scanPos.getX()+","+"scanPosabsY"+scanPos.getY());
 				// Jacks Algorithmus ist schneller als Geradengleichung
 				int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
 
-				x = mypos.getX(); // 
-				y = mypos.getY(); // As i am center
+				x = fd.getParsedInfos().getPos()[0];
+				y = fd.getParsedInfos().getPos()[1];
 
 				dx = scanPos.getX() - x;
 				dy = scanPos.getY() - y; // Hoehenzuwachs
@@ -253,7 +255,6 @@ public class MatrixCreator implements IMatrixCreator
 							}
 					}
 			}
-		
 
 		public double getAngleToObstacle(Position scanpos)
 			{
@@ -271,30 +272,37 @@ public class MatrixCreator implements IMatrixCreator
 		public double getAngleToX()
 			{
 				double alpha;
-				//double lchain = 14;
-				//double rchain = -14;
-				double lchain =	fd.getParsedInfos().getDirection()[0];
-				double rchain =	fd.getParsedInfos().getDirection()[1];
+				// double lchain = 14;
+				// double rchain = -14;
+				double lchain = fd.getParsedInfos().getDirection()[0];
+				double rchain = fd.getParsedInfos().getDirection()[1];
 				alpha = ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
-				System.out.println("alpha" + alpha);
+				//System.out.println("alpha" + alpha);
 				return alpha;
 			}
 
-		public Position absolutePosofobstacle(Position myPos, Position scanPos)
+		public Position absolutePosofobstacle(Position mypos, Position scanPos)
 			{
 				Position absPos = new Position();
 
 				double gamma = getAngleToX() + getAngleToObstacle(scanPos);
-				System.out.println("Alpha: " + getAngleToX() + " Beta: " + getAngleToObstacle(scanPos) + " Gamma: " + gamma);
 				double length = Math.sqrt(Math.pow(scanPos.getX(), 2) + Math.pow(scanPos.getY(), 2));
-				System.out.println(Math.round((length * Math.cos(Math.toRadians(gamma)))));
+				
 				absPos.setX((int) Math.round((length * Math.cos(Math.toRadians(gamma)))));
 				absPos.setY((int) Math.round((length * Math.sin(Math.toRadians(gamma)))));
+				
+				absPos.setX(absPos.getX()+mypos.getX());
+				absPos.setY(absPos.getY()+mypos.getY());//
+				
+				System.out.println("Alpha: " + getAngleToX() + " Beta: " + getAngleToObstacle(scanPos) + " Gamma: " + gamma);
+				System.out.println("mypos:"+mypos.getX()+","+mypos.getY());
 				System.out.println("relativePos:" + scanPos.getX() + "," + scanPos.getY());
 				System.out.println("absolutePos:" + absPos.getX() + "," + absPos.getY());
-				return scanPos;
+				
+				return absPos;
 
 			}
+		
 
 		/*
 		 * public static void main(String[] args) {
