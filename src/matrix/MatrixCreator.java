@@ -241,17 +241,17 @@ public class MatrixCreator implements IMatrixCreator
 				myPos.setX(actPos[0]);
 				myPos.setY(actPos[1]);
 				vectorHead = fd.getParsedInfos().getData();
-
+				System.out.println("Anzahl Ziele:"+vectorHead.size());
 				if (actPos.length > 0 && !vectorHead.isEmpty())
 					{
 						for (int i = 0; i < vectorHead.size(); i++)
-							{
+							{System.out.println("Zielnr:"+i);
 								int[] scanPos = vectorHead.get(i);
 								zielPos.setX(scanPos[0]);
 								zielPos.setY(scanPos[1]);
 
 								drawLine(zielPos, myPos);
-								i++;
+								//i++;
 							}
 					}
 			}
