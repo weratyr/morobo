@@ -18,7 +18,8 @@ public class ConnectionClient {
 		while ( i < 10) {
 			Socket socket = new Socket(ip, port); // verbindet sich mit Server
 
-			String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+15)+",1</pos><direction>"+(i+1)+",0</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
+		//	String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+15)+",1</pos><direction>"+(i+1)+",0</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
+			String zuSendendeNachricht = "<map><name>ichj</name><pos>10,1</pos><direction>0,0</direction><data>10,10</data><data>10,20</data></map>"; // direction sind cm daraus ergibt sich der alpha
 			int len = zuSendendeNachricht.length();
 			zuSendendeNachricht = len + zuSendendeNachricht;
 			schreibeNachricht(socket, zuSendendeNachricht);
