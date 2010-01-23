@@ -224,7 +224,7 @@ public class MatrixCreator implements IMatrixCreator
 					}
 				if (matrix.get(x).get(y).getBlue() < MAX_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE)
 					{
-						// System.out.println("inc"+matrix.get(x).get(y).getGreen());
+						
 						setPixelinMatrix(x, y, matrix.get(x).get(y).getBlue() + 10, matrix.get(x).get(y).getGreen() + 10, matrix.get(x).get(y).getBlue() + 10);
 					}
 			}
