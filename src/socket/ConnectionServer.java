@@ -35,9 +35,10 @@ public class ConnectionServer implements Runnable {
 		Matcher m = p.matcher(receive);
 
 		if (m.find() && m.groupCount() > 0) {
-			receive = receive.replace(m.group(1), "");
+			receive = receive.replace((m.group(1) ), "");
+			
 			int toReceiveLength = Integer.parseInt(m.group(1));
-			int receiveNumberLength = m.group(1).length();
+			int receiveNumberLength = (m.group(1).length() );
 			buffer = new char[toReceiveLength + receiveNumberLength];
 			int readBlock = 200; 
 			// liest so lange bis alle bytes empfangen sind
@@ -48,6 +49,7 @@ public class ConnectionServer implements Runnable {
 				readBlock+=numberOfChar;
 			}
 			message = receive; 
+			
 			socket.close();
 		} else {
 			System.out.println("not match");
@@ -71,7 +73,7 @@ public class ConnectionServer implements Runnable {
 
 	public void run() {
 		try {
-			int port = 1111;
+			int port = 5678;
 			ServerSocket serverSocket = new ServerSocket(port);
 			while (true) {
 				waitForConnection(serverSocket);

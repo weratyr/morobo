@@ -95,7 +95,8 @@ public class MatrixCreator
 					{
 						int x = data.get(i)[0];
 						int y = data.get(i)[1];
-						setColorFromScannedPixel(x, y);
+						System.out.println(x+","+y);
+						//setColorFromScannedPixel(x, y);
 
 						if (blue < MAX_BLUE)
 							{
@@ -103,7 +104,8 @@ public class MatrixCreator
 								green += 10;
 								red += 10;
 							}
-						setPixelinMatrix(x, y, red, green, blue);
+						//setPixelinMatrix(x, y, red, green, blue);
+						System.out.println(x+","+y);
 						updateMatrix();
 
 					}
@@ -121,7 +123,7 @@ public class MatrixCreator
 		// http://www-lehre.informatik.uni-osnabrueck.de
 			{
 				scanPos=absolutePosofobstacle(mypos ,scanPos);
-				System.out.println("scanPosabsX"+scanPos.getX()+","+"scanPosabsY"+scanPos.getY());
+				//System.out.println("scanPosabsX"+scanPos.getX()+","+"scanPosabsY"+scanPos.getY());
 				// Jacks Algorithmus ist schneller als Geradengleichung
 				int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
 
@@ -241,11 +243,11 @@ public class MatrixCreator
 				myPos.setX(actPos[0]);
 				myPos.setY(actPos[1]);
 				vectorHead = fd.getParsedInfos().getData();
-				System.out.println("Anzahl Ziele:"+vectorHead.size());
+				//System.out.println("Anzahl Ziele:"+vectorHead.size());
 				if (actPos.length > 0 && !vectorHead.isEmpty())
 					{
 						for (int i = 0; i < vectorHead.size(); i++)
-							{System.out.println("Zielnr:"+i);
+							{//System.out.println("Zielnr:"+i);
 								int[] scanPos = vectorHead.get(i);
 								zielPos.setX(scanPos[0]);
 								zielPos.setY(scanPos[1]);
@@ -257,25 +259,57 @@ public class MatrixCreator
 			}
 
 		public double getAngleToObstacle(Position mypos,Position scanpos)
-			{	
+			{	//System.out.println("scanposx"+scanpos.getX()+"scanposy"+scanpos.getY());
 				double beta;
 				double ax = 0, ay = 10; 							// vektor in l�ngsachse des fahrzeugs
-				double vecby= scanpos.getY()-mypos.getY(), vecbx=scanpos.getX()-mypos.getX(); // vector zu erkanntem  Hindernis
+				double vecby= Math.abs(Math.abs(scanpos.getY())-mypos.getY()), vecbx=Math.abs(Math.abs(scanpos.getX())-mypos.getX()); // vector zu erkanntem  Hindernis
 				double lengthveca = Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2));
-				System.out.println("lengthveca"+lengthveca);
+				//System.out.println("vecby"+vecby);
+				//System.out.println("vecbx"+vecbx);
+				//System.out.println("lengthveca"+lengthveca);
 				double lengthvecb = Math.sqrt(Math.pow(vecbx, 2) + Math.pow(vecby, 2));
-				System.out.println(Math.pow(vecbx, 2));
-				System.out.println(Math.pow(vecby, 2));
-				System.out.println("lengthvecb"+lengthvecb);
+				//System.out.println(Math.pow(vecbx, 2));
+				//System.out.println(Math.pow(vecby, 2));
+				//System.out.println("lengthvecb"+lengthvecb);
 				double z = (ax * vecbx) + (ay * vecby);
 				double n = (lengthveca * lengthvecb);
 				
 				beta = z / n;
 				beta = Math.acos(beta) * 180 / Math.PI;
+				
+				if(scanpos.getX()<0)
+				{
+					
+					if(scanpos.getY()<0)
+					{
+						beta= beta;
+						//System.out.println("beta"+beta);
+					}
+					
+				}
+				else
+					{
+						if(scanpos.getY()<0)
+							{
+								beta=beta+90;
+							}
+						else
+							{
+								beta=beta+180;
+							}
+					}
+				
+				//System.out.println("beta"+beta);
+				
+				
+				
+				
 				if(mypos.getX()>scanpos.getY())
 					{
 						beta=360-beta;
+				
 					}
+			
 				System.out.println("beta"+beta);
 				return beta;										//Winkel zu erkanntem Hindernis
 				
@@ -297,18 +331,20 @@ public class MatrixCreator
 				Position absPos = new Position();
 
 				double gamma = getAngleToX() + getAngleToObstacle(mypos,scanPos);
-				double length = Math.sqrt(Math.pow(scanPos.getX()-mypos.getX(), 2) + Math.pow(scanPos.getY()-mypos.getY(), 2));
-			
+				//System.out.println(("length"+Math.pow((scanPos.getX()-mypos.getX()),2)));
+				//double length = Math.sqrt(Math.pow(scanPos.getX()-mypos.getX(), 2) + Math.pow(scanPos.getY()-mypos.getY(), 2));
+				double length =Math.sqrt(Math.pow(Math.abs(Math.abs(scanPos.getY())-mypos.getY()),2)+Math.pow(Math.abs(Math.abs(scanPos.getY())-mypos.getY()),2));
+				System.out.println("legth"+length);
 				absPos.setX((int) Math.round((length * Math.cos(Math.toRadians(90-gamma)))));
 				absPos.setY((int) Math.round((length * Math.sin(Math.toRadians(90-gamma)))));
-				
+				//System.out.println("abspos"+absPos.getX()+","+absPos.getY());
 				absPos.setX(absPos.getX()+mypos.getX());
 				absPos.setY(absPos.getY()+mypos.getY());//
 				
 				System.out.println("Alpha: " + getAngleToX() + " Beta: " + getAngleToObstacle(mypos, scanPos) + " Gamma: " + gamma);
 				//System.out.println("mypos:"+mypos.getX()+","+mypos.getY());
 				//System.out.println("relativePos:" + scanPos.getX() + "," + scanPos.getY());
-				//System.out.println("absolutePos:" + absPos.getX() + "," + absPos.getY());	
+				System.out.println("absolutePos:" + absPos.getX() + "," + absPos.getY());	
 				return absPos;
 			}
 		
