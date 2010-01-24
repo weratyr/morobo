@@ -14,17 +14,17 @@ public class ConnectionClient {
 		//String zuSendendeNachricht = "<map><name>ich</name><pos>"+(8+i)+","+((i*2)+2)+"</pos><direction>3,6</direction><data>1,"+i+"</data>" +
 
 		//"<data>10,5</data><data>23,4</data><data>"+i+",3</data></map>";
-		for(int x=0;x<20;x++)
+		for(int x=0;x<10;x++)
 		{
-			for(int y=0;y<20;y++)
+			for(int y=0;y<10;y++)
 			{
 				Socket socket = new Socket(ip, port); // verbindet sich mit Server
 		
 				//	String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+15)+",1</pos><direction>"+(i+1)+",0</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
-				String zuSendendeNachricht = "<map><name>ichj</name><pos>"+x+","+y+"</pos><direction>0,0</direction><data>10,10</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,10</data><data>15,15</data></map>"; // direction sind cm daraus ergibt sich der alpha
+				String zuSendendeNachricht = "<map><name>ichj</name><pos>1,1</pos><direction>0,0</direction><data>10,10</data><data>11,10</data><data>20,15</data><data>30,15</data><data>40,15</data><data>50,15</data><data>60,15</data></map>"; // direction sind cm daraus ergibt sich der alpha
 			
 				int len = zuSendendeNachricht.length();
-				zuSendendeNachricht = len + zuSendendeNachricht;
+				zuSendendeNachricht =  len + zuSendendeNachricht;
 				schreibeNachricht(socket, zuSendendeNachricht);
 			//	System.out.println("print i "+x+","+y + "length "+ len);
 				y++;
