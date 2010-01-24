@@ -349,6 +349,9 @@ public class GuiFrame extends JFrame {
 					int color = 255;
 					for (Entry entry : objectList.entrySet()) {
 						color -= 50;
+						if(color < 0) {
+							color = 10;
+						}
 					}
 					object.setColor(color);
 					object.setName(infos.getName());
