@@ -34,7 +34,6 @@ public class TransRotatePanel extends JPanel {
 		double deltaAlphaRad;
 		double wheelWidth = 18;
 		deltaAlphaRad = (l - r) / wheelWidth;
-		System.out.println("neuer Winkel: "+(deltaAlphaRad*180)/Math.PI);
 		if(deltaAlphaRad < 0) {
 			deltaAlphaRad *= -1;
 		}

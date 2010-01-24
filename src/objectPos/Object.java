@@ -1,8 +1,11 @@
 package objectPos;
 
+import java.awt.Color;
+
 public class Object {
 	private String name;
 	private int color;
+	private Color currentColor;
 	private Position position;
 	private Position oldPosition;
 	
@@ -33,6 +36,14 @@ public class Object {
 	}
 	public void setColor(int color) {
 		this.color = color;
+	}
+	
+	public void setCurrentColorObject(Color currentColor) {
+		this.currentColor = currentColor;
+	}
+	
+	public Color getCurrentColorObject() {
+		return currentColor;
 	}
 
 }
