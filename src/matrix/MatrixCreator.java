@@ -282,7 +282,7 @@ public class MatrixCreator
 					
 					if(scanpos.getY()<0)
 					{
-						beta= beta;
+						beta= beta+90;
 						//System.out.println("beta"+beta);
 					}
 					
@@ -291,11 +291,11 @@ public class MatrixCreator
 					{
 						if(scanpos.getY()<0)
 							{
-								beta=beta+90;
+								beta=beta+180;
 							}
 						else
 							{
-								beta=beta+180;
+								beta=beta+270;
 							}
 					}
 				
@@ -310,7 +310,7 @@ public class MatrixCreator
 				
 					}
 			
-				System.out.println("beta"+beta);
+				//System.out.println("beta"+beta);
 				return beta;										//Winkel zu erkanntem Hindernis
 				
 			} //Tested
