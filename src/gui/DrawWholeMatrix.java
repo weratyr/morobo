@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 public class DrawWholeMatrix extends JFrame {
 	private JPanel mainWindow;
 	private ArrayList<ArrayList<Color>> matrix;
-	private final int scaleZoom = 4;
+	private final int scaleZoom = 1;
 	
 	public DrawWholeMatrix(ArrayList<ArrayList<Color>> matrix) {
 		super();

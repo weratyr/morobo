@@ -12,6 +12,7 @@ public class ParserXml {
 	private DataContainer dContainer;
 	private Hashtable<String, Integer> xmlData;
 	private int tagIndex;
+	private double scale = 10;
 	
 	public ParserXml() {
 		dContainer = new DataContainer();
@@ -49,7 +50,17 @@ public class ParserXml {
 			String[] xy = newstring.split(",");
 			int[] xyInt;
 			if(xy.length > 1){
-				 xyInt = new int[] { Integer.parseInt(xy[0]), Integer.parseInt(xy[1])};
+				int xt = Integer.parseInt(xy[0]);
+				int yt = Integer.parseInt(xy[1]);
+				if(xt < 10) {
+					xt = 0;
+				}
+				if(yt < 0) {
+					yt = 0;
+				}
+				 double x = xt/scale;
+				 double y = yt/scale;
+				 xyInt = new int[] { (int)x, (int)y };
 			}else {
 				 xyInt = new int[] { 0, 0 };
 			}
