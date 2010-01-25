@@ -44,8 +44,8 @@ public class GuiFrame extends JFrame {
 	private final JButton startTcp;
 
 	private final int scaleZoom = 6;
-	private final int shownMatrixWidth = 60; // 60
-	private final int shownMatrixHeight = 60; // 50
+	private final int shownMatrixWidth = 70; // 60
+	private final int shownMatrixHeight = 70; // 50
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
 	private MatrixCreator mc;
@@ -85,11 +85,11 @@ public class GuiFrame extends JFrame {
 
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		mapPanel.setPreferredSize(new Dimension(200,200));
+		mapPanel.setPreferredSize(new Dimension(250,250));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
 		mapCenterConstraint.fill = GridBagConstraints.CENTER;
 		transparentRotateJP = new TransRotatePanel();
-		transparentRotateJP.setPreferredSize(new Dimension(300,300));
+		transparentRotateJP.setPreferredSize(new Dimension(400,400));
 		transparentRotateJP.setLayout(new GridBagLayout());
 		transparentRotateJP.add(mapPanel,mapCenterConstraint);
 		
@@ -206,9 +206,8 @@ public class GuiFrame extends JFrame {
 	}
 	
 	public void updateTransparentRotateJP(int[] direction) {
-		
 		transparentRotateJP.rotate(direction[0], direction[1]);
-		//System.out.println("rotate"+direction[0]);
+		System.out.println("rotate"+direction[0]);
 	}
 	
 	
