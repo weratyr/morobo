@@ -247,6 +247,17 @@ public class GuiFrame extends JFrame {
 
 		});
 		functions.add(resetRotatedImage);
+		
+		JMenuItem paintMatrixWindow = new JMenuItem("paint whole matrix");
+		paintMatrixWindow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DrawWholeMatrix(matrix);
+			}
+
+		});
+		functions.add(paintMatrixWindow);
+		
+		
 		menu.add(functions);
 		
 		return menu;
