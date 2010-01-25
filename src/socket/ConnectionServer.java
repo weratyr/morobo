@@ -14,14 +14,12 @@ import java.util.regex.Pattern;
 import filterData.FilterData;
 
 public class ConnectionServer implements Runnable {
-	private Hashtable<Integer, Socket> ht;
 	private Socket client;
 	private String message;
 	private int sleepThread;
 
 	public ConnectionServer(int sleepThread) {
 		this.sleepThread = sleepThread;
-		ht = new Hashtable<Integer, Socket>();
 	}
 
 	public void readMessage(Socket socket) throws IOException {
@@ -34,7 +32,7 @@ public class ConnectionServer implements Runnable {
 		Pattern p = Pattern.compile("(\\d+)<");
 		Matcher m = p.matcher(receive);
 
-		if (m.find() && m.groupCount() > 0) {
+		if (m.find()) {
 			receive = receive.replace( m.group(1), "");
 			int toReceiveLength = Integer.parseInt(m.group(1));
 			int receiveNumberLength = (m.group(1).length());
@@ -73,10 +71,10 @@ public class ConnectionServer implements Runnable {
 		try {
 			int port = 1111;
 			ServerSocket serverSocket = new ServerSocket(port);
+			System.out.println("server is online");
 			while (true) {
 				waitForConnection(serverSocket);
 				readMessage(client);
-				System.out.println("run tcp server");
 				try {
 					Thread.sleep(sleepThread);
 				} catch (InterruptedException e) {
