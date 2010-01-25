@@ -37,8 +37,8 @@ public class TransRotatePanel extends JPanel {
 		System.out.println("before current Angle " + currentAngle);
 		currentAngle += (deltaAlphaRad*180)/Math.PI;
 		System.out.println("current Angle " + currentAngle);
-		if (currentAngle >= 360.0) {
-			currentAngle = 0;
+		if (currentAngle > 360.0) {
+			currentAngle -= 360;
 		}
 		repaint();
 	}

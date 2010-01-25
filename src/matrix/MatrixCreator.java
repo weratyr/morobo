@@ -22,24 +22,13 @@ public class MatrixCreator
 		private int blue;
 		private int wheelwidth = 18;
 		private ArrayList<ArrayList<Color>> matrix;
+		private double alpha;
 		
 		
-		  public MatrixCreator() { matrix = new ArrayList<ArrayList<Color>>();
-		  // matrix.add(new ArrayList<Color>());
+		  public MatrixCreator() { 
+			  matrix = new ArrayList<ArrayList<Color>>();
 		  }
 		 
-
-	/*	public MatrixCreator()
-			{
-				matrix = new ArrayList<ArrayList<Color>>();
-				Position scanPos = new Position();
-				Position myPos = new Position();
-				myPos.setX(0);
-				myPos.setY(0);
-				scanPos.setX(5);
-				scanPos.setY(-5);
-				absolutePosofobstacle(myPos, scanPos);
-		}*/
 		
 		public void setfilterData(FilterData fd)
 			{
@@ -167,7 +156,7 @@ public class MatrixCreator
 				
 				x = myPos.getX();
 				y = myPos.getY();
-				System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
+			//	System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
 				dx = scanPos.getX() - x;
 				dy = scanPos.getY() - y; // Hoehenzuwachs
 				
@@ -293,12 +282,14 @@ public class MatrixCreator
 		
 		public double getAngleToX()
 			{
-				double alpha;
 				double lchain = fd.getParsedInfos().getDirection()[0];
 				double rchain = fd.getParsedInfos().getDirection()[1];
 				
-				alpha = ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
+				alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
 				System.out.println("alpha" + alpha);
+				if(alpha > 360) {
+					alpha -=360;
+				}
 				return alpha;
 			}
 		
