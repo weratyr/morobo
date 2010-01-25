@@ -22,24 +22,13 @@ public class MatrixCreator
 		private int blue;
 		private int wheelwidth = 18;
 		private ArrayList<ArrayList<Color>> matrix;
+		private double alpha;
 		
 		
-		  public MatrixCreator() { matrix = new ArrayList<ArrayList<Color>>();
-		  // matrix.add(new ArrayList<Color>());
+		  public MatrixCreator() { 
+			  matrix = new ArrayList<ArrayList<Color>>();
 		  }
 		 
-
-	/*	public MatrixCreator()
-			{
-				matrix = new ArrayList<ArrayList<Color>>();
-				Position scanPos = new Position();
-				Position myPos = new Position();
-				myPos.setX(0);
-				myPos.setY(0);
-				scanPos.setX(5);
-				scanPos.setY(-5);
-				absolutePosofobstacle(myPos, scanPos);
-		}*/
 		
 		public void setfilterData(FilterData fd)
 			{
@@ -133,6 +122,7 @@ public class MatrixCreator
 			{
 				for (int i = 0; i < data.size(); i++)
 					{
+	    				updateMatrix();
 						int x = data.get(i)[0];
 						int y = data.get(i)[1];
 						setColorFromScannedPixel(x, y);
@@ -144,7 +134,6 @@ public class MatrixCreator
 								red += 10;
 							}
 						setPixelinMatrix(x, y, red, green, blue);
-						updateMatrix();
 					}
 				data.clear();
 			}
@@ -154,19 +143,20 @@ public class MatrixCreator
 				return matrix;
 			}
 		
-		public void drawLine(Position myPos, Position scanPos)// in
+		public void drawLine(Position myPos, Position scanPos, int i)// in
 		// ver�nderter
 		// Form von
 		// http://www-lehre.informatik.uni-osnabrueck.de
 			{
 				scanPos = absolutePosofobstacle(myPos, scanPos);
+				fd.getParsedInfos().getData().set(i,new int[] {scanPos.getX(), scanPos.getY()});
 				// System.out.println("scanPosabsX"+scanPos.getX()+","+"scanPosabsY"+scanPos.getY());
 				// Jacks Algorithmus ist schneller als Geradengleichung
 				int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
 				
 				x = myPos.getX();
 				y = myPos.getY();
-				System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
+			//	System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
 				dx = scanPos.getX() - x;
 				dy = scanPos.getY() - y; // Hoehenzuwachs
 				
@@ -255,7 +245,6 @@ public class MatrixCreator
 	
 		public double getAngleToObstacle(Position myPos, Position scanPos)
 			{
-				
 				double dax = 0, day = 10;
 				double dbx, dby;
 				double lengtha, lengthb;
@@ -281,12 +270,14 @@ public class MatrixCreator
 		
 		public double getAngleToX()
 			{
-				double alpha;
 				double lchain = fd.getParsedInfos().getDirection()[0];
 				double rchain = fd.getParsedInfos().getDirection()[1];
 				
-				alpha = ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
-				// System.out.println("alpha" + alpha);
+				alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
+				System.out.println("alpha" + alpha);
+				if(alpha > 360) {
+					alpha -=360;
+				}
 				return alpha;
 			}
 		
@@ -303,9 +294,10 @@ public class MatrixCreator
 			}
 		
 		public Position absolutePosofobstacle(Position myPos, Position scanPos)
-			{double dbx = scanPos.getX() - myPos.getX();
-			 double dby = scanPos.getY() - myPos.getY();
-			double length = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
+			{
+				double dbx = scanPos.getX() - myPos.getX();
+				double dby = scanPos.getY() - myPos.getY();
+				double length = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
 				Position absPos = new Position();
 				double gamma = getAngleToX() + getAngleToObstacle(myPos, scanPos);
 				
@@ -313,11 +305,11 @@ public class MatrixCreator
 				absPos.setY((int) Math.round((length * Math.sin(Math.toRadians(gamma)))));
 				absPos.setX(absPos.getX() + myPos.getX());
 				absPos.setY(absPos.getY() + myPos.getY());//
-				
-				System.out.println("Alpha: " + getAngleToX() + " Beta: " + getAngleToObstacle(myPos, scanPos) + " Gamma: " + gamma);
-				System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
-				System.out.println("relativePos:"+scanPos.getX()+","+scanPos.getY());
-				System.out.println("absolutePos:" + absPos.getX() + "," + absPos.getY());
+//				
+//				System.out.println("Alpha: " + getAngleToX() + " Beta: " + getAngleToObstacle(myPos, scanPos) + " Gamma: " + gamma);
+//				System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
+//				System.out.println("relativePos:"+scanPos.getX()+","+scanPos.getY());
+//				System.out.println("absolutePos:" + absPos.getX() + "," + absPos.getY());
 				return absPos;
 			}
 		
@@ -341,7 +333,7 @@ public class MatrixCreator
 								int[] scanPos = vectorHead.get(i);
 								zielPos.setX(scanPos[0]);
 								zielPos.setY(scanPos[1]);
-								drawLine(zielPos, myPos);
+								drawLine(myPos, zielPos, i);
 								
 							}
 					}

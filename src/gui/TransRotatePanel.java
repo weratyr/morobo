@@ -34,12 +34,15 @@ public class TransRotatePanel extends JPanel {
 		double deltaAlphaRad;
 		double wheelWidth = 18;
 		deltaAlphaRad = (l - r) / wheelWidth;
-		if(deltaAlphaRad < 0) {
-			deltaAlphaRad *= -1;
-		}
+		System.out.println("before current Angle " + currentAngle);
 		currentAngle += (deltaAlphaRad*180)/Math.PI;
+		System.out.println("current Angle " + currentAngle);
+		if (currentAngle > 360.0) {
+			currentAngle -= 360;
+		}
 		repaint();
 	}
+	
 
 	public void reset() {
 		currentAngle = 0;
