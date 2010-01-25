@@ -265,29 +265,17 @@ public class MatrixCreator
 				lengthb = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
 				double beta = Math.toDegrees(Math.acos((dax * dbx + day * dby) / (lengtha * lengthb)));
 				
-				if (scanPos.getY() > myPos.getY())// oberhalb
+				if(scanPos.getX()>myPos.getX())
 					{
-						
-						if (scanPos.getX() > myPos.getX())// rechts
+						if (scanPos.getY()>myPos.getY())
 							{
+								
 							}
-						else
-							{
-								beta = beta + 90;
+						else {
+							beta=beta+180;
 							}
 					}
-				else
-					{
-						if (scanPos.getX() > myPos.getX())
-							{
-								beta = beta + 180;
-							}
-						else
-							{
-								beta = beta + 90;
-							}
-					}
-				// System.out.println("beta" + beta);
+				
 				return beta;
 			}
 		
@@ -343,6 +331,8 @@ public class MatrixCreator
 				
 				myPos.setX(actPos[0]);							//FIXME: die aktuelle position verschiebt sich dauernd
 				myPos.setY(actPos[1]);
+				//myPos.setX(20);
+				//myPos.setY(20);
 				vectorHead = fd.getParsedInfos().getData();
 				if (actPos.length > 0 && !vectorHead.isEmpty())
 					{

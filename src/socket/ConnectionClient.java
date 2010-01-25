@@ -28,7 +28,7 @@ public class ConnectionClient {
 		
 				//	String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+15)+",1</pos><direction>"+(i+1)+",0</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
 
-			String zuSendendeNachricht = "<map><name>ichj</name><pos>10,10</pos><direction>0,0</direction><data>0,0</data><data>11,10</data><data>5,-5</data><data>13,10</data><data>14,10</data><data>15,10</data></map>";
+			String zuSendendeNachricht = "<map><name>ichj</name><pos>20,10</pos><direction>0,0</direction><data>15,15</data></map>";
 //+"<direction>0,0</direction><data>10,11</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,11</data>"
 //+"<direction>0,0</direction><data>10,12</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,12</data>"
 //+"<direction>0,0</direction><data>10,13</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,13</data>"
