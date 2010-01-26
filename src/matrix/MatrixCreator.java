@@ -292,7 +292,7 @@ public class MatrixCreator {
 		Position zielPos = new Position();
 		actPos = fd.getParsedInfos().getPos();
 
-		myPos.setX(actPos[0]); // 
+		myPos.setX(actPos[0]); 
 		myPos.setY(actPos[1]);
 		
 			
@@ -303,10 +303,10 @@ public class MatrixCreator {
 			for (int i = 0; i < vectorHead.size(); i++) {
 				int[] scanPos = vectorHead.get(i);
 				
-				zielPos.setX(scanPos[0]+actPos[0]);
-				zielPos.setY(scanPos[1]+actPos[1]);
-				System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
-				System.out.println("myPos"+myPos.getX()+","+myPos.getY());
+				zielPos.setX(scanPos[0]);
+				zielPos.setY(scanPos[1]);
+				//System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
+				//System.out.println("myPos"+myPos.getX()+","+myPos.getY());
 				
 				drawLine(myPos, zielPos, i);
 
