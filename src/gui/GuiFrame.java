@@ -321,7 +321,7 @@ public class GuiFrame extends JFrame {
 	}
 
 	public static void main(String[] arg) throws InterruptedException {
-		int sleepThread = 600;
+		int sleepThread = 300;
 		Hashtable<String, Object> objectList = new Hashtable<String, Object>();
 
 		MatrixCreator mc = new MatrixCreator();

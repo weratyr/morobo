@@ -97,8 +97,8 @@ public class MatrixCreator {
 			red = matrix.get(x).get(y).getRed();
 		}
 	}
-
-	public void setScanData(ArrayList<int[]> data) {
+	public synchronized void setScanData(ArrayList<int[]> data) {
+	//public void setScanData(ArrayList<int[]> data) {
 		for (int i = 0; i < data.size(); i++) {
 			updateMatrix();
 			int x = data.get(i)[0];
@@ -302,15 +302,12 @@ public class MatrixCreator {
 		if (actPos.length > 0 && !vectorHead.isEmpty()) {
 			for (int i = 0; i < vectorHead.size(); i++) {
 				int[] scanPos = vectorHead.get(i);
-				scanPos[0]=scanPos[0]+actPos[0];
-				scanPos[1]=scanPos[1]+actPos[1];
-				zielPos.setX(scanPos[0]);
-				zielPos.setY(scanPos[1]);
-				System.out.println(scanPos[0]);
-				System.out.println(scanPos[1]);
 				
-				//System.out.println("mypos"+myPos.getX()+","+myPos.getY());
-				//System.out.println("scanpos"+zielPos.getX()+","+zielPos.getY());
+				zielPos.setX(scanPos[0]+actPos[0]);
+				zielPos.setY(scanPos[1]+actPos[1]);
+				System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
+				System.out.println("myPos"+myPos.getX()+","+myPos.getY());
+				
 				drawLine(myPos, zielPos, i);
 
 			}
