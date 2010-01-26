@@ -43,9 +43,9 @@ public class GuiFrame extends JFrame {
 	private final JButton stopTcp;
 	private final JButton startTcp;
 
-	private final int scaleZoom = 6;
-	private final int shownMatrixWidth = 70; // 60
-	private final int shownMatrixHeight = 70; // 50
+	private final int scaleZoom = 2;
+	private final int shownMatrixWidth = 200; // 60
+	private final int shownMatrixHeight = 200; // 50
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
 	private MatrixCreator mc;
@@ -156,7 +156,7 @@ public class GuiFrame extends JFrame {
 		buttonContainer1.add(scrollRight, BorderLayout.EAST);
 		buttonContainer1.add(scrollLeft, BorderLayout.WEST);
 		buttonContainer1.add(scrollSouth, BorderLayout.SOUTH);
-		westContainer.add(buttonContainer1);
+		//westContainer.add(buttonContainer1);
 
 		JPanel buttonContainer = new JPanel();
 		buttonContainer.setLayout(new BoxLayout(buttonContainer, 1));
@@ -193,12 +193,16 @@ public class GuiFrame extends JFrame {
 		buttonContainer.add(rotate);
 		
 		westContainer.add(buttonContainer);
+		southContainer.add(scrollSouth, BorderLayout.NORTH);
 		
 		setLayout(new BorderLayout());
 		Container cp = getContentPane();
-		cp.add(southContainer, BorderLayout.SOUTH);
+		cp.add(scrollRight, BorderLayout.EAST);
 		cp.add(transparentRotateJP, BorderLayout.CENTER);
 		cp.add(westContainer, BorderLayout.WEST);
+		cp.add(scrollLeft, BorderLayout.WEST);
+		cp.add(scrollNorth, BorderLayout.NORTH);
+		cp.add(southContainer, BorderLayout.SOUTH);
 		pack();
 		
 		
@@ -247,6 +251,17 @@ public class GuiFrame extends JFrame {
 
 		});
 		functions.add(resetRotatedImage);
+		
+		JMenuItem paintMatrixWindow = new JMenuItem("paint whole matrix");
+		paintMatrixWindow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DrawWholeMatrix(matrix);
+			}
+
+		});
+		functions.add(paintMatrixWindow);
+		
+		
 		menu.add(functions);
 		
 		return menu;
@@ -306,7 +321,7 @@ public class GuiFrame extends JFrame {
 	}
 
 	public static void main(String[] arg) throws InterruptedException {
-		int sleepThread = 1000;
+		int sleepThread = 600;
 		Hashtable<String, Object> objectList = new Hashtable<String, Object>();
 
 		MatrixCreator mc = new MatrixCreator();
@@ -325,7 +340,8 @@ public class GuiFrame extends JFrame {
 		mc.setfilterData(filterData);
 		Object object;
 		DataContainer infos;
-
+		tcpServerThread.start();
+		
 		while (true) {
 			if (cs.getMessage() != null) {      // <==== hier kommt noch was an,
 				// System.out.println("getMessage "+cs.getMessage());

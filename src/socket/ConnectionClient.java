@@ -21,7 +21,7 @@ public class ConnectionClient {
 
 	//	for(int x=0;x<5;x++)
 	//	{
-			for(int y=0;y<20;y++)
+			for(int y=0;y<11;y++)
 
 			{
 				Socket socket = new Socket(ip, port); // verbindet sich mit Server
@@ -29,7 +29,7 @@ public class ConnectionClient {
 				//	String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+15)+",1</pos><direction>"+(i+1)+",0</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
 
 
-			String zuSendendeNachricht = "<map><name>ichj</name><pos>15,15</pos><direction>10,0</direction><data>30,24</data></map>";
+			String zuSendendeNachricht = "<map><name>Kettenfahrzeug</name><pos>15,15</pos><direction>10,0</direction><data>30,24</data></map>";
 //+"<direction>0,0</directrion><data>10,11</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,11</data>"
 
 //+"<direction>0,0</direction><data>10,12</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,12</data>"
