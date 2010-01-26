@@ -67,6 +67,7 @@ public class ParserXml {
 			
 			switch(tagIndex) {
 				case 1: //data
+					int[]pos =  dContainer.getPos();
 					dContainer.addData(xyInt);
 					break;
 				case 2: //pos

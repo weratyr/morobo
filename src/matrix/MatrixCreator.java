@@ -13,8 +13,8 @@ public class MatrixCreator {
 	private static final int MAX_BLUE = 240;
 	private static final int MIN_BLUE = 10;
 
-	private int height = 1500;
-	private int width = 1500;
+	private int height = 3000;
+	private int width = 3000;
 	private int defaultColor = 100;
 	private int red;
 	private int green;
