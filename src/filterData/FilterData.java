@@ -12,7 +12,7 @@ public class FilterData {
 		this.input = input;
 	}
 	
-	public DataContainer getParsedInfos() {
+	public synchronized DataContainer getParsedInfos() {
 		return parserXml.getDatenContainer();
 	}
 	

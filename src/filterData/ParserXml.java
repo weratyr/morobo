@@ -13,7 +13,7 @@ public class ParserXml {
 	private Hashtable<String, Integer> xmlData;
 	private int tagIndex;
 	private double scale = 10;
-	
+
 	public ParserXml() {
 		dContainer = new DataContainer();
 		xmlData = new Hashtable<String, Integer>();
@@ -28,7 +28,7 @@ public class ParserXml {
 	
 	public void xmlstinsubstr(String xmlstring) {
 	
-			//System.out.println("xmlstring "+xmlstring);
+		//System.out.println("xmlstring "+xmlstring);
 		int endtag_anfang = 0;
 		int endtag_ende = 0;
 		int starttag_anfang = 0;
@@ -52,25 +52,22 @@ public class ParserXml {
 			if(xy.length > 1){
 				int xt = Integer.parseInt(xy[0]);
 				int yt = Integer.parseInt(xy[1]);
-				if(xt < 10) {
-					xt = 0;
-				}
-				if(yt < 0) {
-					yt = 0;
-				}
-				 double x = xt/scale;
-				 double y = yt/scale;
-				 xyInt = new int[] { (int)x, (int)y };
+
+				
+				xyInt = new int[] { (int)xt, (int)yt };
 			}else {
 				 xyInt = new int[] { 0, 0 };
 			}
 			
 			switch(tagIndex) {
 				case 1: //data
-					int[]pos =  dContainer.getPos();
+					int[]pos=dContainer.getPos();
+					xyInt[0]=xyInt[0]+pos[0];
+					xyInt[1]=xyInt[1]+pos[1];
 					dContainer.addData(xyInt);
 					break;
 				case 2: //pos
+					
 					dContainer.setPos(xyInt);
 					break;
 				case 3: // direction

@@ -13,8 +13,8 @@ public class MatrixCreator {
 	private static final int MAX_BLUE = 240;
 	private static final int MIN_BLUE = 10;
 
-	private int height = 3000;
-	private int width = 3000;
+	private int height = 2400;
+	private int width = 2400;
 	private int defaultColor = 100;
 	private int red;
 	private int green;
@@ -97,8 +97,8 @@ public class MatrixCreator {
 			red = matrix.get(x).get(y).getRed();
 		}
 	}
-
-	public void setScanData(ArrayList<int[]> data) {
+	public synchronized void setScanData(ArrayList<int[]> data) {
+	//public void setScanData(ArrayList<int[]> data) {
 		for (int i = 0; i < data.size(); i++) {
 			updateMatrix();
 			int x = data.get(i)[0];
@@ -120,12 +120,8 @@ public class MatrixCreator {
 	}
 
 	public void drawLine(Position myPos, Position scanPos, int i)// in
-	// ver�nderter
-	// Form von
-	// http://www-lehre.informatik.uni-osnabrueck.de
-	{
-		scanPos = absolutePosofobstacle(myPos, scanPos);
-		fd.getParsedInfos().getData().set(i, new int[] { scanPos.getX(), scanPos.getY() });
+	
+	{	//fd.getParsedInfos().getData().set(i, new int[] { scanPos.getX(), scanPos.getY() });
 		// System.out.println("scanPosabsX"+scanPos.getX()+","+"scanPosabsY"+scanPos.getY());
 		// Jacks Algorithmus ist schneller als Geradengleichung
 		int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
@@ -133,9 +129,10 @@ public class MatrixCreator {
 		x = myPos.getX();
 		y = myPos.getY();
 		// System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
+		
 		dx = scanPos.getX() - x;
 		dy = scanPos.getY() - y; // Hoehenzuwachs
-
+		
 		// Schrittweite
 
 		if (dx > 0) // Linie nach rechts?
@@ -158,6 +155,7 @@ public class MatrixCreator {
 
 				if (x != myPos.getX()) {
 					decPix(x, y); // Fuer
+				
 					// jede
 					// x-Koordinate
 					// System.out.println("inc pos "+ (x +
@@ -178,6 +176,7 @@ public class MatrixCreator {
 			schritt = 2 * error; // Schwelle bestimmen
 			while (y != scanPos.getY()) {
 				if (y != myPos.getY()) {// fuer jede y-Koordinate
+			
 					decPix(x, y);
 				}// setze
 				// Pixel
@@ -191,8 +190,10 @@ public class MatrixCreator {
 			}
 		}
 		if ((x != scanPos.getX() && y != scanPos.getY())) {
-			incPix(scanPos.getX() + x, scanPos.getY() + y);
+		incPix(x, y);
 		}
+		
+		
 	}
 
 	public void decPix(int x, int y) {
@@ -200,7 +201,17 @@ public class MatrixCreator {
 			if (matrix.get(x).get(y).getBlue() > MIN_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
 				setPixelinMatrix(x, y, (matrix.get(x).get(y).getBlue() - 10), (matrix.get(x).get(y).getGreen() - 10), (matrix.get(x).get(y).getBlue() - 10));
 
+
 			}
+		}
+	}
+	public void incPix(int x, int y) {
+		if (checkMatrixSize(x, y)) {
+			if (matrix.get(x).get(y).getBlue() < MAX_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
+				setPixelinMatrix(x, y, (matrix.get(x).get(y).getBlue() + 10), (matrix.get(x).get(y).getGreen() + 10), (matrix.get(x).get(y).getBlue() + 10));
+
+			}
+
 		}
 	}
 
@@ -242,27 +253,26 @@ public class MatrixCreator {
 		if (alpha > 360) {
 			alpha -= 360;
 		}
+		System.out.println("alpha"+alpha);
 		return alpha;
 	}
 
-	public void incPix(int x, int y) {
-		if (checkMatrixSize(x, y)) {
-			if (matrix.get(x).get(y).getBlue() < MAX_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
-				setPixelinMatrix(x, y, matrix.get(x).get(y).getBlue() + 10, matrix.get(x).get(y).getGreen() + 10, matrix.get(x).get(y).getBlue() + 10);
-
-			}
-		}
-	}
+	
 
 	public Position absolutePosofobstacle(Position myPos, Position scanPos) {
+		
+		
 		double dbx = scanPos.getX() - myPos.getX();
 		double dby = scanPos.getY() - myPos.getY();
 		double length = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
+		System.out.println("length"+length);
 		Position absPos = new Position();
-		double gamma = getAngleToX() + getAngleToObstacle(myPos, scanPos);
+		//double gamma = getAngleToX() + getAngleToObstacle(myPos, scanPos);
+		double gamma = getAngleToX();
 
 		absPos.setX((int) Math.round((length * Math.cos(Math.toRadians(gamma)))));
 		absPos.setY((int) Math.round((length * Math.sin(Math.toRadians(gamma)))));
+		
 		absPos.setX(absPos.getX() + myPos.getX());
 		absPos.setY(absPos.getY() + myPos.getY());//
 		//				
@@ -282,15 +292,22 @@ public class MatrixCreator {
 		Position zielPos = new Position();
 		actPos = fd.getParsedInfos().getPos();
 
-		myPos.setX(actPos[0]); // FIXME: die aktuelle position verschiebt sich
-		// dauernd
+		myPos.setX(actPos[0]); 
 		myPos.setY(actPos[1]);
+		
+			
+		
+		
 		vectorHead = fd.getParsedInfos().getData();
 		if (actPos.length > 0 && !vectorHead.isEmpty()) {
 			for (int i = 0; i < vectorHead.size(); i++) {
 				int[] scanPos = vectorHead.get(i);
+				
 				zielPos.setX(scanPos[0]);
 				zielPos.setY(scanPos[1]);
+				//System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
+				//System.out.println("myPos"+myPos.getX()+","+myPos.getY());
+				
 				drawLine(myPos, zielPos, i);
 
 			}
@@ -309,3 +326,4 @@ public class MatrixCreator {
 	 */
 
 }
+/// MATRIX 4k*4k startpos 2k,2k

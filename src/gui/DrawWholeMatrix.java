@@ -3,6 +3,8 @@ package gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.ScrollPane;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -22,7 +24,8 @@ public class DrawWholeMatrix extends JFrame {
 		}
 		paintMatrixWindow();
 		add(mainWindow);
-		setSize(new Dimension(800, 800));
+		setLayout(new GridLayout());
+		setSize(new Dimension(1000, 1200));
 		setVisible(true);
 		//pack();
 		

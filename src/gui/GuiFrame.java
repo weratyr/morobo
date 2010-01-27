@@ -44,8 +44,8 @@ public class GuiFrame extends JFrame {
 	private final JButton startTcp;
 
 	private final int scaleZoom = 2;
-	private final int shownMatrixWidth = 200; // 60
-	private final int shownMatrixHeight = 200; // 50
+	private final int shownMatrixWidth = 400; // 60
+	private final int shownMatrixHeight = 400; // 50
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
 	private MatrixCreator mc;
@@ -199,7 +199,7 @@ public class GuiFrame extends JFrame {
 		Container cp = getContentPane();
 		cp.add(scrollRight, BorderLayout.EAST);
 		cp.add(transparentRotateJP, BorderLayout.CENTER);
-		cp.add(westContainer, BorderLayout.WEST);
+		//cp.add(westContainer, BorderLayout.WEST);
 		cp.add(scrollLeft, BorderLayout.WEST);
 		cp.add(scrollNorth, BorderLayout.NORTH);
 		cp.add(southContainer, BorderLayout.SOUTH);
@@ -321,7 +321,7 @@ public class GuiFrame extends JFrame {
 	}
 
 	public static void main(String[] arg) throws InterruptedException {
-		int sleepThread = 1200;
+		int sleepThread = 1000;
 		Hashtable<String, Object> objectList = new Hashtable<String, Object>();
 
 		MatrixCreator mc = new MatrixCreator();
