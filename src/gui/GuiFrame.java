@@ -159,30 +159,7 @@ public class GuiFrame extends JFrame {
 		//westContainer.add(buttonContainer1);
 
 		JPanel buttonContainer = new JPanel();
-		buttonContainer.setLayout(new BoxLayout(buttonContainer, 1));
-		startTcp = new JButton("start tcp");
-		startTcp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				startTCPServer();
-				startTcp.setEnabled(false);
-				stopTcp.setEnabled(true);
-				stopTcp.setText("stop (suspend)");
-			}
-
-		});
-		buttonContainer.add(startTcp);
-		stopTcp = new JButton("stop tcp");
-		stopTcp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				stopTCPServer();
-				stopTcp.setEnabled(false);
-				startTcp.setEnabled(true);
-				startTcp.setText("start (resume)");
-			}
-
-		});
-		buttonContainer.add(stopTcp);
-		
+		buttonContainer.setLayout(new BoxLayout(buttonContainer, 1));		
 		JButton rotate = new JButton("rotate 10 degree");
 		rotate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -191,10 +168,8 @@ public class GuiFrame extends JFrame {
 
 		});
 		buttonContainer.add(rotate);
-		
 		westContainer.add(buttonContainer);
 		southContainer.add(scrollSouth, BorderLayout.NORTH);
-		
 		setLayout(new BorderLayout());
 		Container cp = getContentPane();
 		cp.add(scrollRight, BorderLayout.EAST);
@@ -204,9 +179,6 @@ public class GuiFrame extends JFrame {
 		cp.add(scrollNorth, BorderLayout.NORTH);
 		cp.add(southContainer, BorderLayout.SOUTH);
 		pack();
-		
-		
-
 	}
 	
 	public void updateTransparentRotateJP(int[] direction) {
@@ -217,12 +189,10 @@ public class GuiFrame extends JFrame {
 	
 	public JMenuBar generateMenu() {
 		menu = new JMenuBar();
-
 		JMenu file = new JMenu("file");
 		JMenuItem open = new JMenuItem("open");
 		file.add(open);
 		menu.add(file);
-
 		JMenu functions = new JMenu("functions");
 		JMenuItem repaintMatrix = new JMenuItem("repaint map");
 		repaintMatrix.addActionListener(new ActionListener() {
@@ -260,17 +230,12 @@ public class GuiFrame extends JFrame {
 
 		});
 		functions.add(paintMatrixWindow);
-		
-		
 		menu.add(functions);
-		
 		return menu;
 	}
 	
 	
-
 	public void setAktiveObject(String key) {
-
 		activeObjectTable.removeAll();
 		for (Entry<String, Object> entry : posObjectListe.entrySet()) {
 			Label object = new Label(entry.getKey());
@@ -303,22 +268,8 @@ public class GuiFrame extends JFrame {
 	public void setMatrixObject(MatrixCreator mc) {
 		this.mc = mc;
 	}
-
-	public void startTCPServer() {
-		if (tcpServerThread.isAlive()) {
-			tcpServerThread.resume();
-		} else {
-			tcpServerThread.start();
-		}
-	}
-
-	public void stopTCPServer() {
-		tcpServerThread.suspend();
-	}
-
-	public void setTCPServerThread(Thread tcpServerThread) {
-		this.tcpServerThread = tcpServerThread;
-	}
+	
+	
 
 	public static void main(String[] arg) throws InterruptedException {
 		int sleepThread = 1000;
@@ -334,7 +285,6 @@ public class GuiFrame extends JFrame {
 		ConnectionServer cs = null;
 		cs = new ConnectionServer(sleepThread);
 		Thread tcpServerThread = new Thread(cs);
-		gui.setTCPServerThread(tcpServerThread);
 		
 		FilterData filterData = new FilterData();
 		mc.setfilterData(filterData);

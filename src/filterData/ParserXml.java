@@ -67,11 +67,12 @@ public class ParserXml {
 					dContainer.addData(xyInt);
 					break;
 				case 2: //pos
-					
 					dContainer.setPos(xyInt);
 					break;
 				case 3: // direction
 					dContainer.setDirection(xyInt);
+					
+					
 					break;
 				case 4: // name
 					dContainer.setName(newstring);

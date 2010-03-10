@@ -97,8 +97,9 @@ public class MatrixCreator {
 			red = matrix.get(x).get(y).getRed();
 		}
 	}
+
 	public synchronized void setScanData(ArrayList<int[]> data) {
-	//public void setScanData(ArrayList<int[]> data) {
+		// public void setScanData(ArrayList<int[]> data) {
 		for (int i = 0; i < data.size(); i++) {
 			updateMatrix();
 			int x = data.get(i)[0];
@@ -119,69 +120,49 @@ public class MatrixCreator {
 		return matrix;
 	}
 
-	public void drawLine(Position myPos, Position scanPos, int i)// in
-	
-	{	//fd.getParsedInfos().getData().set(i, new int[] { scanPos.getX(), scanPos.getY() });
-		// System.out.println("scanPosabsX"+scanPos.getX()+","+"scanPosabsY"+scanPos.getY());
-		// Jacks Algorithmus ist schneller als Geradengleichung
-		int x, y, error, delta, schritt, dx, dy, inc_x, inc_y;
-
+	public void drawLine(Position myPos, Position scanPos, int i) { 
+		int x, y, error, differenz, schritt, dx, dy, inc_x, inc_y;
 		x = myPos.getX();
 		y = myPos.getY();
 		// System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
-		
 		dx = scanPos.getX() - x;
-		dy = scanPos.getY() - y; // Hoehenzuwachs
-		
-		// Schrittweite
-
+		dy = scanPos.getY() - y; 
 		if (dx > 0) // Linie nach rechts?
 			inc_x = 1; // x inkrementieren
-		else
-			// Linie nach links
+		else   // Linie nach links
 			inc_x = -1; // x dekrementieren
-
+		
 		if (dy > 0) // Linie nach oben ?
 			inc_y = 1; // y inkrementieren
-		else
-			// Linie nach unten
+		else  // Linie nach unten
 			inc_y = -1; // y dekrementieren
 
 		if (Math.abs(dy) < Math.abs(dx)) { // flach nach oben oder unten
 			error = -Math.abs(dx); // Fehler bestimmen
-			delta = 2 * Math.abs(dy); // Delta bestimmen
+			differenz = 2 * Math.abs(dy); // Delta bestimmen
 			schritt = 2 * error; // Schwelle bestimmen
 			while (x != scanPos.getX()) {
-
 				if (x != myPos.getX()) {
-					decPix(x, y); // Fuer
-				
-					// jede
-					// x-Koordinate
-					// System.out.println("inc pos "+ (x +
-					// myPos.getX()));
+					decPix(x, y);
 				}
-				// Pixel
 				x += inc_x; // naechste x-Koordinate
-				error = error + delta; // Fehler aktualisieren
+				error = error + differenz; // Fehler aktualisieren
 				if (error > 0) { // neue Spalte erreicht?
 					y += inc_y; // y-Koord. aktualisieren
-					error += schritt; // Fehler
-					// aktualisieren
+					error += schritt; // Fehler aktualisieren
 				}
 			}
 		} else { // steil nach oben oder unten
 			error = -Math.abs(dy); // Fehler bestimmen
-			delta = 2 * Math.abs(dx); // Delta bestimmen
+			differenz = 2 * Math.abs(dx); // Delta bestimmen
 			schritt = 2 * error; // Schwelle bestimmen
 			while (y != scanPos.getY()) {
 				if (y != myPos.getY()) {// fuer jede y-Koordinate
-			
 					decPix(x, y);
 				}// setze
 				// Pixel
 				y += inc_y; // naechste y-Koordinate
-				error = error + delta; // Fehler aktualisieren
+				error = error + differenz; // Fehler aktualisieren
 				if (error > 0) { // neue Zeile erreicht?
 					x += inc_x; // x-Koord. aktualisieren
 					error += schritt; // Fehler
@@ -190,130 +171,111 @@ public class MatrixCreator {
 			}
 		}
 		if ((x != scanPos.getX() && y != scanPos.getY())) {
-		incPix(x, y);
+			incPix(x, y);
 		}
-		
-		
 	}
 
 	public void decPix(int x, int y) {
 		if (checkMatrixSize(x, y)) {
 			if (matrix.get(x).get(y).getBlue() > MIN_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
 				setPixelinMatrix(x, y, (matrix.get(x).get(y).getBlue() - 10), (matrix.get(x).get(y).getGreen() - 10), (matrix.get(x).get(y).getBlue() - 10));
-
-
 			}
 		}
 	}
+
 	public void incPix(int x, int y) {
 		if (checkMatrixSize(x, y)) {
 			if (matrix.get(x).get(y).getBlue() < MAX_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
 				setPixelinMatrix(x, y, (matrix.get(x).get(y).getBlue() + 10), (matrix.get(x).get(y).getGreen() + 10), (matrix.get(x).get(y).getBlue() + 10));
-
-			}
-
-		}
-	}
-
-	public double getAngleToObstacle(Position myPos, Position scanPos) {
-		double dax = 0, day = 10;
-		double dbx, dby;
-		double lengtha, lengthb;
-		dbx = scanPos.getX() - myPos.getX();
-		dby = scanPos.getY() - myPos.getY();
-		lengtha = Math.sqrt(Math.pow(dax, 2) + Math.pow(day, 2));
-		lengthb = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
-		double beta = Math.toDegrees(Math.acos((dax * dbx + day * dby) / (lengtha * lengthb)));
-
-		if (scanPos.getY() > myPos.getY())// oberhalb
-		{
-
-			if (scanPos.getX() > myPos.getX())// rechts
-			{
-			} else {
-				beta = beta + 90;
-			}
-		} else {
-			if (scanPos.getX() > myPos.getX()) {
-				beta = beta + 180;
-			} else {
-				beta = beta + 90;
 			}
 		}
-		// System.out.println("beta" + beta);
-		return beta;
-	}
-
-	public double getAngleToX() {
-		double lchain = fd.getParsedInfos().getDirection()[0];
-		double rchain = fd.getParsedInfos().getDirection()[1];
-
-		alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
-		//System.out.println("alpha" + alpha);
-		if (alpha > 360) {
-			alpha -= 360;
-		}
-		System.out.println("alpha"+alpha);
-		return alpha;
-	}
-
-	
-
-	public Position absolutePosofobstacle(Position myPos, Position scanPos) {
-		
-		
-		double dbx = scanPos.getX() - myPos.getX();
-		double dby = scanPos.getY() - myPos.getY();
-		double length = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
-		System.out.println("length"+length);
-		Position absPos = new Position();
-		//double gamma = getAngleToX() + getAngleToObstacle(myPos, scanPos);
-		double gamma = getAngleToX();
-
-		absPos.setX((int) Math.round((length * Math.cos(Math.toRadians(gamma)))));
-		absPos.setY((int) Math.round((length * Math.sin(Math.toRadians(gamma)))));
-		
-		absPos.setX(absPos.getX() + myPos.getX());
-		absPos.setY(absPos.getY() + myPos.getY());//
-		//				
-		// System.out.println("Alpha: " + getAngleToX() + " Beta: " +
-		// getAngleToObstacle(myPos, scanPos) + " Gamma: " + gamma);
-		// System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
-		// System.out.println("relativePos:"+scanPos.getX()+","+scanPos.getY());
-		// System.out.println("absolutePos:" + absPos.getX() + "," +
-		// absPos.getY());
-		return absPos;
 	}
 
 	public void updateMatrix() {
-		int[] actPos;
-		ArrayList<int[]> vectorHead;
 		Position myPos = new Position();
 		Position zielPos = new Position();
-		actPos = fd.getParsedInfos().getPos();
-
-		myPos.setX(actPos[0]); 
-		myPos.setY(actPos[1]);
-		
-			
-		
-		
-		vectorHead = fd.getParsedInfos().getData();
-		if (actPos.length > 0 && !vectorHead.isEmpty()) {
-			for (int i = 0; i < vectorHead.size(); i++) {
-				int[] scanPos = vectorHead.get(i);
-				
-				zielPos.setX(scanPos[0]);
-				zielPos.setY(scanPos[1]);
-				//System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
-				//System.out.println("myPos"+myPos.getX()+","+myPos.getY());
-				
+		myPos.setPosArray(fd.getParsedInfos().getPos());
+		if (myPos.getPosArray().length > 0 && !fd.getParsedInfos().getData().isEmpty()) {
+			for (int i = 0; i < fd.getParsedInfos().getData().size(); i++) {
+				zielPos.setPosArray(fd.getParsedInfos().getData().get(i));
 				drawLine(myPos, zielPos, i);
-
+				// System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
+				// System.out.println("myPos"+myPos.getX()+","+myPos.getY());
 			}
 		}
 	}
 
+	
+	
+//	
+//	public double getAngleToX() {
+//		double lchain = fd.getParsedInfos().getDirection()[0];
+//		double rchain = fd.getParsedInfos().getDirection()[1];
+//
+//		alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
+//		if (alpha > 360) {
+//			alpha -= 360;
+//		}
+//		// System.out.println("alpha"+alpha);
+//		return alpha;
+//	}
+	
+	
+	// public Position absolutePosofobstacle(Position myPos, Position scanPos) {
+	// double dbx = scanPos.getX() - myPos.getX();
+	// double dby = scanPos.getY() - myPos.getY();
+	// double length = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
+	// System.out.println("length"+length);
+	// Position absPos = new Position();
+	// //double gamma = getAngleToX() + getAngleToObstacle(myPos, scanPos);
+	// double gamma = getAngleToX();
+	//
+	// absPos.setX((int) Math.round((length *
+	// Math.cos(Math.toRadians(gamma)))));
+	// absPos.setY((int) Math.round((length *
+	// Math.sin(Math.toRadians(gamma)))));
+	//		
+	// absPos.setX(absPos.getX() + myPos.getX());
+	// absPos.setY(absPos.getY() + myPos.getY());//
+	// //
+	// // System.out.println("Alpha: " + getAngleToX() + " Beta: " +
+	// // getAngleToObstacle(myPos, scanPos) + " Gamma: " + gamma);
+	// // System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
+	// // System.out.println("relativePos:"+scanPos.getX()+","+scanPos.getY());
+	// // System.out.println("absolutePos:" + absPos.getX() + "," +
+	// // absPos.getY());
+	// return absPos;
+	// }
+
+	// public double getAngleToObstacle(Position myPos, Position scanPos) {
+	// double dax = 0, day = 10;
+	// double dbx, dby;
+	// double lengtha, lengthb;
+	// dbx = scanPos.getX() - myPos.getX();
+	// dby = scanPos.getY() - myPos.getY();
+	// lengtha = Math.sqrt(Math.pow(dax, 2) + Math.pow(day, 2));
+	// lengthb = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
+	// double beta = Math.toDegrees(Math.acos((dax * dbx + day * dby) / (lengtha
+	// * lengthb)));
+	//
+	// if (scanPos.getY() > myPos.getY())// oberhalb
+	// {
+	//
+	// if (scanPos.getX() > myPos.getX())// rechts
+	// {
+	// } else {
+	// beta = beta + 90;
+	// }
+	// } else {
+	// if (scanPos.getX() > myPos.getX()) {
+	// beta = beta + 180;
+	// } else {
+	// beta = beta + 90;
+	// }
+	// }
+	// // System.out.println("beta" + beta);
+	// return beta;
+	// }
 	/*
 	 * public static void main(String[] args) {
 	 * 
@@ -326,4 +288,4 @@ public class MatrixCreator {
 	 */
 
 }
-/// MATRIX 4k*4k startpos 2k,2k
+// / MATRIX 4k*4k startpos 2k,2k

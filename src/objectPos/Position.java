@@ -4,6 +4,7 @@ public class Position {
 	
 	private int x;
 	private int y;
+	private int[] pos;
 	
 	public int getX() {
 		return x;
@@ -18,5 +19,12 @@ public class Position {
 		this.y = y;
 	}
 	
+	public void setPosArray(int[] pos) {
+		this.pos = pos;
+	}
+	
+	public int[] getPosArray() {
+		return pos;
+	}
 	
 }
