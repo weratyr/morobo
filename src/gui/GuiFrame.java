@@ -40,9 +40,6 @@ import socket.ConnectionServer;
 
 public class GuiFrame extends JFrame {
 
-	private final JButton stopTcp;
-	private final JButton startTcp;
-
 	private final int scaleZoom = 2;
 	private final int shownMatrixWidth = 400; // 60
 	private final int shownMatrixHeight = 400; // 50
@@ -287,7 +284,6 @@ public class GuiFrame extends JFrame {
 		Thread tcpServerThread = new Thread(cs);
 		
 		FilterData filterData = new FilterData();
-		mc.setfilterData(filterData);
 		Object object;
 		DataContainer infos;
 		tcpServerThread.start();
@@ -327,7 +323,14 @@ public class GuiFrame extends JFrame {
 				gui.setCurrentObjectHashtable(objectList);
 				gui.setAktiveObject(object.getName());
 				mc.setNewPosition(object);
-				mc.setScanData(infos.getData());
+				mc.setScanInfos(infos);
+				
+				mc.updateAngleToX();
+				mc.updateDataTupel(); // require alpha angle
+				
+				
+				mc.updateMatrix();
+				
 				gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				gui.repaintMatrixJPanel();
 			} else { // in case nothing is recieving from clients

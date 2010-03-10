@@ -61,9 +61,6 @@ public class ParserXml {
 			
 			switch(tagIndex) {
 				case 1: //data
-					int[]pos=dContainer.getPos();
-					xyInt[0]=xyInt[0]+pos[0];
-					xyInt[1]=xyInt[1]+pos[1];
 					dContainer.addData(xyInt);
 					break;
 				case 2: //pos
@@ -71,12 +68,10 @@ public class ParserXml {
 					break;
 				case 3: // direction
 					dContainer.setDirection(xyInt);
-					
-					
 					break;
 				case 4: // name
 					dContainer.setName(newstring);
-			
+					break;
 			}
 			xmlstinsubstr(xmlstring3);
 		}

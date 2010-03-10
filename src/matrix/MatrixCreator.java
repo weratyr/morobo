@@ -3,32 +3,31 @@ package matrix;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import filterData.DataContainer;
 import filterData.FilterData;
 import filterData.ParserXml;
 import objectPos.Object;
 import objectPos.Position;
 
 public class MatrixCreator {
-	private FilterData fd;
+
 	private static final int MAX_BLUE = 240;
 	private static final int MIN_BLUE = 10;
 
-	private int height = 2400;
-	private int width = 2400;
+	private int height = 2800;
+	private int width = 2800;
 	private int defaultColor = 100;
 	private int red;
 	private int green;
 	private int blue;
-	private int wheelwidth = 18;
 	private ArrayList<ArrayList<Color>> matrix;
+	private ArrayList<int[]> data;
+	private DataContainer infos;
 	private double alpha;
+	private int wheelwidth = 18;
 
 	public MatrixCreator() {
 		matrix = new ArrayList<ArrayList<Color>>();
-	}
-
-	public void setfilterData(FilterData fd) {
-		this.fd = fd;
 	}
 
 	public void createMatrix() {
@@ -60,12 +59,16 @@ public class MatrixCreator {
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
 		if (checkMatrixSize(x, y)) {
 			matrix.get(x).set(y, new Color(r, g, b));
+		} else { 
+			;//System.out.println("Error setPixelinMatrix(int x, int y, int r, int g, int b): out of map");
 		}
 	}
 
 	public void setPixelinMatrix(int x, int y, Color color) {
 		if (checkMatrixSize(x, y)) {
 			matrix.get(x).set(y, color);
+		} else { 
+			;//System.out.println("Error setPixelinMatrix(int x, int y, Color color): out of map");
 		}
 	}
 
@@ -98,43 +101,32 @@ public class MatrixCreator {
 		}
 	}
 
-	public synchronized void setScanData(ArrayList<int[]> data) {
-		// public void setScanData(ArrayList<int[]> data) {
-		for (int i = 0; i < data.size(); i++) {
-			updateMatrix();
-			int x = data.get(i)[0];
-			int y = data.get(i)[1];
-			setColorFromScannedPixel(x, y);
-
-			if (blue < MAX_BLUE) {
-				blue += 10;
-				green += 10;
-				red += 10;
-			}
-			setPixelinMatrix(x, y, red, green, blue);
-		}
-		data.clear();
+	public synchronized void setScanInfos(DataContainer infos) {
+		this.data = infos.getData();
+		this.infos = infos;
 	}
 
 	public ArrayList<ArrayList<Color>> getCreatedMatrix() {
 		return matrix;
 	}
 
-	public void drawLine(Position myPos, Position scanPos, int i) { 
+	private void drawLine(Position myPos, Position scanPos) {
 		int x, y, error, differenz, schritt, dx, dy, inc_x, inc_y;
 		x = myPos.getX();
 		y = myPos.getY();
 		// System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
 		dx = scanPos.getX() - x;
-		dy = scanPos.getY() - y; 
+		dy = scanPos.getY() - y;
 		if (dx > 0) // Linie nach rechts?
 			inc_x = 1; // x inkrementieren
-		else   // Linie nach links
+		else
+			// Linie nach links
 			inc_x = -1; // x dekrementieren
-		
+
 		if (dy > 0) // Linie nach oben ?
 			inc_y = 1; // y inkrementieren
-		else  // Linie nach unten
+		else
+			// Linie nach unten
 			inc_y = -1; // y dekrementieren
 
 		if (Math.abs(dy) < Math.abs(dx)) { // flach nach oben oder unten
@@ -193,34 +185,57 @@ public class MatrixCreator {
 
 	public void updateMatrix() {
 		Position myPos = new Position();
-		Position zielPos = new Position();
-		myPos.setPosArray(fd.getParsedInfos().getPos());
-		if (myPos.getPosArray().length > 0 && !fd.getParsedInfos().getData().isEmpty()) {
-			for (int i = 0; i < fd.getParsedInfos().getData().size(); i++) {
-				zielPos.setPosArray(fd.getParsedInfos().getData().get(i));
-				drawLine(myPos, zielPos, i);
-				// System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
-				// System.out.println("myPos"+myPos.getX()+","+myPos.getY());
+		myPos.setPosArray(infos.getPos());
+		for (int i = 0; i < data.size(); i++) {
+			int x = data.get(i)[0];
+			int y = data.get(i)[1];
+			setColorFromScannedPixel(x, y);
+			if (blue < MAX_BLUE) {
+				blue += 10;
+				green += 10;
+				red += 10;
 			}
+			setPixelinMatrix(x, y, red, green, blue);
+			Position zielPos = new Position();
+			zielPos.setPosArray(data.get(i));
+			drawLine(myPos, zielPos);
 		}
+		data.clear();
+
+		// System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
+		// System.out.println("myPos"+myPos.getX()+","+myPos.getY());
 	}
 
+	public void updateAngleToX() {
+		double lchain = infos.getDirection()[0];
+		double rchain = infos.getDirection()[1];
+
+		alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
+		if (alpha > 360) {
+			alpha -= 360;
+		}
+		// System.out.println("alpha"+alpha);
+	}
+	
+	public void updateDataTupel() {
+		System.out.println("data value x" + data.get(0)[0] + " y " + data.get(0)[1]);
+		for(int i = 0; i < data.size(); i++) {
+			int[] tupel =  rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
+			tupel[0]+=infos.getPos()[0];
+			tupel[1]+=infos.getPos()[1];
+			data.set(i,tupel);
+		}
+	}
 	
 	
-//	
-//	public double getAngleToX() {
-//		double lchain = fd.getParsedInfos().getDirection()[0];
-//		double rchain = fd.getParsedInfos().getDirection()[1];
-//
-//		alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
-//		if (alpha > 360) {
-//			alpha -= 360;
-//		}
-//		// System.out.println("alpha"+alpha);
-//		return alpha;
-//	}
+	private int[] rotateVektor(double alpha, int x, int y) {
+		double newX = x*Math.cos(Math.toRadians(alpha)-y*Math.sin(Math.toRadians(alpha)));
+		double newY = x*Math.cos(Math.toRadians(alpha)+y*Math.sin(Math.toRadians(alpha)));
+		int[] newTupel = {(int) newX, (int) newY};
+		return newTupel;
+	}
 	
-	
+
 	// public Position absolutePosofobstacle(Position myPos, Position scanPos) {
 	// double dbx = scanPos.getX() - myPos.getX();
 	// double dby = scanPos.getY() - myPos.getY();
@@ -286,6 +301,4 @@ public class MatrixCreator {
 	 * 
 	 * }
 	 */
-
 }
-// / MATRIX 4k*4k startpos 2k,2k

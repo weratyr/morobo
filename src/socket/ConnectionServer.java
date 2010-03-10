@@ -38,13 +38,16 @@ public class ConnectionServer implements Runnable {
 		String receive = "";
 		buffer = new char[toReceiveLength];
 		int readBlock = 200;
-		
-		while (readBlock < toReceiveLength) {
-			numberOfChar = bufferedReader.read(buffer, 0, toReceiveLength - numberOfChar);
-			receive += new String(buffer, 0, numberOfChar);
-			readBlock += numberOfChar;
-		}
+		if (toReceiveLength > 20000) {
+			;
+		} else {
+			while (readBlock < toReceiveLength) {
+				numberOfChar = bufferedReader.read(buffer, 0, toReceiveLength - numberOfChar);
+				receive += new String(buffer, 0, numberOfChar);
+				readBlock += numberOfChar;
+			}
 		message = receive;
+		}
 		System.out.println("message"+message);
 		socket.close();
 
