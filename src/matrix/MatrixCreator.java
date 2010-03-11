@@ -58,7 +58,6 @@ public class MatrixCreator {
 
 	
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
-		//System.out.println("x,y" + x +"," + y);
 		if (checkMatrixSize(x, y)) {
 			matrix.get(x).set(y, new Color(r, g, b));
 		} else { 
@@ -108,7 +107,6 @@ public class MatrixCreator {
 	public void setScanInfos(DataContainer infos) {
 		this.infos = infos;
 		this.data = infos.getData();
-		infos.setPos(new int[] { 20,20 });
 	}
 
 	public ArrayList<ArrayList<Color>> getCreatedMatrix() {
@@ -221,12 +219,13 @@ public class MatrixCreator {
 		System.out.println("alpha"+alpha);
 	}
 	
-	public void updateDataTupel() {
+	public void updateDataTuple() {
 		for(int i = 0; i < data.size(); i++) {
-			int[] tupel =  rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
-			tupel[0]+=infos.getPos()[0];
-			tupel[1]+=infos.getPos()[1];
-			data.set(i,tupel);
+			int[] tuple =  rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
+			tuple[0]+=infos.getPos()[0];
+			tuple[1]+=infos.getPos()[1];
+			System.out.println("updateDatatupel " +tuple[0]+","+ tuple[1]+ " pos "+infos.getPos()[0]+","+infos.getPos()[1]);
+			data.set(i,tuple);
 		}
 	}
 	
@@ -235,7 +234,6 @@ public class MatrixCreator {
 		double newX = (x*Math.cos(alpha)-y*Math.sin(alpha));
 		double newY = x*Math.sin(alpha)+y*Math.cos(alpha);
 		int[] newTupel = {(int) newX, (int) newY};
-		System.out.println("new tuple: " + newX + "," + newY + "old tuple" + x+"," + y);
 		return newTupel;
 	}
 	

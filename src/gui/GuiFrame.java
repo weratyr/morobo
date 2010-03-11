@@ -327,7 +327,7 @@ public class GuiFrame extends JFrame {
 				mc.setScanInfos(infos);
 				
 				mc.updateAngleToX();
-				mc.updateDataTupel(); // require alpha angle
+				mc.updateDataTuple(); // require alpha angle
 				
 				
 				mc.updateMatrix();
