@@ -232,8 +232,8 @@ public class MatrixCreator {
 	
 	
 	private int[] rotateVektor(double alpha, int x, int y) {
-		double newX = x*Math.cos(Math.toRadians(alpha)-y*Math.sin(Math.toRadians(alpha)));
-		double newY = x*Math.sin(Math.toRadians(alpha)+y*Math.cos(Math.toRadians(alpha)));
+		double newX = (x*Math.cos(alpha)-y*Math.sin(alpha));
+		double newY = x*Math.sin(alpha)+y*Math.cos(alpha);
 		int[] newTupel = {(int) newX, (int) newY};
 		System.out.println("new tuple: " + newX + "," + newY + "old tuple" + x+"," + y);
 		return newTupel;
