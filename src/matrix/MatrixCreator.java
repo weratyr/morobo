@@ -56,7 +56,9 @@ public class MatrixCreator {
 		return false;
 	}
 
+	
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
+		//System.out.println("x,y" + x +"," + y);
 		if (checkMatrixSize(x, y)) {
 			matrix.get(x).set(y, new Color(r, g, b));
 		} else { 
@@ -68,7 +70,7 @@ public class MatrixCreator {
 		if (checkMatrixSize(x, y)) {
 			matrix.get(x).set(y, color);
 		} else { 
-			;//System.out.println("Error setPixelinMatrix(int x, int y, Color color): out of map");
+			System.out.println("Error setPixelinMatrix(int x, int y, Color color): out of map");
 		}
 	}
 
@@ -98,12 +100,15 @@ public class MatrixCreator {
 			blue = matrix.get(x).get(y).getBlue();
 			green = matrix.get(x).get(y).getGreen();
 			red = matrix.get(x).get(y).getRed();
+		} else { 
+			System.out.println("Error setColorFromScannedPixel(int x, int y): out of map");
 		}
 	}
 
-	public synchronized void setScanInfos(DataContainer infos) {
-		this.data = infos.getData();
+	public void setScanInfos(DataContainer infos) {
 		this.infos = infos;
+		this.data = infos.getData();
+		infos.setPos(new int[] { 20,20 });
 	}
 
 	public ArrayList<ArrayList<Color>> getCreatedMatrix() {
@@ -114,7 +119,6 @@ public class MatrixCreator {
 		int x, y, error, differenz, schritt, dx, dy, inc_x, inc_y;
 		x = myPos.getX();
 		y = myPos.getY();
-		// System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
 		dx = scanPos.getX() - x;
 		dy = scanPos.getY() - y;
 		if (dx > 0) // Linie nach rechts?
@@ -214,11 +218,10 @@ public class MatrixCreator {
 		if (alpha > 360) {
 			alpha -= 360;
 		}
-		// System.out.println("alpha"+alpha);
+		System.out.println("alpha"+alpha);
 	}
 	
 	public void updateDataTupel() {
-		System.out.println("data value x" + data.get(0)[0] + " y " + data.get(0)[1]);
 		for(int i = 0; i < data.size(); i++) {
 			int[] tupel =  rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
 			tupel[0]+=infos.getPos()[0];
@@ -230,8 +233,9 @@ public class MatrixCreator {
 	
 	private int[] rotateVektor(double alpha, int x, int y) {
 		double newX = x*Math.cos(Math.toRadians(alpha)-y*Math.sin(Math.toRadians(alpha)));
-		double newY = x*Math.cos(Math.toRadians(alpha)+y*Math.sin(Math.toRadians(alpha)));
+		double newY = x*Math.sin(Math.toRadians(alpha)+y*Math.cos(Math.toRadians(alpha)));
 		int[] newTupel = {(int) newX, (int) newY};
+		System.out.println("new tuple: " + newX + "," + newY + "old tuple" + x+"," + y);
 		return newTupel;
 	}
 	

@@ -41,8 +41,8 @@ import socket.ConnectionServer;
 public class GuiFrame extends JFrame {
 
 	private final int scaleZoom = 2;
-	private final int shownMatrixWidth = 400; // 60
-	private final int shownMatrixHeight = 400; // 50
+	private final int shownMatrixWidth = 800; // 60
+	private final int shownMatrixHeight = 800; // 50
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
 	private MatrixCreator mc;
@@ -82,11 +82,11 @@ public class GuiFrame extends JFrame {
 
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		mapPanel.setPreferredSize(new Dimension(250,250));
+		mapPanel.setPreferredSize(new Dimension(400,400));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
 		mapCenterConstraint.fill = GridBagConstraints.CENTER;
 		transparentRotateJP = new TransRotatePanel();
-		transparentRotateJP.setPreferredSize(new Dimension(400,400));
+		transparentRotateJP.setPreferredSize(new Dimension(800,800));
 		transparentRotateJP.setLayout(new GridBagLayout());
 		transparentRotateJP.add(mapPanel,mapCenterConstraint);
 		
@@ -269,7 +269,7 @@ public class GuiFrame extends JFrame {
 	
 
 	public static void main(String[] arg) throws InterruptedException {
-		int sleepThread = 1000;
+		int sleepThread = 4000;
 		Hashtable<String, Object> objectList = new Hashtable<String, Object>();
 
 		MatrixCreator mc = new MatrixCreator();
@@ -322,6 +322,7 @@ public class GuiFrame extends JFrame {
 
 				gui.setCurrentObjectHashtable(objectList);
 				gui.setAktiveObject(object.getName());
+				System.out.println("pos pos "+ object.getPosition().getX() + " y " + object.getPosition().getY());
 				mc.setNewPosition(object);
 				mc.setScanInfos(infos);
 				
@@ -330,7 +331,6 @@ public class GuiFrame extends JFrame {
 				
 				
 				mc.updateMatrix();
-				
 				gui.setUpdatedMatrix(mc.getCreatedMatrix());
 				gui.repaintMatrixJPanel();
 			} else { // in case nothing is recieving from clients
