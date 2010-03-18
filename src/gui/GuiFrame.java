@@ -8,11 +8,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,15 +19,12 @@ import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 
 import matrix.MatrixCreator;
@@ -48,7 +42,6 @@ public class GuiFrame extends JFrame {
 	private MatrixCreator mc;
 	private int matrixScrollX;
 	private int matrixScrollY;
-	private Thread tcpServerThread;
 	private Hashtable<String, Object> posObjectListe;
 	private JPanel activeObjectTable;
 	private JPanel activObjectsContainer;

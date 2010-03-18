@@ -1,5 +1,8 @@
 package socket;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -9,38 +12,10 @@ public class ConnectionClient {
 
 	public void start() throws IOException, InterruptedException {
 		String ip = "127.0.0.1"; //localhost
-		//String ip = "172.17.5.241";
-		int port = 5678;
-		//String zuSendendeNachricht = "<map><name>ich</name><pos>"+(8+i)+","+((i*2)+2)+"</pos><direction>3,6</direction><data>1,"+i+"</data>" +
-
-		//"<data>10,5</data><data>23,4</data><data>"+i+",3</data></map>";
-
-		//for(int x=0;x<20;x++)
-		//{
-		//	for(int y=0;y<10;y++)
-
-	//	for(int x=0;x<5;x++)
-	//	{
-			for(int y=0;y<11;y++)
-
-			{
+		int port = 8000;
 				Socket socket = new Socket(ip, port); // verbindet sich mit Server
-		
-				//	String zuSendendeNachricht = "<map><name>ichj</name><pos>"+(i+15)+",1</pos><direction>"+(i+1)+",0</direction><data>10,10</data></map>"; // direction sind cm daraus ergibt sich der alpha
-
-
-			String zuSendendeNachricht = "<map><name>Kettenfahrzeug</name><pos>15,15</pos><direction>10,0</direction><data>30,24</data></map>";
-//+"<direction>0,0</directrion><data>10,11</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,11</data>"
-
-//+"<direction>0,0</direction><data>10,12</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,12</data>"
-//+"<direction>0,0</direction><data>10,13</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,13</data>"
-//+"<direction>0,0</direction><data>10,14</data><data>11,10</data><data>12,10</data><data>13,10</data><data>14,10</data><data>15,14</data>"
-//+"<direction>0,0</direction><data>10,15</data><data>11,15</data><data>12,15</data><data>13,15</data><data>14,15</data><data>15,15</data></map>"; // direction sind cm daraus ergibt sich der alpha
-
-			
-				int len = zuSendendeNachricht.length();
-				zuSendendeNachricht =  len + zuSendendeNachricht;
-				schreibeNachricht(socket, zuSendendeNachricht);
+				readMessage(socket);
+				//schreibeNachricht(socket, );
 			//	System.out.println("print i "+x+","+y + "length "+ len);
 				//y++;
 				//Thread.sleep(1000);
@@ -49,8 +24,17 @@ public class ConnectionClient {
 				
 		//x++;
 			}
-		}
 	//}
+	
+	
+	public void readMessage(Socket socket) throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		char[] buffer = new char[4];
+		int numberOfChar = bufferedReader.read(buffer, 0, 4); // blockiert
+		
+		System.out.println("message "+ new String(buffer, 0, numberOfChar));
+		socket.close();
+	}
 
 	public void schreibeNachricht(Socket socket, String nachricht) throws IOException {
 		PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
