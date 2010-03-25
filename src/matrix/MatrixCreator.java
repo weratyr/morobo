@@ -224,7 +224,7 @@ public class MatrixCreator {
 			int[] tuple =  rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
 			tuple[0]+=infos.getPos()[0];
 			tuple[1]+=infos.getPos()[1];
-			System.out.println("updateDatatupel " +tuple[0]+","+ tuple[1]+ " pos "+infos.getPos()[0]+","+infos.getPos()[1]);
+			//System.out.println("updateDatatupel " +tuple[0]+","+ tuple[1]+ " pos "+infos.getPos()[0]+","+infos.getPos()[1]);
 			data.set(i,tuple);
 		}
 	}

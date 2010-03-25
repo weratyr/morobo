@@ -75,7 +75,7 @@ public class GuiFrame extends JFrame {
 
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		mapPanel.setPreferredSize(new Dimension(400,400));
+		mapPanel.setPreferredSize(new Dimension(500,500));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
 		mapCenterConstraint.fill = GridBagConstraints.CENTER;
 		transparentRotateJP = new TransRotatePanel();
@@ -105,7 +105,7 @@ public class GuiFrame extends JFrame {
 		scrollNorth.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollY != 0) {
-					matrixScrollY -= 10;
+					matrixScrollY -= 100;
 					mapPanel.repaint();
 				}
 			}
@@ -115,7 +115,7 @@ public class GuiFrame extends JFrame {
 		scrollLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollX != 0) {
-					matrixScrollX -= 10;
+					matrixScrollX -= 100;
 					mapPanel.repaint();
 				}
 			}
@@ -126,7 +126,7 @@ public class GuiFrame extends JFrame {
 		scrollRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollX  < (matrix.size() - matrixScrollX)) {
-					matrixScrollX += 10;
+					matrixScrollX += 100;
 					mapPanel.repaint();
 				}
 			}
@@ -136,7 +136,7 @@ public class GuiFrame extends JFrame {
 		scrollSouth.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollY < (matrix.size() - matrixScrollY)) {
-					matrixScrollY += 10;
+					matrixScrollY += 100;
 					mapPanel.repaint();
 				}
 			}
@@ -157,7 +157,6 @@ public class GuiFrame extends JFrame {
 			}
 
 		});
-		buttonContainer.add(rotate);
 		westContainer.add(buttonContainer);
 		southContainer.add(scrollSouth, BorderLayout.NORTH);
 		setLayout(new BorderLayout());
@@ -262,7 +261,7 @@ public class GuiFrame extends JFrame {
 	
 
 	public static void main(String[] arg) throws InterruptedException {
-		int sleepThread = 4000;
+		int sleepThread = 20;
 		Hashtable<String, Object> objectList = new Hashtable<String, Object>();
 
 		MatrixCreator mc = new MatrixCreator();
@@ -329,6 +328,7 @@ public class GuiFrame extends JFrame {
 			} else { // in case nothing is recieving from clients
 				gui.setCurrentObjectHashtable(objectList);
 				gui.setAktiveObject(new String("nothing"));
+				//System.out.println("gui message null ");
 			}
 			Thread.sleep(sleepThread);
 		}

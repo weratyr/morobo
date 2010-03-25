@@ -11,7 +11,7 @@ import java.io.*;
 public class ConnectionClient {
 
 	public void start() throws IOException, InterruptedException {
-		String ip = "127.0.0.1"; //localhost
+		String ip = "10.10.10.58"; //localhost
 		int port = 8000;
 				Socket socket = new Socket(ip, port); // verbindet sich mit Server
 				readMessage(socket);
@@ -44,12 +44,18 @@ public class ConnectionClient {
 
 	public static void main(String[] args) throws InterruptedException {
 		ConnectionClient client = new ConnectionClient();
+		ConnectionClient client1 = new ConnectionClient();
 		try {
-			client.start();
+			while(true) {
+				System.out.println("erster ");
+				client.start();
+				System.out.println("zweiter ");
+				client1.start();
+				System.out.println("sleep ");
+				Thread.sleep(2000);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 }
-
-//direction in float, data, Map gr�sser buttons ausrichten
