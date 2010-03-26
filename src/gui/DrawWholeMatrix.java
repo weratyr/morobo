@@ -22,6 +22,8 @@ public class DrawWholeMatrix extends JFrame {
 			System.out.println("matrix zu klein");
 			return;
 		}
+		
+		
 		paintMatrixWindow();
 		add(mainWindow);
 		setLayout(new GridLayout());

@@ -24,7 +24,7 @@ public class MatrixCreator {
 	private ArrayList<int[]> data;
 	private DataContainer infos;
 	private double alpha;
-	private int wheelwidth = 18;
+	private int wheelwidth = 28;
 
 	public MatrixCreator() {
 		matrix = new ArrayList<ArrayList<Color>>();
@@ -203,9 +203,6 @@ public class MatrixCreator {
 			drawLine(myPos, zielPos);
 		}
 		data.clear();
-
-		// System.out.println("zielPos"+zielPos.getX()+","+zielPos.getY());
-		// System.out.println("myPos"+myPos.getX()+","+myPos.getY());
 	}
 
 	public void updateAngleToX() {
@@ -216,7 +213,6 @@ public class MatrixCreator {
 		if (alpha > 360) {
 			alpha -= 360;
 		}
-		System.out.println("alpha"+alpha);
 	}
 	
 	public void updateDataTuple() {
@@ -224,83 +220,16 @@ public class MatrixCreator {
 			int[] tuple =  rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
 			tuple[0]+=infos.getPos()[0];
 			tuple[1]+=infos.getPos()[1];
-			//System.out.println("updateDatatupel " +tuple[0]+","+ tuple[1]+ " pos "+infos.getPos()[0]+","+infos.getPos()[1]);
 			data.set(i,tuple);
 		}
 	}
 	
 	
 	private int[] rotateVektor(double alpha, int x, int y) {
-		double newX = (x*Math.cos(alpha)-y*Math.sin(alpha));
-		double newY = x*Math.sin(alpha)+y*Math.cos(alpha);
+		double newX = (x*Math.cos(alpha)-(-1*y)*Math.sin(alpha));
+		double newY = x*Math.sin(alpha)+(-1*y)*Math.cos(alpha);
 		int[] newTupel = {(int) newX, (int) newY};
 		return newTupel;
 	}
-	
 
-	// public Position absolutePosofobstacle(Position myPos, Position scanPos) {
-	// double dbx = scanPos.getX() - myPos.getX();
-	// double dby = scanPos.getY() - myPos.getY();
-	// double length = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
-	// System.out.println("length"+length);
-	// Position absPos = new Position();
-	// //double gamma = getAngleToX() + getAngleToObstacle(myPos, scanPos);
-	// double gamma = getAngleToX();
-	//
-	// absPos.setX((int) Math.round((length *
-	// Math.cos(Math.toRadians(gamma)))));
-	// absPos.setY((int) Math.round((length *
-	// Math.sin(Math.toRadians(gamma)))));
-	//		
-	// absPos.setX(absPos.getX() + myPos.getX());
-	// absPos.setY(absPos.getY() + myPos.getY());//
-	// //
-	// // System.out.println("Alpha: " + getAngleToX() + " Beta: " +
-	// // getAngleToObstacle(myPos, scanPos) + " Gamma: " + gamma);
-	// // System.out.println("mypos:"+myPos.getX()+","+myPos.getY());
-	// // System.out.println("relativePos:"+scanPos.getX()+","+scanPos.getY());
-	// // System.out.println("absolutePos:" + absPos.getX() + "," +
-	// // absPos.getY());
-	// return absPos;
-	// }
-
-	// public double getAngleToObstacle(Position myPos, Position scanPos) {
-	// double dax = 0, day = 10;
-	// double dbx, dby;
-	// double lengtha, lengthb;
-	// dbx = scanPos.getX() - myPos.getX();
-	// dby = scanPos.getY() - myPos.getY();
-	// lengtha = Math.sqrt(Math.pow(dax, 2) + Math.pow(day, 2));
-	// lengthb = Math.sqrt(Math.pow(dbx, 2) + Math.pow(dby, 2));
-	// double beta = Math.toDegrees(Math.acos((dax * dbx + day * dby) / (lengtha
-	// * lengthb)));
-	//
-	// if (scanPos.getY() > myPos.getY())// oberhalb
-	// {
-	//
-	// if (scanPos.getX() > myPos.getX())// rechts
-	// {
-	// } else {
-	// beta = beta + 90;
-	// }
-	// } else {
-	// if (scanPos.getX() > myPos.getX()) {
-	// beta = beta + 180;
-	// } else {
-	// beta = beta + 90;
-	// }
-	// }
-	// // System.out.println("beta" + beta);
-	// return beta;
-	// }
-	/*
-	 * public static void main(String[] args) {
-	 * 
-	 * MatrixCreator mc = new MatrixCreator(); mc.createMatrix();
-	 * ArrayList<ArrayList<Color>> matrix = mc.getCreatedMatrix();
-	 * 
-	 * // System.out.println(matrix.get(1).get(1).getRGB());
-	 * 
-	 * }
-	 */
 }

@@ -35,8 +35,8 @@ import socket.ConnectionServer;
 public class GuiFrame extends JFrame {
 
 	private final int scaleZoom = 2;
-	private final int shownMatrixWidth = 800; // 60
-	private final int shownMatrixHeight = 800; // 50
+	private final int shownMatrixWidth = 900; // 60
+	private final int shownMatrixHeight = 900; // 50
 	private JPanel mapPanel;
 	private ArrayList<ArrayList<Color>> matrix;
 	private MatrixCreator mc;
@@ -75,11 +75,11 @@ public class GuiFrame extends JFrame {
 
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		mapPanel.setPreferredSize(new Dimension(500,500));
+		mapPanel.setPreferredSize(new Dimension(700,550));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
 		mapCenterConstraint.fill = GridBagConstraints.CENTER;
 		transparentRotateJP = new TransRotatePanel();
-		transparentRotateJP.setPreferredSize(new Dimension(800,800));
+		transparentRotateJP.setPreferredSize(new Dimension(900,800));
 		transparentRotateJP.setLayout(new GridBagLayout());
 		transparentRotateJP.add(mapPanel,mapCenterConstraint);
 		
@@ -211,7 +211,7 @@ public class GuiFrame extends JFrame {
 		});
 		functions.add(resetRotatedImage);
 		
-		JMenuItem paintMatrixWindow = new JMenuItem("paint whole matrix");
+		JMenuItem paintMatrixWindow = new JMenuItem("paint screenshot");
 		paintMatrixWindow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new DrawWholeMatrix(matrix);
@@ -262,77 +262,12 @@ public class GuiFrame extends JFrame {
 
 	public static void main(String[] arg) throws InterruptedException {
 		int sleepThread = 20;
-		Hashtable<String, Object> objectList = new Hashtable<String, Object>();
-
-		MatrixCreator mc = new MatrixCreator();
-		mc.createMatrix();
-
-		GuiFrame gui = new GuiFrame();
-		gui.setEmptyMatrix(mc.getCreatedMatrix());
-		gui.setMatrixObject(mc);
-
+		
 		ConnectionServer cs = null;
 		cs = new ConnectionServer(sleepThread);
 		Thread tcpServerThread = new Thread(cs);
-		
-		FilterData filterData = new FilterData();
-		Object object;
-		DataContainer infos;
 		tcpServerThread.start();
 		
-		while (true) {
-			if (cs.getMessage() != null) {      // <==== hier kommt noch was an,
-				// System.out.println("getMessage "+cs.getMessage());
-				infos = filterData.getParsedInfos();
-				filterData.filterInputData(cs.getMessage());
-
-				if (!objectList.isEmpty() && objectList.containsKey(infos.getName())) {
-					object = objectList.get(infos.getName());
-					Position pos = new Position();
-					pos.setX(infos.getPos()[0]);
-					pos.setY(infos.getPos()[1]);
-					object.setPosition(pos);
-					// System.out.println("if conatins main pos "+ pos.getX());
-				} else {
-					object = new Object();
-					Position pos = new Position();
-					pos.setX(infos.getPos()[0]);
-					pos.setY(infos.getPos()[1]);
-					object.setPosition(pos);
-					int color = 255;
-					for (Entry entry : objectList.entrySet()) {
-						color -= 50;
-						if(color < 0) {
-							color = 10;
-						}
-					}
-					object.setColor(color);
-					object.setName(infos.getName());
-					objectList.put(infos.getName(), object);
-				}
-				gui.updateTransparentRotateJP(infos.getDirection());
-
-				gui.setCurrentObjectHashtable(objectList);
-				gui.setAktiveObject(object.getName());
-				System.out.println("pos pos "+ object.getPosition().getX() + " y " + object.getPosition().getY());
-				mc.setNewPosition(object);
-				mc.setScanInfos(infos);
-				
-				mc.updateAngleToX();
-				mc.updateDataTuple(); // require alpha angle
-				
-				
-				mc.updateMatrix();
-				gui.setUpdatedMatrix(mc.getCreatedMatrix());
-				gui.repaintMatrixJPanel();
-			} else { // in case nothing is recieving from clients
-				gui.setCurrentObjectHashtable(objectList);
-				gui.setAktiveObject(new String("nothing"));
-				//System.out.println("gui message null ");
-			}
-			Thread.sleep(sleepThread);
-		}
-
 	}
 
 }
