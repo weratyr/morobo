@@ -105,7 +105,7 @@ public class GuiFrame extends JFrame {
 		scrollNorth.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollY != 0) {
-					matrixScrollY -= 100;
+					matrixScrollY -= 200;
 					mapPanel.repaint();
 				}
 			}
@@ -115,7 +115,7 @@ public class GuiFrame extends JFrame {
 		scrollLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollX != 0) {
-					matrixScrollX -= 100;
+					matrixScrollX -= 200;
 					mapPanel.repaint();
 				}
 			}
@@ -126,7 +126,7 @@ public class GuiFrame extends JFrame {
 		scrollRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollX  < (matrix.size() - matrixScrollX)) {
-					matrixScrollX += 100;
+					matrixScrollX += 200;
 					mapPanel.repaint();
 				}
 			}
@@ -136,7 +136,7 @@ public class GuiFrame extends JFrame {
 		scrollSouth.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (matrixScrollY < (matrix.size() - matrixScrollY)) {
-					matrixScrollY += 100;
+					matrixScrollY += 200;
 					mapPanel.repaint();
 				}
 			}
@@ -261,10 +261,9 @@ public class GuiFrame extends JFrame {
 	
 
 	public static void main(String[] arg) throws InterruptedException {
-		int sleepThread = 20;
-		
 		ConnectionServer cs = null;
-		cs = new ConnectionServer(sleepThread);
+		int port = 5678;
+		cs = new ConnectionServer(port);
 		Thread tcpServerThread = new Thread(cs);
 		tcpServerThread.start();
 		

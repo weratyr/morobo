@@ -41,12 +41,7 @@ public class MatrixCreator {
 
 	public void resetMatrix() {
 		matrix.clear();
-		for (int i = 0; i < width; i++) {
-			matrix.add(new ArrayList<Color>());
-			for (int j = 0; j < height; j++) {
-				matrix.get(i).add(new Color(defaultColor, defaultColor, defaultColor));
-			}
-		}
+		createMatrix();
 	}
 
 	public boolean checkMatrixSize(int x, int y) {
@@ -119,21 +114,19 @@ public class MatrixCreator {
 		y = myPos.getY();
 		dx = scanPos.getX() - x;
 		dy = scanPos.getY() - y;
-		if (dx > 0) // Linie nach rechts?
-			inc_x = 1; // x inkrementieren
+		if (dx > 0) 
+			inc_x = 1; 
 		else
-			// Linie nach links
-			inc_x = -1; // x dekrementieren
+			inc_x = -1; 
 
-		if (dy > 0) // Linie nach oben ?
-			inc_y = 1; // y inkrementieren
+		if (dy > 0) 
+			inc_y = 1;
 		else
-			// Linie nach unten
-			inc_y = -1; // y dekrementieren
+			inc_y = -1; 
 
-		if (Math.abs(dy) < Math.abs(dx)) { // flach nach oben oder unten
-			error = -Math.abs(dx); // Fehler bestimmen
-			differenz = 2 * Math.abs(dy); // Delta bestimmen
+		if (Math.abs(dy) < Math.abs(dx)) { 
+			error = -Math.abs(dx); 
+			differenz = 2 * Math.abs(dy); 
 			schritt = 2 * error; // Schwelle bestimmen
 			while (x != scanPos.getX()) {
 				if (x != myPos.getX()) {
@@ -208,10 +201,14 @@ public class MatrixCreator {
 	public void updateAngleToX() {
 		double lchain = infos.getDirection()[0];
 		double rchain = infos.getDirection()[1];
-
-		alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
-		if (alpha > 360) {
-			alpha -= 360;
+		if(Math.abs(lchain - rchain) > 1) {
+			alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
+			if (alpha > 360) {
+				alpha -= 360;
+			}
+			if(alpha < 0) {
+				alpha += 360;
+			}
 		}
 	}
 	
@@ -224,10 +221,9 @@ public class MatrixCreator {
 		}
 	}
 	
-	
 	private int[] rotateVektor(double alpha, int x, int y) {
-		double newX = (x*Math.cos(alpha)-(-1*y)*Math.sin(alpha));
-		double newY = x*Math.sin(alpha)+(-1*y)*Math.cos(alpha);
+		double newX = (x*Math.cos(Math.toRadians(alpha)))-y*Math.sin(Math.toRadians(alpha));
+		double newY = x*Math.sin(Math.toRadians(alpha))+y*Math.cos(Math.toRadians(alpha));
 		int[] newTupel = {(int) newX, (int) newY};
 		return newTupel;
 	}
