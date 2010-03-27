@@ -1,15 +1,11 @@
 package gui;
 
-import filterData.DataContainer;
-import filterData.FilterData;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,9 +25,9 @@ import javax.swing.border.Border;
 
 import matrix.MatrixCreator;
 import objectPos.Object;
-import objectPos.Position;
 import socket.ConnectionServer;
 
+@SuppressWarnings("serial")
 public class GuiFrame extends JFrame {
 
 	private final int scaleZoom = 2;
@@ -45,7 +41,6 @@ public class GuiFrame extends JFrame {
 	private Hashtable<String, Object> posObjectListe;
 	private JPanel activeObjectTable;
 	private JPanel activObjectsContainer;
-	private final TransRotatePanel transparentRotateJP;
 	private JMenuBar menu;
 
 	public GuiFrame() {
@@ -75,13 +70,9 @@ public class GuiFrame extends JFrame {
 
 		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 		Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-		mapPanel.setPreferredSize(new Dimension(700,550));
+		mapPanel.setPreferredSize(new Dimension(800,750));
 		mapPanel.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
 		mapCenterConstraint.fill = GridBagConstraints.CENTER;
-		transparentRotateJP = new TransRotatePanel();
-		transparentRotateJP.setPreferredSize(new Dimension(900,800));
-		transparentRotateJP.setLayout(new GridBagLayout());
-		transparentRotateJP.add(mapPanel,mapCenterConstraint);
 		
 		activObjectsContainer = new JPanel();
 		activObjectsContainer.setBorder(BorderFactory.createTitledBorder(loweredbevel, "Aktive Objekte"));
@@ -147,32 +138,17 @@ public class GuiFrame extends JFrame {
 		buttonContainer1.add(scrollLeft, BorderLayout.WEST);
 		buttonContainer1.add(scrollSouth, BorderLayout.SOUTH);
 		//westContainer.add(buttonContainer1);
-
-		JPanel buttonContainer = new JPanel();
-		buttonContainer.setLayout(new BoxLayout(buttonContainer, 1));		
-		JButton rotate = new JButton("rotate 10 degree");
-		rotate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				transparentRotateJP.rotate();
-			}
-
-		});
-		westContainer.add(buttonContainer);
+		
 		southContainer.add(scrollSouth, BorderLayout.NORTH);
 		setLayout(new BorderLayout());
 		Container cp = getContentPane();
 		cp.add(scrollRight, BorderLayout.EAST);
-		cp.add(transparentRotateJP, BorderLayout.CENTER);
+		cp.add(mapPanel, BorderLayout.CENTER);
 		//cp.add(westContainer, BorderLayout.WEST);
 		cp.add(scrollLeft, BorderLayout.WEST);
 		cp.add(scrollNorth, BorderLayout.NORTH);
 		cp.add(southContainer, BorderLayout.SOUTH);
 		pack();
-	}
-	
-	public void updateTransparentRotateJP(int[] direction) {
-		transparentRotateJP.rotate(direction[0], direction[1]);
-		System.out.println("rotate"+direction[0]);
 	}
 	
 	
@@ -202,15 +178,6 @@ public class GuiFrame extends JFrame {
 
 		});
 		functions.add(resetMatrix);
-		JMenuItem resetRotatedImage = new JMenuItem("reset direction cross");
-		resetRotatedImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				transparentRotateJP.reset();
-			}
-
-		});
-		functions.add(resetRotatedImage);
-		
 		JMenuItem paintMatrixWindow = new JMenuItem("paint screenshot");
 		paintMatrixWindow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -238,35 +205,38 @@ public class GuiFrame extends JFrame {
 		activeObjectTable.doLayout();
 	}
 
+	/**
+	 * 
+	 */
 	public void setCurrentObjectHashtable(Hashtable<String, Object> posList) {
 		this.posObjectListe = posList;
 	}
 
+	/**
+	 * 
+	 */
 	public void repaintMatrixJPanel() {
 		mapPanel.repaint();
 	}
 
+	/**
+	 * 
+	 */
 	public void setUpdatedMatrix(ArrayList<ArrayList<Color>> matrix) {
 		this.matrix = matrix;
 	}
 
+	/**
+	 * 
+	 */
 	public void setEmptyMatrix(ArrayList<ArrayList<Color>> matrix) {
 		this.matrix = matrix;
 	}
 
+	/**
+	 * 
+	 */
 	public void setMatrixObject(MatrixCreator mc) {
 		this.mc = mc;
 	}
-	
-	
-
-	public static void main(String[] arg) throws InterruptedException {
-		ConnectionServer cs = null;
-		int port = 5678;
-		cs = new ConnectionServer(port);
-		Thread tcpServerThread = new Thread(cs);
-		tcpServerThread.start();
-		
-	}
-
 }

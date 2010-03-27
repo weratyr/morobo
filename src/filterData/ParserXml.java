@@ -1,6 +1,5 @@
 package filterData;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class ParserXml {
@@ -12,7 +11,6 @@ public class ParserXml {
 	private DataContainer dContainer;
 	private Hashtable<String, Integer> xmlData;
 	private int tagIndex;
-	private double scale = 10;
 
 	public ParserXml() {
 		dContainer = new DataContainer();
@@ -26,9 +24,10 @@ public class ParserXml {
 		xmlData.put("length", 7);
 	}
 	
+	/**
+	 * 
+	 */
 	public void xmlstinsubstr(String xmlstring) {
-	
-		//System.out.println("xmlstring "+xmlstring);
 		int endtag_anfang = 0;
 		int endtag_ende = 0;
 		int starttag_anfang = 0;
@@ -77,6 +76,9 @@ public class ParserXml {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public DataContainer getDatenContainer() {
 		return dContainer; 
 	}

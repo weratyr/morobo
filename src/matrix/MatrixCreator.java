@@ -3,11 +3,9 @@ package matrix;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import filterData.DataContainer;
-import filterData.FilterData;
-import filterData.ParserXml;
 import objectPos.Object;
 import objectPos.Position;
+import filterData.DataContainer;
 
 public class MatrixCreator {
 
@@ -29,7 +27,10 @@ public class MatrixCreator {
 	public MatrixCreator() {
 		matrix = new ArrayList<ArrayList<Color>>();
 	}
-
+	
+	/**
+	 * 
+	 */
 	public void createMatrix() {
 		for (int i = 0; i < width; i++) {
 			matrix.add(new ArrayList<Color>());
@@ -39,11 +40,17 @@ public class MatrixCreator {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void resetMatrix() {
 		matrix.clear();
 		createMatrix();
 	}
 
+	/**
+	 * 
+	 */
 	public boolean checkMatrixSize(int x, int y) {
 		if (x >= 0 && x < width && y >= 0 && y < height) {
 			return true;
@@ -51,23 +58,31 @@ public class MatrixCreator {
 		return false;
 	}
 
-	
+	/**
+	 * 
+	 */
 	public void setPixelinMatrix(int x, int y, int r, int g, int b) {
 		if (checkMatrixSize(x, y)) {
 			matrix.get(x).set(y, new Color(r, g, b));
-		} else { 
-			;//System.out.println("Error setPixelinMatrix(int x, int y, int r, int g, int b): out of map");
+		} else {
+			;// System.out.println("Error setPixelinMatrix(int x, int y, int r, int g, int b): out of map");
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void setPixelinMatrix(int x, int y, Color color) {
 		if (checkMatrixSize(x, y)) {
 			matrix.get(x).set(y, color);
-		} else { 
+		} else {
 			System.out.println("Error setPixelinMatrix(int x, int y, Color color): out of map");
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void setNewPosition(Object obj) {
 		if (obj.getOldPosition() == null) {
 			if (checkMatrixSize(obj.getPosition().getX(), obj.getPosition().getY())) {
@@ -89,71 +104,81 @@ public class MatrixCreator {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void setColorFromScannedPixel(int x, int y) {
 		if (checkMatrixSize(x, y)) {
 			blue = matrix.get(x).get(y).getBlue();
 			green = matrix.get(x).get(y).getGreen();
 			red = matrix.get(x).get(y).getRed();
-		} else { 
+		} else {
 			System.out.println("Error setColorFromScannedPixel(int x, int y): out of map");
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void setScanInfos(DataContainer infos) {
 		this.infos = infos;
 		this.data = infos.getData();
 	}
 
+	/**
+	 * 
+	 */
 	public ArrayList<ArrayList<Color>> getCreatedMatrix() {
 		return matrix;
 	}
 
+	/**
+	 * 
+	 */
 	private void drawLine(Position myPos, Position scanPos) {
 		int x, y, error, differenz, schritt, dx, dy, inc_x, inc_y;
 		x = myPos.getX();
 		y = myPos.getY();
 		dx = scanPos.getX() - x;
 		dy = scanPos.getY() - y;
-		if (dx > 0) 
-			inc_x = 1; 
-		else
-			inc_x = -1; 
-
-		if (dy > 0) 
+		if (dx > 0) {
+			inc_x = 1;
+		} else {
+			inc_x = -1;
+		}
+		if (dy > 0) {
 			inc_y = 1;
-		else
-			inc_y = -1; 
-
-		if (Math.abs(dy) < Math.abs(dx)) { 
-			error = -Math.abs(dx); 
-			differenz = 2 * Math.abs(dy); 
-			schritt = 2 * error; // Schwelle bestimmen
+		} else {
+			inc_y = -1;
+		}
+		if (Math.abs(dy) < Math.abs(dx)) {
+			error = -Math.abs(dx);
+			differenz = 2 * Math.abs(dy);
+			schritt = 2 * error;
 			while (x != scanPos.getX()) {
 				if (x != myPos.getX()) {
 					decPix(x, y);
 				}
-				x += inc_x; // naechste x-Koordinate
-				error = error + differenz; // Fehler aktualisieren
-				if (error > 0) { // neue Spalte erreicht?
-					y += inc_y; // y-Koord. aktualisieren
-					error += schritt; // Fehler aktualisieren
+				x += inc_x;
+				error = error + differenz;
+				if (error > 0) {
+					y += inc_y;
+					error += schritt;
 				}
 			}
-		} else { // steil nach oben oder unten
-			error = -Math.abs(dy); // Fehler bestimmen
-			differenz = 2 * Math.abs(dx); // Delta bestimmen
-			schritt = 2 * error; // Schwelle bestimmen
+		} else {
+			error = -Math.abs(dy);
+			differenz = 2 * Math.abs(dx);
+			schritt = 2 * error;
 			while (y != scanPos.getY()) {
-				if (y != myPos.getY()) {// fuer jede y-Koordinate
+				if (y != myPos.getY()) {
 					decPix(x, y);
-				}// setze
-				// Pixel
-				y += inc_y; // naechste y-Koordinate
-				error = error + differenz; // Fehler aktualisieren
-				if (error > 0) { // neue Zeile erreicht?
-					x += inc_x; // x-Koord. aktualisieren
-					error += schritt; // Fehler
-					// aktualisieren
+				}
+				y += inc_y;
+				error = error + differenz;
+				if (error > 0) {
+					x += inc_x;
+					error += schritt;
 				}
 			}
 		}
@@ -162,6 +187,9 @@ public class MatrixCreator {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void decPix(int x, int y) {
 		if (checkMatrixSize(x, y)) {
 			if (matrix.get(x).get(y).getBlue() > MIN_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
@@ -170,6 +198,9 @@ public class MatrixCreator {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void incPix(int x, int y) {
 		if (checkMatrixSize(x, y)) {
 			if (matrix.get(x).get(y).getBlue() < MAX_BLUE && matrix.get(x).get(y).getGreen() > MIN_BLUE) {
@@ -178,6 +209,9 @@ public class MatrixCreator {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void updateMatrix() {
 		Position myPos = new Position();
 		myPos.setPosArray(infos.getPos());
@@ -198,33 +232,42 @@ public class MatrixCreator {
 		data.clear();
 	}
 
+	/**
+	 * 
+	 */
 	public void updateAngleToX() {
 		double lchain = infos.getDirection()[0];
 		double rchain = infos.getDirection()[1];
-		if(Math.abs(lchain - rchain) > 1) {
+		if (Math.abs(lchain - rchain) > 1) {
 			alpha += ((lchain - rchain) / wheelwidth) * 180 / Math.PI;
 			if (alpha > 360) {
 				alpha -= 360;
 			}
-			if(alpha < 0) {
+			if (alpha < 0) {
 				alpha += 360;
 			}
 		}
 	}
-	
+
+	/**
+	 * 
+	 */
 	public void updateDataTuple() {
-		for(int i = 0; i < data.size(); i++) {
-			int[] tuple =  rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
-			tuple[0]+=infos.getPos()[0];
-			tuple[1]+=infos.getPos()[1];
-			data.set(i,tuple);
+		for (int i = 0; i < data.size(); i++) {
+			int[] tuple = rotateVektor(alpha, data.get(i)[0], data.get(i)[1]);
+			tuple[0] += infos.getPos()[0];
+			tuple[1] += infos.getPos()[1];
+			data.set(i, tuple);
 		}
 	}
-	
+
+	/**
+	 * 
+	 */
 	private int[] rotateVektor(double alpha, int x, int y) {
-		double newX = (x*Math.cos(Math.toRadians(alpha)))-y*Math.sin(Math.toRadians(alpha));
-		double newY = x*Math.sin(Math.toRadians(alpha))+y*Math.cos(Math.toRadians(alpha));
-		int[] newTupel = {(int) newX, (int) newY};
+		double newX = (x * Math.cos(Math.toRadians(alpha))) - y * Math.sin(Math.toRadians(alpha));
+		double newY = x * Math.sin(Math.toRadians(alpha)) + y * Math.cos(Math.toRadians(alpha));
+		int[] newTupel = { (int) newX, (int) newY };
 		return newTupel;
 	}
 

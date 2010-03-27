@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class DrawWholeMatrix extends JFrame {
 	private JPanel mainWindow;
 	private ArrayList<ArrayList<Color>> matrix;
@@ -22,15 +22,11 @@ public class DrawWholeMatrix extends JFrame {
 			System.out.println("matrix zu klein");
 			return;
 		}
-		
-		
 		paintMatrixWindow();
 		add(mainWindow);
 		setLayout(new GridLayout());
-		setSize(new Dimension(1000, 1200));
+		setSize(new Dimension(matrix.get(0).size(), matrix.size()));
 		setVisible(true);
-		//pack();
-		
 	}
 	
 	public void paintMatrixWindow () {

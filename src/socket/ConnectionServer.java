@@ -9,8 +9,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Hashtable;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import matrix.MatrixCreator;
 
@@ -41,6 +39,7 @@ public class ConnectionServer implements Runnable {
 		toReceiveLength += (buffer[1] << 16);
 		toReceiveLength += (buffer[2] << 8);
 		toReceiveLength += (buffer[3]);
+		
 		message = null;
 		// bis Nachricht empfangen
 		buffer = new char[toReceiveLength];
@@ -83,7 +82,6 @@ public class ConnectionServer implements Runnable {
 			Object object;
 			DataContainer infos;
 			
-	
 			ServerSocket serverSocket = new ServerSocket(port);
 			System.out.println("server is online");
 			while (true) {
@@ -109,7 +107,7 @@ public class ConnectionServer implements Runnable {
 					pos.setY(infos.getPos()[1]);
 					object.setPosition(pos);
 					int color = 255;
-					for (Entry entry : objectList.entrySet()) {
+					for (Entry<String, Object> entry : objectList.entrySet()) {
 						color -= 50;
 						if(color < 0) {
 							color = 10;
